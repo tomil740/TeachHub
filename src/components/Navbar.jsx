@@ -43,6 +43,21 @@ const Navbar = () => {
         })}
       </ul>
 
+      <AccountMenuItem
+        isLogin={LoginState.isAuthenticated}
+        name={LoginState.name}
+        coins={LoginState.coins}
+        onLogout={() =>
+          setLoginState({
+            userId: null,
+            name: "Guest",
+            coins: 0,
+            isLoading: false,
+            isAuthenticated: false,
+          })
+        }
+      />
+
       {/* Get Started Button (Desktop) */}
       <div className="hidden md:flex">
         <AccountMenuItem
