@@ -6,12 +6,9 @@ import { useRecoilState} from "recoil";
 import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem"; 
 
 const Navbar = () => {
-  const [LoginState,setLoginState] = useRecoilState(userAccountState);
-
-const LoginState = useRecoilValue(userAccountState);
-
-const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [LoginState,setLoginState] = useRecoilState(userAccountState);
+
 
 
   const links = [
