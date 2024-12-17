@@ -4,11 +4,13 @@ import { useState } from "react";
 import { userAccountState } from "../authenticationFeature/states/userAccountState";
 import { useRecoilValue } from "recoil";
 import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem";
-import { useState } from "react";
-const LoginState = useRecoilValue(userAccountState);
 
 const Navbar = () => {
+  const handleLogout = () => {
+    console.log("Logged out!");
+  };
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const LoginState = useRecoilValue(userAccountState);
 
   const links = [
     { text: "Home", linkTo: "/" },
@@ -47,7 +49,7 @@ const Navbar = () => {
           isLogin={LoginState.isAuthenticated}
           name={LoginState.name}
           coins={LoginState.coins}
-          onLogout={{}}
+          onLogout={handleLogout}
         />
         {/* Get Started Button (Desktop) */}
         <div className="hidden md:flex">
