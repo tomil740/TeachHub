@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
+import { userAccountState } from "../authenticationFeature/states/userAccountState";
+import { useRecoilValue } from "recoil";
+import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem"; 
 
 const Navbar = () => {
+  const LoginState = useRecoilValue(userAccountState);
+
   const links = [
     { text: "Home", linkTo: "/" },
     { text: "Marketplace", linkTo: "/marketplace" },
@@ -20,11 +25,15 @@ const Navbar = () => {
         })}
       </ul>
 
-      <button className="rounded bg-gradient-to-b from-gray-700 to-gray-900 px-2 py-1 font-bold text-white transition-all duration-300 hover:to-gray-800">
-        <NavLink to="/">Get Started</NavLink>
-      </button>
+      <AccountMenuItem
+        isLogin={LoginState.isAuthenticated}
+        name={LoginState.name}
+        coins={LoginState.coins}
+        onLogout={{}}
+      />
     </nav>
   );
 };
 
 export default Navbar;
+
