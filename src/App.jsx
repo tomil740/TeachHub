@@ -1,9 +1,6 @@
-
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/Router";
-import React from "react";
 import { RecoilRoot } from "recoil";
-
 
 export default function App() {
   return (
@@ -12,4 +9,3 @@ export default function App() {
     </RecoilRoot>
   );
 }
-
