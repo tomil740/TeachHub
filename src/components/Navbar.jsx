@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import { userAccountState } from "../authenticationFeature/states/userAccountState";
-import { useRecoilValue } from "recoil";
+import { useRecoilState} from "recoil";
 import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem"; 
 
 const Navbar = () => {
-  const LoginState = useRecoilValue(userAccountState);
+  const [LoginState,setLoginState] = useRecoilState(userAccountState);
 
   const links = [
     { text: "Home", linkTo: "/" },
@@ -29,7 +29,16 @@ const Navbar = () => {
         isLogin={LoginState.isAuthenticated}
         name={LoginState.name}
         coins={LoginState.coins}
-        onLogout={{}}
+        onLogout={()=>
+          setLoginState(   {     
+            userId:null,
+            name:"Guest",
+            coins:0,
+            isLoading:false,
+            isAuthenticated:false
+          }
+          )
+        }
       />
     </nav>
   );
