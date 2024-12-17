@@ -12,16 +12,16 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-
+//todo : This section was converted to hard code , temp...
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  apiKey: "AIzaSyApjEvAOZ67-_NMwydyS-6gG8rxPqVAjKU",
+  authDomain: "finalproject-76cd7.firebaseapp.com",
   databaseURL: "https://finalproject-76cd7-default-rtdb.firebaseio.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  projectId: "finalproject-76cd7",
+  storageBucket: "finalproject-76cd7.firebasestorage.app",
+  messagingSenderId: "487633042332",
+  appId: "1:487633042332:web:86fde33c3dc7a47c54e659",
+  measurementId: "G-KFP1ST7Y9K",
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
