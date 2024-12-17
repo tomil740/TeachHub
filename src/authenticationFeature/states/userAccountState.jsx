@@ -4,7 +4,7 @@ export const userAccountState = atom({
   key: "userAccountState",
   default: {
     userId: null,
-    name: null,
+    name: "Guest",
     coins: 0,
     isLoading: false,
     isAuthenticated: false,

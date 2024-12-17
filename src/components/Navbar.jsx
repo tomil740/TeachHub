@@ -2,13 +2,17 @@ import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import { useState } from "react";
 import { userAccountState } from "../authenticationFeature/states/userAccountState";
-import { useRecoilValue } from "recoil";
-import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem";
-import { useState } from "react";
+import { useRecoilState} from "recoil";
+import AccountMenuItem from "../authenticationFeature/components/AccountMenuItem"; 
+
+const Navbar = () => {
+  const [LoginState,setLoginState] = useRecoilState(userAccountState);
+
 const LoginState = useRecoilValue(userAccountState);
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
 
   const links = [
     { text: "Home", linkTo: "/" },
@@ -40,6 +44,22 @@ const Navbar = () => {
           );
         })}
       </ul>
+
+      <AccountMenuItem
+        isLogin={LoginState.isAuthenticated}
+        name={LoginState.name}
+        coins={LoginState.coins}
+        onLogout={()=>
+          setLoginState(   {     
+            userId:null,
+            name:"Guest",
+            coins:0,
+            isLoading:false,
+            isAuthenticated:false
+          }
+          )
+        }
+      />
 
       {/* Get Started Button (Desktop) */}
       <div className="hidden md:flex">
