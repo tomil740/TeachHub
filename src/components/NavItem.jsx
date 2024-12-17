@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 
-const NavItem = ({ text, link }) => {
+const NavItem = ({ text, link, color, hideMenu }) => {
   return (
-    <li className="font-bold text-black">
+    <li className={`font-bold ${color}`}>
       <NavLink
+        onClick={hideMenu}
         to={link}
         className={({ isActive }) =>
           isActive
