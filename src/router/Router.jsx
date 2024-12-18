@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Landing, MarketPlace, RootLayout } from "../pages";
-import LoginDialog from "../authenticationFeature/components/LoginDialog";
+
+import Login from "../components/Login.jsx";
+import SignUp from "../components/SignUp.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -16,8 +18,12 @@ export const router = createBrowserRouter([
         element: <MarketPlace />,
       },
       {
-        path: "/Login",
-        element: <LoginDialog />,
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
       },
     ],
   },
