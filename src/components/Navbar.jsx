@@ -2,9 +2,10 @@ import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import { useState } from "react";
 
-import Login from "./Login.jsx";
-
 const Navbar = () => {
+  const handleLogout = () => {
+    console.log("Logged out!");
+  };
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const links = [
