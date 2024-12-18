@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
@@ -14,6 +15,8 @@ const SignUp = () => {
   const [education, setEducation] = useState("");
   const [experience, setExperience] = useState("");
   const [profession, setProfession] = useState("");
+
+  const navigate = useNavigate();
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -33,6 +36,7 @@ const SignUp = () => {
     }
 
     // Redirect to login page
+    navigate("/");
   };
 
   return (
