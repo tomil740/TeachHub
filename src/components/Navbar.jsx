@@ -9,8 +9,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [LoginState,setLoginState] = useRecoilState(userAccountState);
 
-
-
   const links = [
     { text: "Home", linkTo: "/" },
     { text: "Marketplace", linkTo: "/marketplace" },
@@ -42,30 +40,25 @@ const Navbar = () => {
         })}
       </ul>
 
-      <AccountMenuItem
-        isLogin={LoginState.isAuthenticated}
-        name={LoginState.name}
-        coins={LoginState.coins}
-        onLogout={()=>
-          setLoginState(   {     
-            userId:null,
-            name:"Guest",
-            coins:0,
-            isLoading:false,
-            isAuthenticated:false
-          }
-          )
-        }
-      />
-
       {/* Get Started Button (Desktop) */}
       <div className="hidden md:flex">
         <AccountMenuItem
           isLogin={LoginState.isAuthenticated}
           name={LoginState.name}
           coins={LoginState.coins}
-          onLogout={{}}
+          onLogout= {()=>
+            setLoginState(
+              {
+                userId: null,
+                name: "Guest",
+                coins: 0,
+                isLoading: false,
+                isAuthenticated: false,
+              }
+            )
+          }
         />
+
         {/* Get Started Button (Desktop) */}
         <div className="hidden md:flex">
           <button className="rounded bg-gradient-to-b from-gray-700 to-gray-900 px-2 py-1 font-bold text-white transition-all duration-300 hover:to-gray-800">
