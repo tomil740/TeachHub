@@ -1,10 +1,11 @@
-import SignUp from "./compo/SignUp.jsx";
-import Login from "./compo/Login.jsx";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router/Router";
+import { RecoilRoot } from "recoil";
+
 export default function App() {
   return (
-    <div>
-      <SignUp></SignUp>
-      <Login></Login>
-    </div>
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
   );
 }
