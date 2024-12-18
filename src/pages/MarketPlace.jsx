@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FilterCard from "../components/FilterCard";
 import { cards } from "../data/categories";
+import CategoryTitle from "../components/CategoryTitle";
 
 const MarketPlace = () => {
   const [isMoreShown, setIsMoreShown] = useState(false);
@@ -61,6 +62,12 @@ const MarketPlace = () => {
       </div>
 
       {/* Categories */}
+      <div className="flex flex-col">
+        {cards.map((category, index) => {
+          const { text } = category;
+          return <CategoryTitle key={index} text={text} />;
+        })}
+      </div>
     </div>
   );
 };
