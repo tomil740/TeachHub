@@ -21,7 +21,7 @@ const Card = () => {
           </p>
           <div>
             <h3>5 Coins</h3>
-            <button type="button">View</button>
+            <button type="button">View More</button>
           </div>
         </section>
       </article>
