@@ -68,9 +68,9 @@ export default function Login() {
 
           {/* Logo */}
           <img
-            src="/images/shoes.png"
+            src="/images/LogoT2.png"
             alt="logo"
-            className="mx-auto mt-4 h-14 w-14 object-contain"
+            className="mx-auto mt-40 h-40 w-52 object-contain"
           />
         </form>
       </div>
