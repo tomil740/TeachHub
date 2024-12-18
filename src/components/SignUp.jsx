@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
@@ -28,15 +31,37 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!religion) {
       setError("Please select your religion.");
       return;
     }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
 
-    // Redirect to login page
-    navigate("/");
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: name,
+        email: email,
+        religion: religion,
+        dob: dob,
+        education: education,
+        experience: experience,
+        profession: profession,
+        coins: 0,
+      });
+      // Redirect to login page
+      navigate("/");
+    } catch (err) {
+      setError("Failed to create an account. Please try again.");
+      console.error(err);
+    }
   };
 
   return (
