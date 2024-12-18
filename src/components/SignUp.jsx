@@ -180,16 +180,92 @@ const SignUp = () => {
                 />
               </div>
 
-              {/* Education Field */}
+              {/* Education Field (Updated to Select Spinner) */}
               <div>
-                <input
-                  type="text"
-                  placeholder="Education"
+                <label
+                  htmlFor="education"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Education
+                </label>
+                <select
+                  id="education"
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
                   className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Select your education
+                  </option>
+                  <option value="Technion - Israel Institute of Technology">
+                    Technion - Israel Institute of Technology
+                  </option>
+                  <option value="Tel Aviv University (TAU)">
+                    Tel Aviv University (TAU)
+                  </option>
+                  <option value="Hebrew University of Jerusalem">
+                    Hebrew University of Jerusalem
+                  </option>
+                  <option value="Bar-Ilan University (BIU)">
+                    Bar-Ilan University (BIU)
+                  </option>
+                  <option value="Ben-Gurion University of the Negev (BGU)">
+                    Ben-Gurion University of the Negev (BGU)
+                  </option>
+                  <option value="University of Haifa">
+                    University of Haifa
+                  </option>
+                  <option value="Weizmann Institute of Science">
+                    Weizmann Institute of Science
+                  </option>
+                  <option value="Open University of Israel">
+                    Open University of Israel
+                  </option>
+                  <option value="Ariel University">Ariel University</option>
+                  <option value="Reichman University (formerly IDC Herzliya)">
+                    Reichman University (formerly IDC Herzliya)
+                  </option>
+                </select>
+              </div>
+
+              {/* Profession Field (Updated to Select Spinner) */}
+              <div>
+                <label
+                  htmlFor="profession"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Profession
+                </label>
+                <select
+                  id="profession"
+                  value={profession}
+                  onChange={(e) => setProfession(e.target.value)}
+                  className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  <option value="" disabled>
+                    Select your profession
+                  </option>
+                  <option value="Digital Marketing">Digital Marketing</option>
+                  <option value="Graphic Design">Graphic Design</option>
+                  <option value="Video Editing">Video Editing</option>
+                  <option value="Full-Stack Development">
+                    Full-Stack Development
+                  </option>
+                  <option value="Front-End Development">
+                    Front-End Development
+                  </option>
+                  <option value="Back-End Development">
+                    Back-End Development
+                  </option>
+                  <option value="Basic Programming">Basic Programming</option>
+                  <option value="Data Analysis">Data Analysis</option>
+                  <option value="UI/UX">UI/UX</option>
+                  <option value="Mobile App Development">
+                    Mobile App Development
+                  </option>
+                </select>
               </div>
 
               {/* Experience Field */}
@@ -199,18 +275,6 @@ const SignUp = () => {
                   placeholder="Experience"
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              {/* Profession Field */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Profession"
-                  value={profession}
-                  onChange={(e) => setProfession(e.target.value)}
                   className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
