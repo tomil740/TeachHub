@@ -41,6 +41,7 @@ const Navbar = () => {
 
   const links = [
     { text: "Home", linkTo: "/" },
+    { text: "UserPage", linkTo: "/ProfilePage" },
     { text: "Marketplace", linkTo: "/marketplace" },
   ];
 
@@ -52,6 +53,15 @@ const Navbar = () => {
       </NavLink>
 
       {/* Desktop navbar */}
+      <ul className="hidden items-center justify-center gap-4 md:flex">
+        {links.map((link, index) => {
+          const { text, linkTo } = link;
+          return (
+            <NavItem key={index} text={text} link={linkTo} color="text-black" />
+          );
+        })}
+      </ul>
+
       <ul className="hidden items-center justify-center gap-4 md:flex">
         {links.map((link, index) => {
           const { text, linkTo } = link;
