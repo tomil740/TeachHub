@@ -1,6 +1,10 @@
-import { db, auth } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { db } from "../firebase.js";
+import { collection, setDoc, doc, getDoc } from "firebase/firestore";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth"; // Importing necessary functions
 
 const sampleUsers = [
   {
@@ -11,6 +15,7 @@ const sampleUsers = [
     education: "Tel Aviv University (TAU)",
     experience: "5 years in software development",
     profession: "Full-Stack Developer",
+    category: "Full-Stack Development",
   },
   {
     name: "Jane Smith",
@@ -20,6 +25,7 @@ const sampleUsers = [
     education: "Hebrew University",
     experience: "3 years in marketing",
     profession: "Digital Marketer",
+    category: "Front-End Development",
   },
   {
     name: "Ahmed Ali",
@@ -29,6 +35,7 @@ const sampleUsers = [
     education: "Technion",
     experience: "7 years in engineering",
     profession: "Mechanical Engineer",
+    category: "Back-End Development",
   },
   {
     name: "Liora Cohen",
@@ -38,6 +45,7 @@ const sampleUsers = [
     education: "Bar-Ilan University",
     experience: "2 years in research",
     profession: "Data Scientist",
+    category: "Data Analysis",
   },
   {
     name: "Mohammed Hassan",
@@ -47,6 +55,7 @@ const sampleUsers = [
     education: "Ben-Gurion University",
     experience: "10 years in IT",
     profession: "IT Manager",
+    category: "Mobile Development",
   },
   {
     name: "Sarah Levi",
@@ -56,6 +65,7 @@ const sampleUsers = [
     education: "Open University",
     experience: "1 year in teaching",
     profession: "Teacher",
+    category: "Basic Programming",
   },
   {
     name: "Daniel Green",
@@ -65,6 +75,7 @@ const sampleUsers = [
     education: "Haifa University",
     experience: "4 years in software development",
     profession: "Frontend Developer",
+    category: "Front-End Development",
   },
   {
     name: "Fatima Zayed",
@@ -74,6 +85,7 @@ const sampleUsers = [
     education: "Ariel University",
     experience: "3 years in healthcare",
     profession: "Nurse",
+    category: "Mobile Development",
   },
   {
     name: "Yosef Gold",
@@ -83,6 +95,7 @@ const sampleUsers = [
     education: "Bar-Ilan University",
     experience: "15 years in finance",
     profession: "Accountant",
+    category: "Data Analysis",
   },
   {
     name: "Maya Shafir",
@@ -92,13 +105,75 @@ const sampleUsers = [
     education: "Tel Aviv University",
     experience: "6 years in design",
     profession: "Graphic Designer",
+    category: "Basic Programming",
+  },
+  {
+    name: "Michael Brown",
+    email: "michaelbrown@example.com",
+    religion: "Jewish",
+    dob: "1987-08-22",
+    education: "Technion",
+    experience: "4 years in full-stack development",
+    profession: "Software Developer",
+    category: "Full-Stack Development",
+  },
+  {
+    name: "Emily Davis",
+    email: "emilydavis@example.com",
+    religion: "Christian",
+    dob: "1995-12-30",
+    education: "Hebrew University",
+    experience: "5 years in front-end development",
+    profession: "Frontend Developer",
+    category: "Front-End Development",
+  },
+  {
+    name: "Robert Johnson",
+    email: "robertjohnson@example.com",
+    religion: "Christian",
+    dob: "1989-03-15",
+    education: "Tel Aviv University",
+    experience: "8 years in back-end development",
+    profession: "Backend Developer",
+    category: "Back-End Development",
+  },
+  {
+    name: "Olivia Martinez",
+    email: "oliviamartinez@example.com",
+    religion: "Muslim",
+    dob: "1994-02-18",
+    education: "Ariel University",
+    experience: "6 years in mobile development",
+    profession: "Mobile App Developer",
+    category: "Mobile Development",
+  },
+  {
+    name: "David Wilson",
+    email: "davidwilson@example.com",
+    religion: "Jewish",
+    dob: "1984-09-10",
+    education: "Haifa University",
+    experience: "7 years in data analysis",
+    profession: "Data Analyst",
+    category: "Data Analysis",
   },
 ];
 
 const addTestUsers = async () => {
+  const auth = getAuth(); // Initialize Firebase Auth
+
   try {
     const promises = sampleUsers.map(async (user, index) => {
       const userId = `testUser${index + 1}`;
+
+      // Check if the email is already associated with any account in Firestore
+      const userRef = doc(db, "users", user.email);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        console.log(`User with email ${user.email} already exists. Skipping.`);
+        return;
+      }
 
       // Create user account with email and password
       const userCredential = await createUserWithEmailAndPassword(
@@ -112,7 +187,7 @@ const addTestUsers = async () => {
         displayName: user.name,
       });
 
-      // Add user data to Firestore
+      // Add user details to Firestore
       await setDoc(doc(db, "users", uid), {
         ...user,
         coins: 0,
@@ -128,8 +203,4 @@ const addTestUsers = async () => {
   }
 };
 
-// Run this code once
-
-// this is to filter data //
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+addTestUsers();
