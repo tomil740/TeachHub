@@ -13,7 +13,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-const sampleUsers = [
+export const sampleUsers = [
   {
     name: "John Doe",
     email: "johndoe@example.com",

@@ -3,8 +3,37 @@ import FilterCard from "../components/FilterCard";
 import { cards } from "../data/categories";
 import CategoryTitle from "../components/CategoryTitle";
 import Card from "./../components/card/Card";
+import { sampleUsers } from "./../FirebaseFunctions/addTestUsers.js";
+import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
+console.log(sampleUsers);
 
 const MarketPlace = () => {
+  const [categories, setCategories] = useState({
+    "Basic Programming": [],
+    "Full-Stack Development": [],
+    "Front-End Development": [],
+    "Back-End Development": [],
+    "Mobile Development": [],
+    "Data Analysis": [],
+    "UI/UX Design": [],
+    "Graphic Design": [],
+    "Video Editing": [],
+    "Digital Marketing": [],
+  });
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const categorizedData = await categorizeUsers();
+        setCategories(categorizedData);
+        console.log(categorizedData);
+      } catch (error) {
+        console.log("Error fetching and categorizing users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   const [isMoreShown, setIsMoreShown] = useState(false);
   const [visibleCards, setVisibleCards] = useState(null);
 
@@ -69,6 +98,8 @@ const MarketPlace = () => {
           const { text } = category;
           return <CategoryTitle key={index} text={text} />;
         })}
+
+        {/* here should be the card each one belong to the === text  */}
       </div>
     </div>
   );
