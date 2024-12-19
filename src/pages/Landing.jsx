@@ -1,3 +1,5 @@
+import HomePageCategory from "../components/HomePageCategory";
+
 const Landing = () => {
   return (
     <main className="container mx-auto">
@@ -77,6 +79,7 @@ const Landing = () => {
           </section>
         </section>
       </article>
+      <HomePageCategory/>
     </main>
   );
 };
