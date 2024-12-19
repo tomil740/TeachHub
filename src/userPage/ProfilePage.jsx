@@ -133,10 +133,6 @@ export default function ProfilePage() {
           <p className="feedback-comment">Good!</p>
         </div>
       </div>
-
-      <button onClick={toggleEdit}>
-        {isEditing ? "Save Changes" : "Edit Profile"}
-      </button>
     </div>
   );
 
