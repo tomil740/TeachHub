@@ -3,13 +3,14 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBGc-0DsAKlIj5yU-6u9DHwsL7iphw6hrs",
-  authDomain: "shoes-app-14e23.firebaseapp.com",
-  projectId: "shoes-app-14e23",
-  storageBucket: "shoes-app-14e23.firebasestorage.app",
-  messagingSenderId: "224227419453",
-  appId: "1:224227419453:web:44ea4686fac4cb017c5154",
-  measurementId: "G-6RFP3SL8B1",
+  apiKey: "AIzaSyApjEvAOZ67-_NMwydyS-6gG8rxPqVAjKU",
+  authDomain: "finalproject-76cd7.firebaseapp.com",
+  databaseURL: "https://finalproject-76cd7-default-rtdb.firebaseio.com",
+  projectId: "finalproject-76cd7",
+  storageBucket: "finalproject-76cd7.firebasestorage.app",
+  messagingSenderId: "487633042332",
+  appId: "1:487633042332:web:86fde33c3dc7a47c54e659",
+  measurementId: "G-KFP1ST7Y9K",
 };
 
 const app = initializeApp(firebaseConfig);

@@ -17,9 +17,19 @@ const SignUp = () => {
   const [dob, setDob] = useState("");
   const [education, setEducation] = useState("");
   const [experience, setExperience] = useState("");
-  const [profession, setProfession] = useState("");
+  const [profession, setProfession] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setProfession((prev) => [...prev, value]);
+    } else {
+      setProfession((prev) => prev.filter((item) => item !== value));
+    }
+  };
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -180,16 +190,162 @@ const SignUp = () => {
                 />
               </div>
 
-              {/* Education Field */}
+              {/* Education Field (Updated to Select Spinner) */}
               <div>
-                <input
-                  type="text"
-                  placeholder="Education"
+                <label
+                  htmlFor="education"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Education
+                </label>
+                <select
+                  id="education"
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
                   className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Select your education
+                  </option>
+                  <option value="Technion - Israel Institute of Technology">
+                    Technion - Israel Institute of Technology
+                  </option>
+                  <option value="Tel Aviv University (TAU)">
+                    Tel Aviv University (TAU)
+                  </option>
+                  <option value="Hebrew University of Jerusalem">
+                    Hebrew University of Jerusalem
+                  </option>
+                  <option value="Bar-Ilan University (BIU)">
+                    Bar-Ilan University (BIU)
+                  </option>
+                  <option value="Ben-Gurion University of the Negev (BGU)">
+                    Ben-Gurion University of the Negev (BGU)
+                  </option>
+                  <option value="University of Haifa">
+                    University of Haifa
+                  </option>
+                  <option value="Weizmann Institute of Science">
+                    Weizmann Institute of Science
+                  </option>
+                  <option value="Open University of Israel">
+                    Open University of Israel
+                  </option>
+                  <option value="Ariel University">Ariel University</option>
+                  <option value="Reichman University (formerly IDC Herzliya)">
+                    Reichman University (formerly IDC Herzliya)
+                  </option>
+                </select>
+              </div>
+
+              {/* Profession Field (Updated to Select Spinner) */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Profession
+                </label>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Digital Marketing"
+                      checked={profession.includes("Digital Marketing")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Digital Marketing</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Graphic Design"
+                      checked={profession.includes("Graphic Design")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Graphic Design</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Video Editing"
+                      checked={profession.includes("Video Editing")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Video Editing</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Full-Stack Development"
+                      checked={profession.includes("Full-Stack Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Full-Stack Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Front-End Development"
+                      checked={profession.includes("Front-End Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Front-End Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Back-End Development"
+                      checked={profession.includes("Back-End Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Back-End Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Basic Programming"
+                      checked={profession.includes("Basic Programming")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Basic Programming</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Data Analysis"
+                      checked={profession.includes("Data Analysis")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Data Analysis</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="UI/UX"
+                      checked={profession.includes("UI/UX")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>UI/UX</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Mobile App Development"
+                      checked={profession.includes("Mobile App Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Mobile App Development</span>
+                  </label>
+                </div>
               </div>
 
               {/* Experience Field */}
@@ -199,18 +355,6 @@ const SignUp = () => {
                   placeholder="Experience"
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              {/* Profession Field */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Profession"
-                  value={profession}
-                  onChange={(e) => setProfession(e.target.value)}
                   className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />

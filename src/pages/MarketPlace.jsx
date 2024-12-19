@@ -1,36 +1,65 @@
-import FilterCard from "../components/FilterCard";
+import { useState, useEffect } from "react";
+import CategoryTitle from "../components/CategoryTitle";
+import HomePageCategory from "../components/HomePageCategory";
+import { cards } from "../data/categories";
+import Card from "./../components/card/Card";
+
+import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 
 const MarketPlace = () => {
-  const cards = [
-    {
-      img: "https://cdn.icon-icons.com/icons2/3251/PNG/512/window_dev_tools_regular_icon_202646.png",
-      text: "Full-Stack Development",
-    },
-    {
-      img: "https://cdn-icons-png.flaticon.com/512/8448/8448908.png",
-      text: "UI/UX Design",
-    },
-    {
-      img: "https://cdn-icons-png.flaticon.com/512/1185/1185316.png",
-      text: "Graphic Design",
-    },
-    {
-      img: "https://static.thenounproject.com/png/3315575-200.png",
-      text: "Digital Marketing",
-    },
-    {
-      img: "https://cdn-icons-png.flaticon.com/512/4291/4291172.png",
-      text: "Video & Animation",
-    },
-  ];
+  const [categories, setCategories] = useState({
+    "Basic Programming": [],
+    "Full-Stack Development": [],
+    "Front-End Development": [],
+    "Back-End Development": [],
+    "Mobile Development": [],
+    "Data Analysis": [],
+    "UI/UX Design": [],
+    "Graphic Design": [],
+    "Video Editing": [],
+    "Digital Marketing": [],
+  });
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const categorizedData = await categorizeUsers();
+        setCategories(categorizedData);
+      } catch (error) {
+        console.log("Error fetching and categorizing users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   return (
-    <div className="pagePadding container mx-auto flex min-h-calc-100dvh-minus-80 flex-col pt-20 lg:min-h-calc-100vh-minus-80">
-      <h2 className="mb-8 text-lg font-bold md:text-xl">Filter By Category</h2>
-      <div className="flex flex-wrap gap-4">
-        {cards.map((card, index) => {
-          const { img, text } = card;
-          return <FilterCard key={index} img={img} text={text} />;
+    <div className="pagePadding container mx-auto flex flex-col">
+      {/* Filter By Category */}
+
+      <HomePageCategory padding="pt-20" />
+
+      {/* Categories */}
+      <div className="flex flex-col">
+        {Object.keys(categories).map((category, index) => {
+          const usersInCategory = categories[category];
+
+          return (
+            <div key={index}>
+              <CategoryTitle text={category} />
+
+              <div className="flex flex-wrap gap-4">
+                {usersInCategory.map((user, userIndex) => (
+                  <Card
+                    key={userIndex}
+                    name={user.name}
+                    profession={user.profession}
+                    description={user.bio}
+                    image={user.imgUrl}
+                  />
+                ))}
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>
