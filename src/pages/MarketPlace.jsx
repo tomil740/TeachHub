@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FilterCard from "../components/FilterCard";
 import { cards } from "../data/categories";
 import CategoryTitle from "../components/CategoryTitle";
+import Card from "./../components/card/Card";
 
 const MarketPlace = () => {
   const [isMoreShown, setIsMoreShown] = useState(false);
@@ -39,6 +40,7 @@ const MarketPlace = () => {
   return (
     <div className="pagePadding container mx-auto flex flex-col">
       {/* Filter By Category */}
+      <Card />
       <div className="flex flex-col gap-4">
         <h2 className="mb-4 pt-20 text-lg font-bold md:text-xl">
           Filter By Category
