@@ -1,29 +1,34 @@
-import "./card.css";
-
 const Card = () => {
   return (
     <>
-      <article>
-        <section className="profile-image">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/6325/6325109.png"
-            alt="profile-image"
-          />
-          <div>
-            <h2>UserName</h2>
-            <p>FrontEnd WebDeveloper</p>
-          </div>
+      <article className="mt-6 flex w-96 flex-col items-start justify-start gap-4 overflow-hidden rounded-2xl shadow-lg">
+        <section>
+          <img src="images\web development.jpeg" alt="tacegory-image" />
         </section>
-        <section className="profile-text">
-          <p>
+        <article className="p-3">
+          <section className="mb-3 flex items-center justify-between">
+            <section className="flex items-center justify-center gap-3">
+              <img
+                className="w-20"
+                src="images\tes-img.png"
+                alt="profile-pic"
+              />
+              <div>
+                <h4 className="text-lg font-bold text-blue-500">UserName</h4>
+                <p>Front End Developer</p>
+              </div>
+            </section>
+            <section className="flex items-center justify-center gap-1">
+              <img src="images\star.svg" alt="rating" />
+              <p className="text-lg font-bold">4.5</p>
+            </section>
+          </section>
+          <p className="mb-3">
             Lorem ipsum dolor sit amet consectetur adipisicing elit Aperiam unde
             sapiente saepe
           </p>
-          <div>
-            <h3>5 Coins</h3>
-            <button type="button">View More</button>
-          </div>
-        </section>
+          <h3 className="text-xl font-bold text-blue-500">5 Coins</h3>
+        </article>
       </article>
     </>
   );
