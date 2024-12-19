@@ -272,6 +272,26 @@ button:hover {
   color: #555;
 }
 
+/* Styling for the editable aboutMe text area */
+.bio-edit {
+  font-size: 0.9rem;
+  color: #555;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.bio-edit:focus {
+  outline: none;
+  border-color: #007bff; /* Subtle blue focus outline */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
 .toActionRow {
   display: flex;
   column-gap: 16px;
@@ -295,6 +315,54 @@ button:hover {
 
 .message-btn:hover {
   background-color: #0056b3;
+}
+
+/* General Dropdown Styling */
+.dropdown {
+  background: transparent;
+  border: none; /* No frame when editing */
+  color: #000; /* Black text for selected value */
+  font-weight: normal; /* Matches design */
+  font-size: 1rem;
+  padding: 0.25rem 1.5rem 0.25rem 0.25rem;
+  appearance: none; /* Removes default arrow */
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 100%; /* Ensures the dropdown takes full width */
+}
+
+.info-grid div span, 
+.info-grid div span.edit-disabled {
+  color: black; 
+  font-weight: 200; 
+}
+
+.info-grid div span.FieldH{
+  color: #007bff; 
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+/* Focus State */
+.dropdown:focus {
+  outline: none;
+  border-color: #0056b3; /* Subtle blue to indicate focus */
+}
+
+/* Dropdown Options */
+.dropdown option {
+  background: rgba(224, 242, 255, 0.9); 
+  color: #000; 
+  font-size: 0.9rem; 
+  font-weight: 400; 
+  padding: 0.5rem;
+}
+
+/* Open Dropdown Option Styling */
+.dropdown:focus option {
+  background: rgba(224, 242, 255, 0.8); /* More transparent when open */
+  color: #007bff; /* Matches highlight color */
 }
 
 /* User Info Card */
@@ -325,8 +393,4 @@ button:hover {
   flex-direction: column;
 }
 
-.info-grid span {
-  font-weight: bold;
-  color: #007bff;
-}
 
