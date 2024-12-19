@@ -1,10 +1,17 @@
 import { db } from "../firebase.js";
-import { collection, setDoc, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
-} from "firebase/auth"; // Importing necessary functions
+} from "firebase/auth";
 
 const sampleUsers = [
   {
@@ -14,8 +21,8 @@ const sampleUsers = [
     dob: "1990-01-01",
     education: "Tel Aviv University (TAU)",
     experience: "5 years in software development",
-    profession: "Full-Stack Developer",
-    category: "Full-Stack Development",
+    profession: ["Full-Stack Development"],
+    bio: "Passionate about building scalable web applications and exploring new technologies.",
   },
   {
     name: "Jane Smith",
@@ -24,8 +31,8 @@ const sampleUsers = [
     dob: "1992-05-12",
     education: "Hebrew University",
     experience: "3 years in marketing",
-    profession: "Digital Marketer",
-    category: "Front-End Development",
+    profession: ["Front-End Development", "Digital Marketing"],
+    bio: "Creative digital marketer with a knack for UI/UX design and branding.",
   },
   {
     name: "Ahmed Ali",
@@ -34,8 +41,8 @@ const sampleUsers = [
     dob: "1988-09-15",
     education: "Technion",
     experience: "7 years in engineering",
-    profession: "Mechanical Engineer",
-    category: "Back-End Development",
+    profession: ["Back-End Development"],
+    bio: "Skilled in server-side technologies and backend architecture.",
   },
   {
     name: "Liora Cohen",
@@ -44,8 +51,8 @@ const sampleUsers = [
     dob: "1995-03-10",
     education: "Bar-Ilan University",
     experience: "2 years in research",
-    profession: "Data Scientist",
-    category: "Data Analysis",
+    profession: ["Data Analysis", "UI/UX Design"],
+    bio: "Data analyst with a passion for creating meaningful data visualizations.",
   },
   {
     name: "Mohammed Hassan",
@@ -54,8 +61,8 @@ const sampleUsers = [
     dob: "1985-12-20",
     education: "Ben-Gurion University",
     experience: "10 years in IT",
-    profession: "IT Manager",
-    category: "Mobile Development",
+    profession: ["Mobile Development", "Graphic Design"],
+    bio: "Experienced IT manager with expertise in mobile app development and graphic design.",
   },
   {
     name: "Sarah Levi",
@@ -64,8 +71,8 @@ const sampleUsers = [
     dob: "1998-07-18",
     education: "Open University",
     experience: "1 year in teaching",
-    profession: "Teacher",
-    category: "Basic Programming",
+    profession: ["Basic Programming", "Video Editing"],
+    bio: "Teacher with a love for technology and a knack for video content creation.",
   },
   {
     name: "Daniel Green",
@@ -74,8 +81,8 @@ const sampleUsers = [
     dob: "1993-11-02",
     education: "Haifa University",
     experience: "4 years in software development",
-    profession: "Frontend Developer",
-    category: "Front-End Development",
+    profession: ["Front-End Development", "UI/UX Design"],
+    bio: "Frontend developer specializing in creating responsive and engaging user interfaces.",
   },
   {
     name: "Fatima Zayed",
@@ -84,8 +91,8 @@ const sampleUsers = [
     dob: "1997-04-30",
     education: "Ariel University",
     experience: "3 years in healthcare",
-    profession: "Nurse",
-    category: "Mobile Development",
+    profession: ["Mobile Development", "Digital Marketing"],
+    bio: "Health care professional turned mobile developer with a passion for innovation.",
   },
   {
     name: "Yosef Gold",
@@ -94,8 +101,8 @@ const sampleUsers = [
     dob: "1980-01-05",
     education: "Bar-Ilan University",
     experience: "15 years in finance",
-    profession: "Accountant",
-    category: "Data Analysis",
+    profession: ["Data Analysis", "Full-Stack Development"],
+    bio: "Finance expert exploring the world of data science and full-stack development.",
   },
   {
     name: "Maya Shafir",
@@ -104,8 +111,8 @@ const sampleUsers = [
     dob: "1991-06-25",
     education: "Tel Aviv University",
     experience: "6 years in design",
-    profession: "Graphic Designer",
-    category: "Basic Programming",
+    profession: ["Basic Programming", "Graphic Design"],
+    bio: "Designer with a passion for creating aesthetically pleasing and functional designs.",
   },
   {
     name: "Michael Brown",
@@ -114,8 +121,8 @@ const sampleUsers = [
     dob: "1987-08-22",
     education: "Technion",
     experience: "4 years in full-stack development",
-    profession: "Software Developer",
-    category: "Full-Stack Development",
+    profession: ["Full-Stack Development", "UI/UX Design"],
+    bio: "Full-stack developer with a love for both front-end and back-end technologies.",
   },
   {
     name: "Emily Davis",
@@ -124,8 +131,8 @@ const sampleUsers = [
     dob: "1995-12-30",
     education: "Hebrew University",
     experience: "5 years in front-end development",
-    profession: "Frontend Developer",
-    category: "Front-End Development",
+    profession: ["Front-End Development", "Video Editing"],
+    bio: "Frontend developer with a strong background in multimedia content.",
   },
   {
     name: "Robert Johnson",
@@ -134,8 +141,8 @@ const sampleUsers = [
     dob: "1989-03-15",
     education: "Tel Aviv University",
     experience: "8 years in back-end development",
-    profession: "Backend Developer",
-    category: "Back-End Development",
+    profession: ["Back-End Development", "Data Analysis"],
+    bio: "Backend developer focused on building efficient and scalable backend systems.",
   },
   {
     name: "Olivia Martinez",
@@ -144,8 +151,8 @@ const sampleUsers = [
     dob: "1994-02-18",
     education: "Ariel University",
     experience: "6 years in mobile development",
-    profession: "Mobile App Developer",
-    category: "Mobile Development",
+    profession: ["Mobile Development", "Graphic Design"],
+    bio: "Mobile app developer and graphic designer with a creative mindset.",
   },
   {
     name: "David Wilson",
@@ -154,8 +161,8 @@ const sampleUsers = [
     dob: "1984-09-10",
     education: "Haifa University",
     experience: "7 years in data analysis",
-    profession: "Data Analyst",
-    category: "Data Analysis",
+    profession: ["Data Analysis", "UI/UX Design"],
+    bio: "Data analyst with a keen eye for detail and a passion for designing user-friendly interfaces.",
   },
 ];
 
@@ -203,4 +210,50 @@ const addTestUsers = async () => {
   }
 };
 
-addTestUsers();
+// addTestUsers();
+
+// const categorizeUsers = async () => {
+//   // Categories
+//   const categories = {
+//     "Basic Programming": [],
+//     "Full-Stack Development": [],
+//     "Front-End Development": [],
+//     "Back-End Development": [],
+//     "Mobile Development": [],
+//     "Data Analysis": [],
+//     "UI/UX Design": [],
+//     "Graphic Design": [],
+//     "Video Editing": [],
+//     "Digital Marketing": [],
+//   };
+
+//   try {
+//     const usersCollectionRef = collection(db, "users");
+//     const querySnapshot = await getDocs(usersCollectionRef);
+
+//     querySnapshot.forEach((doc) => {
+//       const user = doc.data();
+
+//       // Determine the category based on the profession
+//       user.profession.forEach((prof) => {
+//         if (categories[prof]) {
+//           categories[prof].push(user);
+//         }
+//       });
+//     });
+
+//     // Print out the categorized arrays
+//     Object.keys(categories).forEach((category) => {
+//       console.log(`${category}:`, categories[category]);
+//     });
+
+//     return categories;
+//   } catch (error) {
+//     console.error("Error categorizing users:", error);
+//     throw error;
+//   }
+// };
+
+// categorizeUsers().then((categories) => {
+//   console.log("doneee");
+// });

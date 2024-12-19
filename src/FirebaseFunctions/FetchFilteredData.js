@@ -1,24 +1,41 @@
+import { db } from "../firebase.js";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
 
-const fetchAndGroupByCategory = async () => {
+const categorizeUsers = async () => {
+  const categories = {
+    "Basic Programming": [],
+    "Full-Stack Development": [],
+    "Front-End Development": [],
+    "Back-End Development": [],
+    "Mobile Development": [],
+    "Data Analysis": [],
+    "UI/UX Design": [],
+    "Graphic Design": [],
+    "Video Editing": [],
+    "Digital Marketing": [],
+  };
+
   try {
-    const userCollection = collection(db, "user");
-    const querySnapshot = await getDocs(userCollection);
-    const groupedData = {};
+    const usersCollectionRef = collection(db, "users");
+    const querySnapshot = await getDocs(usersCollectionRef);
+
     querySnapshot.forEach((doc) => {
       const user = doc.data();
-      const category = user.category;
-      if (!groupedData[category]) {
-        groupedData[category] = [];
-      }
-      groupedData[category].push({ id: doc.id, ...user });
+
+      // Determine the category based on the profession
+      user.profession.forEach((prof) => {
+        if (categories[prof]) {
+          categories[prof].push(user);
+        }
+      });
     });
-    console.log("Grouped Data:", groupedData);
-    return groupedData;
+
+    console.log("Categorized users:", categories);
+    return categories;
   } catch (error) {
-    console.error("Error fetching and grouping data: ", error);
+    console.error("Error categorizing users:", error);
+    throw error;
   }
 };
 
-export default fetchAndGroupByCategory;
+export default categorizeUsers;
