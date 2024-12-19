@@ -40,6 +40,7 @@ const MarketPlace = () => {
   return (
     <div className="pagePadding container mx-auto flex flex-col">
       {/* Filter By Category */}
+      <Card />
       <div className="flex flex-col gap-4">
         <h2 className="mb-4 pt-20 text-lg font-bold md:text-xl">
           Filter By Category
@@ -69,7 +70,6 @@ const MarketPlace = () => {
           return <CategoryTitle key={index} text={text} />;
         })}
       </div>
-      <Card />
     </div>
   );
 };
