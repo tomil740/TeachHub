@@ -17,9 +17,19 @@ const SignUp = () => {
   const [dob, setDob] = useState("");
   const [education, setEducation] = useState("");
   const [experience, setExperience] = useState("");
-  const [profession, setProfession] = useState("");
+  const [profession, setProfession] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setProfession((prev) => [...prev, value]);
+    } else {
+      setProfession((prev) => prev.filter((item) => item !== value));
+    }
+  };
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -231,41 +241,111 @@ const SignUp = () => {
 
               {/* Profession Field (Updated to Select Spinner) */}
               <div>
-                <label
-                  htmlFor="profession"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label className="block text-sm font-medium text-gray-700">
                   Profession
                 </label>
-                <select
-                  id="profession"
-                  value={profession}
-                  onChange={(e) => setProfession(e.target.value)}
-                  className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                >
-                  <option value="" disabled>
-                    Select your profession
-                  </option>
-                  <option value="Digital Marketing">Digital Marketing</option>
-                  <option value="Graphic Design">Graphic Design</option>
-                  <option value="Video Editing">Video Editing</option>
-                  <option value="Full-Stack Development">
-                    Full-Stack Development
-                  </option>
-                  <option value="Front-End Development">
-                    Front-End Development
-                  </option>
-                  <option value="Back-End Development">
-                    Back-End Development
-                  </option>
-                  <option value="Basic Programming">Basic Programming</option>
-                  <option value="Data Analysis">Data Analysis</option>
-                  <option value="UI/UX">UI/UX</option>
-                  <option value="Mobile App Development">
-                    Mobile App Development
-                  </option>
-                </select>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Digital Marketing"
+                      checked={profession.includes("Digital Marketing")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Digital Marketing</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Graphic Design"
+                      checked={profession.includes("Graphic Design")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Graphic Design</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Video Editing"
+                      checked={profession.includes("Video Editing")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Video Editing</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Full-Stack Development"
+                      checked={profession.includes("Full-Stack Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Full-Stack Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Front-End Development"
+                      checked={profession.includes("Front-End Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Front-End Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Back-End Development"
+                      checked={profession.includes("Back-End Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Back-End Development</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Basic Programming"
+                      checked={profession.includes("Basic Programming")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Basic Programming</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Data Analysis"
+                      checked={profession.includes("Data Analysis")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Data Analysis</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="UI/UX"
+                      checked={profession.includes("UI/UX")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>UI/UX</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value="Mobile App Development"
+                      checked={profession.includes("Mobile App Development")}
+                      onChange={handleCheckboxChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
+                    />
+                    <span>Mobile App Development</span>
+                  </label>
+                </div>
               </div>
 
               {/* Experience Field */}

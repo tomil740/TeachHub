@@ -1,18 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NavItem from "./NavItem";
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [coins, setCoins] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setCoins(userDoc.data().coins || 0);
+        }
       } else {
         setIsLoggedIn(false);
       }
@@ -33,6 +42,10 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile"); // This will take you to the Profile component
   };
 
   const hideMenu = () => {
@@ -59,19 +72,43 @@ const Navbar = () => {
             <NavItem key={index} text={text} link={linkTo} color="text-black" />
           );
         })}
+
+        {/* Profile Icon */}
       </ul>
 
       {/* Get Started Button (Desktop) */}
-      <div className="hidden md:flex">
+      <div className="hidden gap-6 md:flex">
+        {isLoggedIn && (
+          <div>
+            <i
+              class="fa-brands fa-bitcoin transform text-3xl transition-transform hover:scale-110"
+              style={{ color: "#FFD700" }}
+            ></i>
+            <span className="text-2xl font-semibold tracking-wider text-yellow-500 shadow-lg">
+              {" " + "="} {coins}
+            </span>
+          </div>
+
+          /* Coins Display (Desktop) */
+        )}
+        {isLoggedIn && (
+          <button onClick={handleProfileClick} className="text-xl text-black">
+            <i
+              class="fa-solid fa-user text-2xl"
+              style={{ color: "#222222" }}
+            ></i>
+          </button>
+        )}
+
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="w-28 rounded-md bg-blue-500 p-2 text-base text-white transition hover:bg-blue-600"
+            className="w-28 rounded-md bg-[#222222] p-2 text-base text-white transition hover:bg-[#333333]"
           >
             Logout
           </button>
         ) : (
-          <button className="w-28 rounded-md bg-blue-500 p-2 text-base text-white transition hover:bg-blue-600">
+          <button className="w-28 rounded-md bg-[#222222] p-2 text-base text-white transition hover:bg-[#333333]">
             <NavLink to="/login">Login</NavLink>
           </button>
         )}
