@@ -320,16 +320,15 @@ button:hover {
 /* General Dropdown Styling */
 .dropdown {
   background: transparent;
-  border: none; /* No frame when editing */
-  color: #000; /* Black text for selected value */
-  font-weight: normal; /* Matches design */
+  border: none; 
+  color: #000; 
+  font-weight: normal; 
   font-size: 1rem;
   padding: 0.25rem 1.5rem 0.25rem 0.25rem;
-  appearance: none; /* Removes default arrow */
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 100%; /* Ensures the dropdown takes full width */
+  width: 100%; 
 }
 
 .info-grid div span, 
