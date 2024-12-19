@@ -45,7 +45,7 @@ body {
 
 }
 
- 
+/* 
 .square1 {
   color: white;
   padding: 20px;
@@ -111,7 +111,7 @@ h1 {
   margin-right: 50px; 
   color: #0060AD
 }
-
+*/
 
 .container {
   gap: 20px; 
@@ -120,8 +120,6 @@ h1 {
   padding: 20px;
   border-radius: 10px;
 }
-
-
 
 
 .square {
@@ -163,12 +161,10 @@ button:hover {
 
 
 
-
-
 /*Tomi...  */
 
 /* Section Header */
-.sectionHeader {
+.pageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -176,7 +172,7 @@ button:hover {
   padding: 0 1.5rem;
 }
 
-.sectionHeader h1 {
+.pageHeader h1 {
   font-size: 2rem;
   font-weight: bold;
   color: #333;
@@ -391,5 +387,166 @@ button:hover {
   display: flex;
   flex-direction: column;
 }
+
+
+.attribute-container {
+  padding: 1rem;
+  background: linear-gradient(to top right, #f0f4ff, #fcfcfc);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin:5vh 0;
+}
+
+.attribute-container-list {
+  display: flex; 
+  overflow-x: auto; 
+  gap: 1rem; 
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.attribute-container-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e6f7ff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #0056b3;
+  min-width: 150px; /* Adjust to limit item width */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #d32f2f;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  color: #b71c1c;
+}
+
+.add-attribute {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-attribute-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.add-attribute-btn:hover {
+  background-color: #0056b3;
+}
+
+
+/* Section Header Styling */
+.section-header {
+  position: relative;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-left: -20px; /* Offset the text more to the left */
+  color: #007bff;
+  text-align: left;
+}
+
+.section-header::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px; /* Offset the vertical bar to match the text */
+  width: 6px;
+  height: 80%;
+  background-color: #007bff; /* Matches text color */
+  border-radius: 4px;
+  transform: translateY(-50%);
+}
+
+
+.list-manager-container {
+  padding: 1rem;
+  background: linear-gradient(to top right, #f9f9fc, #f0f4ff);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-manager-list {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.list-manager-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 25%;
+  flex-shrink: 0;
+  background: #e6f7ff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  color: #0056b3;
+}
+
+.list-manager-remove-btn {
+  background: none;
+  border: none;
+  color: #d32f2f;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.list-manager-remove-btn:hover {
+  color: #b71c1c;
+}
+
+.list-manager-add {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.list-manager-add-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.list-manager-add-btn:hover {
+  background-color: #0056b3;
+}
+
+.list-manager-dropdown {
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  position: absolute;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 

@@ -1,18 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NavItem from "./NavItem";
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track if the user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [coins, setCoins] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setCoins(userDoc.data().coins || 0);
+        }
       } else {
         setIsLoggedIn(false);
       }
@@ -35,13 +44,16 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile"); // This will take you to the Profile component
+  };
+
   const hideMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
   const links = [
     { text: "Home", linkTo: "/" },
-    { text: "UserPage", linkTo: "/ProfilePage" },
     { text: "Marketplace", linkTo: "/marketplace" },
   ];
 
@@ -49,7 +61,7 @@ const Navbar = () => {
     <nav className="pagePadding flex h-20 w-full items-center justify-between py-2 text-white shadow-md">
       {/* Logo */}
       <NavLink className="text-2xl font-bold text-black" to="/">
-        <img src="/images/Logo.png" className="h-24 w-32" alt="" />
+        <img src="/images/Logo.png" className="h-24 w-24" alt="" />
       </NavLink>
 
       {/* Desktop navbar */}
@@ -60,28 +72,43 @@ const Navbar = () => {
             <NavItem key={index} text={text} link={linkTo} color="text-black" />
           );
         })}
-      </ul>
 
-      <ul className="hidden items-center justify-center gap-4 md:flex">
-        {links.map((link, index) => {
-          const { text, linkTo } = link;
-          return (
-            <NavItem key={index} text={text} link={linkTo} color="text-black" />
-          );
-        })}
+        {/* Profile Icon */}
       </ul>
 
       {/* Get Started Button (Desktop) */}
-      <div className="hidden md:flex">
+      <div className="hidden gap-6 md:flex">
+        {isLoggedIn && (
+          <div>
+            <i
+              class="fa-brands fa-bitcoin transform text-3xl transition-transform hover:scale-110"
+              style={{ color: "#FFD700" }}
+            ></i>
+            <span className="text-2xl font-semibold tracking-wider text-yellow-500 shadow-lg">
+              {" " + "="} {coins}
+            </span>
+          </div>
+
+          /* Coins Display (Desktop) */
+        )}
+        {isLoggedIn && (
+          <button onClick={handleProfileClick} className="text-xl text-black">
+            <i
+              class="fa-solid fa-user text-2xl"
+              style={{ color: "#222222" }}
+            ></i>
+          </button>
+        )}
+
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="rounded bg-gradient-to-b from-gray-700 to-gray-900 px-2 py-1 font-bold text-white transition-all duration-300 hover:to-gray-800"
+            className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
           >
             Logout
           </button>
         ) : (
-          <button className="w-28 rounded-md bg-blue-500 p-2 text-base text-white transition hover:bg-blue-600">
+          <button className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600">
             <NavLink to="/login">Login</NavLink>
           </button>
         )}
@@ -105,7 +132,7 @@ const Navbar = () => {
       <ul
         className={`${
           isMobileMenuOpen ? "flex" : "hidden"
-        } pagePadding absolute left-0 top-20 w-full flex-col gap-4 bg-gradient-to-b from-gray-700 to-gray-900 py-4 text-white shadow-md md:hidden`}
+        } pagePadding absolute left-0 top-20 z-[100] w-full flex-col gap-4 bg-white py-4 shadow-md md:hidden`}
       >
         {links.map((link, index) => {
           const { text, linkTo } = link;
@@ -114,7 +141,7 @@ const Navbar = () => {
               key={index}
               text={text}
               link={linkTo}
-              color="text-white"
+              color="text-black"
               hideMenu={hideMenu}
             />
           );
@@ -123,12 +150,12 @@ const Navbar = () => {
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="rounded bg-gradient-to-b from-gray-700 to-gray-900 px-2 py-1 font-bold text-white transition-all duration-300 hover:to-gray-800"
+            className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600"
           >
             Logout
           </button>
         ) : (
-          <button className="rounded bg-gradient-to-b from-gray-700 to-gray-900 px-2 py-1 font-bold text-white transition-all duration-300 hover:to-gray-800">
+          <button className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600">
             <NavLink to="/login" onClick={hideMenu}>
               Login
             </NavLink>

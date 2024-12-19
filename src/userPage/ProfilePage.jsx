@@ -2,6 +2,7 @@ import "../userPage/ProfilePage.css";
 import { useState } from "react";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
+import AttributeContainer from "./components/AttributeContainer";
 
 export default function ProfilePage() {
   //the shred db user object
@@ -104,10 +105,8 @@ export default function ProfilePage() {
 
   return (
     <div className="container">
-      <h1>User Profile</h1>
-
-      <div className="sectionHeader">
-        <h1>User Profile</h1>
+      <div className="pageHeader">
+        <h1 className="section-header">User Profile</h1>
         <button onClick={() => toggleEdit()}>
           {isEditing ? "Save Changes" : "Edit Profile"}
         </button>
@@ -125,63 +124,25 @@ export default function ProfilePage() {
         />
       </article>
 
-      <h1>My services</h1>
-      <button onClick={toggleEditServices}>
-        {isEditingServices ? "Save Changes" : "Edit My Services"}
-      </button>
+      <h1 className="section-header">My services</h1>
+      <AttributeContainer
+        user={user}
+        isEditing={isEditing}
+        onEdit={handleDropdownChange}
+        listKey={"typeOfService"}
+        options={TypeOfService}
+      />
 
-      <div className="square1">
-        {isEditingServices ? (
-          <ul>
-            {TypeOfService.map((service, index) => (
-              <li key={index}>
-                <button
-                  className={`service-btn ${user.typeOfService.includes(service) ? "selected" : ""}`}
-                  onClick={() => toggleService(service)}
-                >
-                  {service}{" "}
-                  {user.typeOfService.includes(service) ? "Remove" : "Add"}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul>
-            {user.typeOfService.map((service, index) => (
-              <li key={index}> {service}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <h1 className="section-header">My skills</h1>
+      <AttributeContainer
+        user={user}
+        isEditing={isEditing}
+        onEdit={handleDropdownChange}
+        listKey={"MySkills"}
+        options={TypeOfSkills}
+      />
 
-      <h1>My skills</h1>
-      <button onClick={toggleEditSkills}>
-        {isEditingSkills ? "Save Changes" : "Edit My Skills"}
-      </button>
-      <div className="square middle">
-        {isEditingSkills ? (
-          <ul>
-            {TypeOfSkills.map((skill, index) => (
-              <li key={index}>
-                <button
-                  className={`skill-btn ${user.MySkills.includes(skill) ? "selected" : ""}`}
-                  onClick={() => toggleSkills(skill)}
-                >
-                  {skill} {user.MySkills.includes(skill) ? "Remove" : "Add"}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul>
-            {user.MySkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <h1>Feedback</h1>
+      <h1 className="section-header">Feedback</h1>
       <div className="square bottom">
         <div className="feedback-item">
           <div className="feedback-header">
