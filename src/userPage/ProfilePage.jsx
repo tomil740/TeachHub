@@ -1,5 +1,7 @@
 import "../userPage/ProfilePage.css";
 import { useState } from "react";
+import UserPreview from "./components/UserPreview";
+import UserInfo from './components/UserInfo';
 
 export default function ProfilePage() {
   const [user, setUser] = useState({
@@ -41,6 +43,24 @@ export default function ProfilePage() {
     "engineering",
   ];
 
+  const userData = {
+    name: "David Levy",
+    title: "Software Engineer",
+    imageUrl: "https://via.placeholder.com/150",
+    coins: 50,
+    bio: "Hi, I’m a passionate developer from Haifa, studying at the Technion. I enjoy working on innovative projects and sharing my knowledge to help others succeed.",
+  };
+
+  const userInfoData = {
+    city: "Haifa",
+    culture: "Jewish",
+    instagram: "#",
+    facebook: "#",
+    language: "Hebrew, English",
+    education: "Software Engineer",
+    university: "Technion",
+  };
+
   function toggleEdit() {
     setUser((prevUser) => {
       const updatedUser = Object.assign({}, prevUser);
@@ -70,166 +90,52 @@ export default function ProfilePage() {
     <div className="container">
       <h1>User Profile</h1>
 
-      <div className="square top">
-        <div className="profile-img-container">
-          <img src={user.profileImg} alt="profileImg" />
-        </div>
-
-        <div>
-          {user.isEditing && (
-            <input
-              className="input-file"
-              type="file"
-              accept="image/*"
-              onChange={handleImgChange}
-            />
-          )}
-
-          <p>Name:</p>
-          {user.isEditing ? (
-            <input
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={handleChange}
-            />
-          ) : (
-            <span>{user.name}</span>
-          )}
-
-          <p>Rating: {user.rating}</p>
-
-          <p>About Me:</p>
-          {user.isEditing ? (
-            <input
-              type="text"
-              name="aboutMe"
-              value={user.aboutMe}
-              onChange={handleChange}
-            />
-          ) : (
-            <span>{user.aboutMe}</span>
-          )}
-
-          <p>Basic Statistics:</p>
-          {user.isEditing ? (
-            <input
-              type="text"
-              name="basicStatistics"
-              value={user.basicStatistics}
-              onChange={handleChange}
-            />
-          ) : (
-            <span>{user.basicStatistics}</span>
-          )}
-        </div>
+      <div className="sectionHeader">
+      <h1>User Profile</h1>
+        <button>Edit Profile</button>
       </div>
-      <div className="square">
-        <p>
-          Phone Number:{" "}
-          <a
-            href={`https://wa.me/${user.phoneNumber.replace(/-/g, "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {user.phoneNumber}
-          </a>
-        </p>
-        <p> email: {user.email}</p>
+      <article className="HeroSection">
+        <UserPreview user={userData} />
+        <UserInfo userInfo={userInfoData} />
+      </article>
+
+
+      <h1> My Services</h1>
+      <div className="square1">
+          <ul>
+            <li> Exam preparation  </li>
+            <li> Private lessons </li>
+            <li> Professional intention </li>
+            <li> Exam preparation  </li>
+            <li> Private lessons </li>
+            <li> Professional intention </li>
+            <li> Exam preparation  </li>
+            <li> Private lessons </li>
+          </ul>
       </div>
 
+      <h1> My Skills</h1>
       <div className="square middle">
-        <h3>academicProfession: </h3>
-        {user.isEditing ? (
-          <select
-            name="academicProfession"
-            value={user.academicProfession}
-            onChange={handleChange}
-          >
-            {academicProfession.map((proffesion, index) => (
-              <option key={index} value={proffesion}>
-                {proffesion}
-              </option>
-            ))}{" "}
-          </select>
-        ) : (
-          <p> {user.academicProfession}</p>
-        )}
-
-        <h3>Culture: </h3>
-        {user.isEditing ? (
-          <select name="culture" value={user.culture} onChange={handleChange}>
-            {Culture.map((culture, index) => (
-              <option key={index} value={culture}>
-                {culture}
-              </option>
-            ))}{" "}
-          </select>
-        ) : (
-          <p> {user.culture}</p>
-        )}
-
-        <h3>Academic Institution: </h3>
-        {user.isEditing ? (
-          <select
-            name="academicInstitution"
-            value={user.academicInstitution}
-            onChange={handleChange}
-          >
-            {AcademicInstitution.map((academicInstitution, index) => (
-              <option key={index} value={academicInstitution}>
-                {academicInstitution}
-              </option>
-            ))}{" "}
-          </select>
-        ) : (
-          <p> {user.academicInstitution}</p>
-        )}
-
-        <h3>Type of Service: </h3>
-        {user.isEditing ? (
-          <select
-            name="typeOfService"
-            value={user.typeOfService}
-            onChange={handleChange}
-          >
-            {TypeOfService.map((typeOfService, index) => (
-              <option key={index} value={typeOfService}>
-                {typeOfService}
-              </option>
-            ))}{" "}
-          </select>
-        ) : (
-          <p> {user.typeOfService}</p>
-        )}
-
-        <h3>Experience:</h3>
-        {user.isEditing ? (
-          <select
-            name="experience"
-            value={user.experience}
-            onChange={handleChange}
-          >
-            {Experience.map((experience, index) => (
-              <option key={index} value={experience}>
-                {experience}
-              </option>
-            ))}{" "}
-          </select>
-        ) : (
-          <p> {user.experience}</p>
-        )}
+          <ul>
+            <li> java script </li>
+            <li> python </li>
+            <li> React </li>
+            <li> java script </li>
+            <li> python </li>
+            <li> React </li>
+          </ul>
       </div>
 
+
+      <h1>Feedback</h1>
       <div className="square bottom">
-        <h3>Feedback:</h3>
         <div className="feedback-item">
           <div className="feedback-header">
             <img
               src="https://via.placeholder.com/50"
               alt="Daniel"
               className="feedback-avatar"
-            />
+              />
             <h5>
               <a href="/profile/daniel" className="feedback-name">
                 Daniel
@@ -245,7 +151,7 @@ export default function ProfilePage() {
               src="https://via.placeholder.com/50"
               alt="Sarah"
               className="feedback-avatar"
-            />
+              />
             <h5>
               <a href="/profile/daniel" className="feedback-name">
                 Sarah
@@ -262,3 +168,156 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+{/* <div className="square top"> */}
+  {/* <div className="profile-img-container"> */}
+  {/* <img src={user.profileImg} alt="profileImg" /> */}
+  {/* </div> */}
+  
+  {/* <div> */}
+    {/* {user.isEditing && (
+      <input
+        className="input-file"
+        type="file"
+        accept="image/*"
+        onChange={handleImgChange}
+        />
+      )} */}
+      
+      {/* {user.isEditing ? (
+        <input
+        type="text"
+        name="name"
+        value={user.name}
+        onChange={handleChange}
+        />
+      ) : (
+      <span>{user.name}</span>
+    )} */}
+    
+    
+    {/* <p>About Me:</p>
+      {user.isEditing ? (
+        <input
+        type="text"
+        name="aboutMe"
+        value={user.aboutMe}
+        onChange={handleChange}
+        />
+      ) : (
+      <span>{user.aboutMe}</span>
+    )} */}
+
+    {/* <p>Basic Statistics:</p>
+    {user.isEditing ? (
+      <input
+      type="text"
+      name="basicStatistics"
+      value={user.basicStatistics}
+      onChange={handleChange}
+      />
+    ) : (
+      <span>{user.basicStatistics}</span>
+    )} */}
+  {/* </div>
+</div> */}
+    
+
+
+
+
+
+
+          {/* <div className="square">
+            <p> email: {user.email}</p>
+          </div> */}
+    
+          {/* <div className="square middle">
+            <h3>academicProfession: </h3>
+            {user.isEditing ? (
+              <select
+                name="academicProfession"
+                value={user.academicProfession}
+                onChange={handleChange}
+              >
+                {academicProfession.map((proffesion, index) => (
+                  <option key={index} value={proffesion}>
+                    {proffesion}
+                  </option>
+                ))}{" "}
+              </select>
+            ) : (
+              <p> {user.academicProfession}</p>
+            )}
+    
+            <h3>Culture: </h3>
+            {user.isEditing ? (
+              <select name="culture" value={user.culture} onChange={handleChange}>
+                {Culture.map((culture, index) => (
+                  <option key={index} value={culture}>
+                    {culture}
+                  </option>
+                ))}{" "}
+              </select>
+            ) : (
+              <p> {user.culture}</p>
+            )}
+    
+            <h3>Academic Institution: </h3>
+            {user.isEditing ? (
+              <select
+                name="academicInstitution"
+                value={user.academicInstitution}
+                onChange={handleChange}
+              >
+                {AcademicInstitution.map((academicInstitution, index) => (
+                  <option key={index} value={academicInstitution}>
+                    {academicInstitution}
+                  </option>
+                ))}{" "}
+              </select>
+            ) : (
+              <p> {user.academicInstitution}</p>
+            )}
+    
+            <h3>Type of Service: </h3>
+            {user.isEditing ? (
+              <select
+                name="typeOfService"
+                value={user.typeOfService}
+                onChange={handleChange}
+              >
+                {TypeOfService.map((typeOfService, index) => (
+                  <option key={index} value={typeOfService}>
+                    {typeOfService}
+                  </option>
+                ))}{" "}
+              </select>
+            ) : (
+              <p> {user.typeOfService}</p>
+            )}
+    
+            <h3>Experience:</h3>
+            {user.isEditing ? (
+              <select
+                name="experience"
+                value={user.experience}
+                onChange={handleChange}
+              >
+                {Experience.map((experience, index) => (
+                  <option key={index} value={experience}>
+                    {experience}
+                  </option>
+                ))}{" "}
+              </select>
+            ) : (
+              <p> {user.experience}</p>
+            )} */}
+          {/* </div> */}
