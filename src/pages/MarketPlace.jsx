@@ -94,10 +94,6 @@ const MarketPlace = () => {
 
       {/* Categories */}
       <div className="flex flex-col">
-        {cards.map((category, index) => {
-          const { text } = category;
-        })}
-
         {Object.keys(categories).map((category, index) => {
           const usersInCategory = categories[category];
 
