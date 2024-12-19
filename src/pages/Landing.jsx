@@ -73,7 +73,7 @@ const Landing = () => {
           </section>
           {/* break */}
           <section>
-            <img src="images\about-img.png" alt="about-us" />
+            <img src="images\about-img.png" alt="about-us-image" />
           </section>
         </section>
       </article>
