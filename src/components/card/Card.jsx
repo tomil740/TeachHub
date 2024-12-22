@@ -1,7 +1,7 @@
 const Card = ({ name, description, image, profession }) => {
   return (
     <>
-      <article className="mt-6 flex w-96 flex-col items-start justify-start gap-4 overflow-hidden rounded-2xl shadow-lg">
+      <article className="mt-6 flex h-96 w-96 flex-col items-start justify-start gap-4 overflow-hidden rounded-2xl shadow-lg">
         <section>
           <img src="images\web development.jpeg" alt="tacegory-image" />
         </section>
