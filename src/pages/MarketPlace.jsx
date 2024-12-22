@@ -20,11 +20,15 @@ const MarketPlace = () => {
     "Digital Marketing": [],
   });
 
+  const [allUsers, setAllUsers] = useState([]);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const categorizedData = await categorizeUsers();
         setCategories(categorizedData);
+        const allUsers = Object.values(categorizedData).flat();
+        setAllUsers(allUsers);
       } catch (error) {
         console.log("Error fetching and categorizing users:", error);
       }
@@ -39,28 +43,17 @@ const MarketPlace = () => {
       <HomePageCategory padding="pt-20" />
 
       {/* Categories */}
-      <div className="flex flex-col">
-        {Object.keys(categories).map((category, index) => {
-          const usersInCategory = categories[category];
 
-          return (
-            <div key={index}>
-              <CategoryTitle text={category} />
-
-              <div className="flex flex-wrap gap-4">
-                {usersInCategory.map((user, userIndex) => (
-                  <Card
-                    key={userIndex}
-                    name={user.name}
-                    profession={user.profession}
-                    description={user.bio}
-                    image={user.imgUrl}
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        })}
+      <div className="flex flex-wrap gap-4">
+        {allUsers.map((user, userIndex) => (
+          <Card
+            key={userIndex}
+            name={user.name}
+            profession={user.profession}
+            description={user.bio}
+            image={user.imgUrl}
+          />
+        ))}
       </div>
     </div>
   );
