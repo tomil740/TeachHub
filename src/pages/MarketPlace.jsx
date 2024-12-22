@@ -9,20 +9,20 @@ import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 const MarketPlace = () => {
   // const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const [filterd, setFilterd] = useState(""); // Initialize as a Set
+  const [filterd, setFilterd] = useState(new Set()); // Initialize as a Set
 
   function Filter(text) {
     console.log("hi111" + text);
-    setFilterd((prev) => prev + text);
-    // setFilterd((prevFilterd) => {
-    //   const newFilterd = new Set(prevFilterd);
-    //   if (newFilterd.has(text)) {
-    //     newFilterd.delete(text);
-    //   } else {
-    //     newFilterd.add(text);
-    //   }
-    //   return newFilterd;
-    // });
+
+    setFilterd((prevFilterd) => {
+      const newFilterd = new Set(prevFilterd);
+      if (newFilterd.has(text)) {
+        newFilterd.delete(text);
+      } else {
+        newFilterd.add(text);
+      }
+      return newFilterd;
+    });
   }
   const [loading, setLoading] = useState(true);
 
@@ -68,9 +68,9 @@ const MarketPlace = () => {
 
       {loading ? (
         <div className="flex h-48 items-center justify-center">
-          <span>Loading...</span>{" "}
+          <span>Loading...</span>
         </div>
-      ) : (
+      ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
           {allUsers.map((user, userIndex) => (
             <Card
@@ -82,6 +82,8 @@ const MarketPlace = () => {
             />
           ))}
         </div>
+      ) : (
+        <h1>Hi</h1>
       )}
     </div>
   );

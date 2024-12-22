@@ -2,7 +2,7 @@ import { cards } from "../data/categories";
 import { useState, useEffect } from "react";
 import FilterCard from "./FilterCard";
 
-const HomePageCategory = ({ padding, filterFunc = () => {} }) => {
+const HomePageCategory = ({ padding, filterFunc = function () {} }) => {
   const [isMoreShown, setIsMoreShown] = useState(false);
   const [visibleCards, setVisibleCards] = useState(null);
 
