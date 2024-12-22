@@ -1,8 +1,19 @@
+import { useState } from "react";
+
 const FilterCard = ({ img, text, filter = function () {} }) => {
+  const [isSelected, setIsSelected] = useState(false);
+
+  const toggleSelection = () => {
+    setIsSelected(!isSelected);
+    filter(text); // Call the filter function to update the filter
+  };
+
   return (
     <div
-      className="group relative flex h-32 w-32 cursor-pointer flex-col gap-4 overflow-hidden rounded-lg p-4 shadow-xAndY transition-all duration-300 md:h-40 md:w-40"
-      onClick={() => filter(text)}
+      className={`group relative flex h-32 w-32 cursor-pointer flex-col gap-4 overflow-hidden rounded-lg p-4 shadow-xAndY transition-all duration-300 md:h-40 md:w-40 ${
+        isSelected ? "border-4 border-black" : ""
+      }`}
+      onClick={toggleSelection}
     >
       <div className="absolute left-20 top-20 h-32 w-32 rounded-full bg-blue-400 opacity-0 blur-[50px] transition-all duration-300 group-hover:opacity-30"></div>
 

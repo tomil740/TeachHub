@@ -1,31 +1,11 @@
 import { useState, useEffect } from "react";
-import CategoryTitle from "../components/CategoryTitle";
 import HomePageCategory from "../components/HomePageCategory";
-import { cards } from "../data/categories";
 import Card from "./../components/card/Card";
-
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 
 const MarketPlace = () => {
-  // const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const [filterd, setFilterd] = useState(new Set()); // Initialize as a Set
-
-  function Filter(text) {
-    console.log("hi111" + text);
-
-    setFilterd((prevFilterd) => {
-      const newFilterd = new Set(prevFilterd);
-      if (newFilterd.has(text)) {
-        newFilterd.delete(text);
-      } else {
-        newFilterd.add(text);
-      }
-      return newFilterd;
-    });
-  }
+  const [filterd, setFilterd] = useState(new Set());
   const [loading, setLoading] = useState(true);
-
   const [categories, setCategories] = useState({
     "Basic Programming": [],
     "Full-Stack Development": [],
@@ -38,8 +18,19 @@ const MarketPlace = () => {
     "Video Editing": [],
     "Digital Marketing": [],
   });
-
   const [allUsers, setAllUsers] = useState([]);
+
+  function Filter(text) {
+    setFilterd((prevFilterd) => {
+      const newFilterd = new Set(prevFilterd);
+      if (newFilterd.has(text)) {
+        newFilterd.delete(text);
+      } else {
+        newFilterd.add(text);
+      }
+      return newFilterd;
+    });
+  }
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -47,11 +38,10 @@ const MarketPlace = () => {
         setLoading(true);
         const categorizedData = await categorizeUsers();
         setCategories(categorizedData);
-        const allUsers = Object.values(categorizedData).flat();
-        setAllUsers(allUsers);
+        setAllUsers(Object.values(categorizedData).flat());
         setLoading(false);
       } catch (error) {
-        console.log("Error fetching and categorizing users:", error);
+        console.error("Error fetching and categorizing users:", error);
         setLoading(false);
       }
     };
@@ -60,12 +50,7 @@ const MarketPlace = () => {
 
   return (
     <div className="pagePadding container mx-auto flex flex-col">
-      {/* Filter By Category */}
-
       <HomePageCategory padding="pt-20" filterFunc={Filter} />
-
-      {/* Categories */}
-
       {loading ? (
         <div className="flex h-48 items-center justify-center">
           <span>Loading...</span>
@@ -83,7 +68,22 @@ const MarketPlace = () => {
           ))}
         </div>
       ) : (
-        <h1>Hi</h1>
+        [...filterd].map((title) => {
+          const currentUsers = categories[title];
+          return (
+            <div key={title} className="flex flex-wrap gap-4">
+              {currentUsers.map((user, userIndex) => (
+                <Card
+                  key={userIndex}
+                  name={user.name}
+                  profession={user.profession}
+                  description={user.bio}
+                  image={user.imgUrl}
+                />
+              ))}
+            </div>
+          );
+        })
       )}
     </div>
   );
