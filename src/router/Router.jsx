@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Landing, MarketPlace, RootLayout } from "../pages";
 import Login from "../components/Login.jsx";
 import SignUp from "../components/SignUp.jsx";
-import ProfilePage from "../userPage/ProfilePage.jsx"
+import ProfilePage from "../userPage/ProfilePage.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
         element: <MarketPlace />,
       },
       {
-        path: "/ProfilePage",
+        path: "/profile/:id",
         element: <ProfilePage />,
       },
     ],
