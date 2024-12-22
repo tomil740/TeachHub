@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import HomePageCategory from "../components/HomePageCategory";
 import Card from "./../components/card/Card";
 import { Link } from "react-router-dom";
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 
 const MarketPlace = () => {
+  const { category } = useParams();
   const [filterd, setFilterd] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState({
@@ -41,13 +43,18 @@ const MarketPlace = () => {
         setCategories(categorizedData);
         setAllUsers(Object.values(categorizedData).flat());
         setLoading(false);
+
+        // Apply filtering based on the category from the URL
+        if (category) {
+          setFilterd(new Set([category]));
+        }
       } catch (error) {
         console.error("Error fetching and categorizing users:", error);
         setLoading(false);
       }
     };
     fetchUsers();
-  }, []);
+  }, [category]); // Trigger on category change
 
   return (
     <div className="pagePadding container mx-auto flex flex-col">
@@ -59,16 +66,18 @@ const MarketPlace = () => {
       ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
           {allUsers.map((user, userIndex) => (
-            <Link to={`/profile/${user.id}`}><Card
-              key={userIndex}
-              name={user.name}
-              profession={user.profession}
-              description={user.bio}
-              coins={user.coins}
-              profileImage={user.imgUrl}
-              rating={user.rating}
-              backgroundImage={user.backgroundImage}
-            /></Link>
+            <Link to={`/profile/${user.id}`}>
+              <Card
+                key={userIndex}
+                name={user.name}
+                profession={user.profession}
+                description={user.bio}
+                coins={user.coins}
+                profileImage={user.imgUrl}
+                rating={user.rating}
+                backgroundImage={user.backgroundImage}
+              />
+            </Link>
           ))}
         </div>
       ) : (

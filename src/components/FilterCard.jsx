@@ -5,7 +5,7 @@ const FilterCard = ({ img, text, filter = function () {} }) => {
 
   const toggleSelection = () => {
     setIsSelected(!isSelected);
-    filter(text); // Call the filter function to update the filter
+    filter(text);
   };
 
   return (
