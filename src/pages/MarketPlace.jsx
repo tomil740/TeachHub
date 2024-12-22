@@ -7,6 +7,7 @@ import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 
 const MarketPlace = () => {
   const { category } = useParams();
+
   const [filterd, setFilterd] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState({
@@ -58,7 +59,11 @@ const MarketPlace = () => {
 
   return (
     <div className="pagePadding container mx-auto flex flex-col">
-      <HomePageCategory padding="pt-20" filterFunc={Filter} />
+      <HomePageCategory
+        padding="pt-20"
+        filterFunc={Filter}
+        category={category}
+      />
       {loading ? (
         <div className="flex h-48 items-center justify-center">
           <span>Loading...</span>

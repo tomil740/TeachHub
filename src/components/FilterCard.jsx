@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const FilterCard = ({ img, text, filter = function () {} }) => {
+const FilterCard = ({ img, category, text, filter = function () {} }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const toggleSelection = () => {
@@ -15,7 +15,7 @@ const FilterCard = ({ img, text, filter = function () {} }) => {
     >
       <div
         className={`absolute left-20 top-20 h-32 w-32 rounded-full bg-blue-400 opacity-0 blur-[50px] transition-all duration-300 group-hover:opacity-30 ${
-          isSelected ? "opacity-50" : "opacity-0"
+          text === category || isSelected ? "opacity-50" : "opacity-0"
         }`}
       ></div>
 
