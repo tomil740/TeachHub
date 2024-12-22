@@ -9,6 +9,21 @@ import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 const MarketPlace = () => {
   // const [selectedCategory, setSelectedCategory] = useState("all");
 
+  const [filterd, setFilterd] = useState(""); // Initialize as a Set
+
+  function Filter(text) {
+    console.log("hi111" + text);
+    setFilterd((prev) => prev + text);
+    // setFilterd((prevFilterd) => {
+    //   const newFilterd = new Set(prevFilterd);
+    //   if (newFilterd.has(text)) {
+    //     newFilterd.delete(text);
+    //   } else {
+    //     newFilterd.add(text);
+    //   }
+    //   return newFilterd;
+    // });
+  }
   const [loading, setLoading] = useState(true);
 
   const [categories, setCategories] = useState({
@@ -47,7 +62,7 @@ const MarketPlace = () => {
     <div className="pagePadding container mx-auto flex flex-col">
       {/* Filter By Category */}
 
-      <HomePageCategory padding="pt-20" />
+      <HomePageCategory padding="pt-20" filterFunc={Filter} />
 
       {/* Categories */}
 

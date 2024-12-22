@@ -2,7 +2,7 @@ import { cards } from "../data/categories";
 import { useState, useEffect } from "react";
 import FilterCard from "./FilterCard";
 
-const HomePageCategory = ({ padding }) => {
+const HomePageCategory = ({ padding, filterFunc = () => {} }) => {
   const [isMoreShown, setIsMoreShown] = useState(false);
   const [visibleCards, setVisibleCards] = useState(null);
 
@@ -46,7 +46,14 @@ const HomePageCategory = ({ padding }) => {
             .slice(0, isMoreShown ? cards.length : visibleCards)
             .map((card, index) => {
               const { img, text } = card;
-              return <FilterCard key={index} img={img} text={text} />;
+              return (
+                <FilterCard
+                  key={index}
+                  img={img}
+                  text={text}
+                  filter={filterFunc}
+                />
+              );
             })}
         </div>
 
