@@ -58,7 +58,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="pagePadding flex h-20 w-full items-center justify-between py-2 text-white shadow-md">
+    <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
       {/* Logo */}
       <NavLink className="text-2xl font-bold text-black" to="/">
         <img src="/images/Logo.png" className="h-24 w-24" alt="" />
@@ -80,12 +80,9 @@ const Navbar = () => {
       <div className="hidden gap-6 md:flex">
         {isLoggedIn && (
           <div>
-            <i
-              class="fa-brands fa-bitcoin transform text-3xl transition-transform hover:scale-110"
-              style={{ color: "#FFD700" }}
-            ></i>
-            <span className="text-2xl font-semibold tracking-wider text-yellow-500 shadow-lg">
-              {" " + "="} {coins}
+            <i class="fa-brands fa-bitcoin transform text-3xl text-amber-500 transition-transform hover:scale-110"></i>
+            <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
+              {coins}
             </span>
           </div>
 
@@ -93,10 +90,7 @@ const Navbar = () => {
         )}
         {isLoggedIn && (
           <button onClick={handleProfileClick} className="text-xl text-black">
-            <i
-              class="fa-solid fa-user text-2xl"
-              style={{ color: "#222222" }}
-            ></i>
+            <i class="fa-solid fa-user text-2xl text-blue-500 transition-all duration-300 hover:text-blue-600"></i>
           </button>
         )}
 
