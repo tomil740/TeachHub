@@ -45,7 +45,6 @@ const MarketPlace = () => {
         setAllUsers(Object.values(categorizedData).flat());
         setLoading(false);
 
-        // Apply filtering based on the category from the URL
         if (category) {
           setFilterd(new Set([category]));
         }
@@ -55,7 +54,7 @@ const MarketPlace = () => {
       }
     };
     fetchUsers();
-  }, [category]); // Trigger on category change
+  }, [category]);
 
   return (
     <div className="pagePadding container mx-auto flex flex-col">
@@ -91,13 +90,18 @@ const MarketPlace = () => {
           return (
             <div key={title} className="flex flex-wrap gap-4">
               {currentUsers.map((user, userIndex) => (
-                <Card
-                  key={userIndex}
-                  name={user.name}
-                  profession={user.profession}
-                  description={user.bio}
-                  image={user.imgUrl}
-                />
+                <Link to={`/profile/${user.id}`}>
+                  <Card
+                    key={userIndex}
+                    name={user.name}
+                    profession={user.profession}
+                    description={user.bio}
+                    coins={user.coins}
+                    profileImage={user.imgUrl}
+                    rating={user.rating}
+                    backgroundImage={user.backgroundImage}
+                  />
+                </Link>
               ))}
             </div>
           );
