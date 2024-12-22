@@ -3,10 +3,10 @@ import { useState } from "react";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
-
+import { useParams } from "react-router-dom";
 export default function ProfilePage() {
   //the shred db user object
-  const [user, setUser] = useState({
+  const [user, setUser] = useState([{
     name: "Ohad",
     coins: 100,
     rating: "4.7/5",
@@ -22,7 +22,13 @@ export default function ProfilePage() {
     MySkills: ["Programming"],
     aboutMe: "Passionate about design and innovation.",
     experience: "year",
-  });
+    id:"1"
+  }]);
+  const {id}=useParams();/*retrieve the id using useParams*/
+  const profile=user.find(User=>User.id===id);/*choose the correct profile using the id*/
+  if (!profile) {
+    return <div>Profile not found</div>; // Handle case where profile is not found
+  }
   const [isEditing, setIsEditing] = useState(false);
 
   // תהילה
@@ -113,12 +119,12 @@ export default function ProfilePage() {
       </div>
       <article className="HeroSection">
         <UserPreview
-          user={user}
+          user={profile}
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
         <UserInfo
-          user={user}
+          user={profile}
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
@@ -126,7 +132,7 @@ export default function ProfilePage() {
 
       <h1 className="section-header">My services</h1>
       <AttributeContainer
-        user={user}
+        user={profile}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"typeOfService"}
@@ -135,7 +141,7 @@ export default function ProfilePage() {
 
       <h1 className="section-header">My skills</h1>
       <AttributeContainer
-        user={user}
+        user={profile}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"MySkills"}

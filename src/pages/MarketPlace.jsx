@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import HomePageCategory from "../components/HomePageCategory";
 import Card from "./../components/card/Card";
+import { Link } from "react-router-dom";
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 
 const MarketPlace = () => {
@@ -58,13 +59,16 @@ const MarketPlace = () => {
       ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
           {allUsers.map((user, userIndex) => (
-            <Card
+            <Link to={`/profile/${user.id}`}><Card
               key={userIndex}
               name={user.name}
               profession={user.profession}
               description={user.bio}
-              image={user.imgUrl}
-            />
+              coins={user.coins}
+              profileImage={user.imgUrl}
+              rating={user.rating}
+              backgroundImage={user.backgroundImage}
+            /></Link>
           ))}
         </div>
       ) : (
