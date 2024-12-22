@@ -1,12 +1,20 @@
-const Card = ({ name, description, image, profession, coins, rating }) => {
+const Card = ({
+  name,
+  description,
+  profileImage,
+  profession,
+  coins,
+  rating,
+  backgroundImage,
+}) => {
   return (
     <>
       <article className="flex w-96 flex-col gap-4 overflow-hidden rounded-xl border">
         {/* IMG SECTION */}
         <section className="h-48 w-full">
           <img
-            src="images\web development.jpeg"
-            alt="tacegory-image"
+            src={backgroundImage}
+            alt={profession}
             className="h-full w-full object-cover"
           />
         </section>
@@ -18,8 +26,8 @@ const Card = ({ name, description, image, profession, coins, rating }) => {
             <section className="flex items-center justify-center gap-3">
               <img
                 className="h-16 w-16 rounded-full object-cover"
-                src={image}
-                alt="profile-pic"
+                src={profileImage}
+                alt={name}
               />
               <div className="flex flex-col">
                 <h4 className="font-bold capitalize md:text-lg">{name}</h4>
