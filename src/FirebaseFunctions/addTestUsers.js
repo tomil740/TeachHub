@@ -27,6 +27,8 @@ const users = [
     coins: 0,
     typeOfService: ["Full-Stack Development"],
     MySkills: ["Python", "JavaScript", "React", "Node.js", "HTML"],
+    aboutMe:
+      "I am a passionate software developer with a strong background in full-stack development. I enjoy solving complex problems and building scalable solutions. In my free time, I love to explore new technologies and contribute to open-source projects.",
   },
   {
     name: "Jane Smith",
@@ -40,6 +42,8 @@ const users = [
     coins: 0,
     typeOfService: ["Front-End Development", "Digital Marketing"],
     MySkills: ["HTML", "CSS", "JavaScript"],
+    aboutMe:
+      "I am a marketing enthusiast with a passion for design and user experience. I work on both digital marketing strategies and front-end development. I strive to create impactful digital experiences that engage and convert.",
   },
   {
     name: "Ahmed Ali",
@@ -53,6 +57,8 @@ const users = [
     coins: 0,
     typeOfService: ["Back-End Development"],
     MySkills: ["Java", "C++", "SQL"],
+    aboutMe:
+      "I am an experienced back-end developer with a deep understanding of engineering principles. I focus on creating efficient systems that support scalable applications. When I'm not coding, I enjoy exploring new algorithms and optimizing performance.",
   },
   {
     name: "Liora Cohen",
@@ -66,6 +72,8 @@ const users = [
     coins: 0,
     typeOfService: ["Data Analysis", "UI/UX Design"],
     MySkills: ["R", "Python", "SQL"],
+    aboutMe:
+      "I am passionate about data analysis and translating data into actionable insights. My background in research helps me approach problems methodically. I also enjoy working on UI/UX design to create user-friendly interfaces.",
   },
   {
     name: "Mohammed Hassan",
@@ -79,6 +87,8 @@ const users = [
     coins: 0,
     typeOfService: ["Mobile Development", "Graphic Design"],
     MySkills: ["Java", "Kotlin", "Swift"],
+    aboutMe:
+      "I have a decade of experience in mobile development and graphic design. I focus on creating innovative and user-friendly mobile applications. My passion lies in designing intuitive interfaces and building mobile-first solutions.",
   },
   {
     name: "Sarah Levi",
@@ -92,6 +102,8 @@ const users = [
     coins: 0,
     typeOfService: ["Basic Programming", "Video Editing"],
     MySkills: ["Python", "HTML", "CSS"],
+    aboutMe:
+      "I am a beginner programmer with a focus on Python and web development. I also enjoy video editing as a creative outlet. I am always eager to learn new skills and improve my coding abilities.",
   },
   {
     name: "Daniel Green",
@@ -105,6 +117,8 @@ const users = [
     coins: 0,
     typeOfService: ["Front-End Development", "UI/UX Design"],
     MySkills: ["React", "JavaScript", "CSS"],
+    aboutMe:
+      "As a front-end developer, I love creating interactive and visually appealing web applications. My passion for UI/UX design helps me build seamless user experiences. I am always striving to improve my coding and design skills.",
   },
   {
     name: "Fatima Zayed",
@@ -118,6 +132,8 @@ const users = [
     coins: 0,
     typeOfService: ["Mobile Development", "Digital Marketing"],
     MySkills: ["Swift", "React Native", "JavaScript"],
+    aboutMe:
+      "I combine my experience in healthcare with mobile development to create impactful solutions for health tech. My skills in React Native help me build responsive apps, while my background in marketing shapes my approach to user engagement.",
   },
   {
     name: "Yosef Gold",
@@ -131,6 +147,8 @@ const users = [
     coins: 0,
     typeOfService: ["Data Analysis", "Full-Stack Development"],
     MySkills: ["Python", "SQL", "JavaScript"],
+    aboutMe:
+      "With over 15 years of experience in finance, I now specialize in data analysis and full-stack development. I help organizations make data-driven decisions and build scalable applications. I am always looking for new ways to optimize and innovate.",
   },
   {
     name: "Maya Shafir",
@@ -144,6 +162,8 @@ const users = [
     coins: 0,
     typeOfService: ["Basic Programming", "Graphic Design"],
     MySkills: ["JavaScript", "CSS", "Photoshop"],
+    aboutMe:
+      "I am a designer with a background in graphic design and web development. I love merging creativity with technology to produce stunning designs. I'm passionate about learning new tools and enhancing my coding and design skills.",
   },
   {
     name: "Michael Brown",
@@ -157,6 +177,8 @@ const users = [
     coins: 0,
     typeOfService: ["Full-Stack Development", "UI/UX Design"],
     MySkills: ["JavaScript", "React", "Node.js"],
+    aboutMe:
+      "As a full-stack developer, I focus on building scalable applications and user-centric designs. I enjoy working on both front-end and back-end development. My goal is to continuously improve my skills and contribute to meaningful projects.",
   },
   {
     name: "Emily Davis",
@@ -170,6 +192,8 @@ const users = [
     coins: 0,
     typeOfService: ["Front-End Development", "Video Editing"],
     MySkills: ["HTML", "CSS", "JavaScript"],
+    aboutMe:
+      "I am a front-end developer with a passion for creating clean and user-friendly websites. I also enjoy video editing as a hobby, which helps me with creative problem-solving. I love collaborating with teams to bring ideas to life.",
   },
   {
     name: "Robert Johnson",
@@ -183,6 +207,8 @@ const users = [
     coins: 0,
     typeOfService: ["Back-End Development", "Data Analysis"],
     MySkills: ["Java", "C#", "SQL"],
+    aboutMe:
+      "I specialize in back-end development and data analysis. My expertise lies in creating robust back-end systems and analyzing data to optimize business processes. I'm constantly exploring new tools to improve my work.",
   },
   {
     name: "Olivia Martinez",
@@ -196,6 +222,8 @@ const users = [
     coins: 0,
     typeOfService: ["Mobile Development", "Graphic Design"],
     MySkills: ["Swift", "Java", "Kotlin"],
+    aboutMe:
+      "I am passionate about mobile development and design. I specialize in building user-friendly mobile apps with a focus on functionality and design. I love learning new frameworks and improving user experiences.",
   },
 ];
 

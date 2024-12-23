@@ -99,7 +99,7 @@ const MarketPlace = () => {
               <Card
                 name={user.name}
                 typeOfService={user.typeOfService}
-                description={user.bio}
+                description={user.aboutMe}
                 coins={user.coins}
                 profileImage={user.imgUrl}
                 rating={user.rating}
