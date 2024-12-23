@@ -5,14 +5,27 @@ import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
 import categorizeUsers from "../FirebaseFunctions/FetchFilteredData"; // Adjust the path
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function ProfilePage() {
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   const { id } = useParams();
   console.log(id);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedInUserId(user.uid); // Set logged-in user ID
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -58,13 +71,18 @@ function ProfilePage() {
     }));
   };
 
+  // Only show "Edit Profile" button if the logged-in user is viewing their own profile
+  const showEditButton = String(loggedInUserId) === String(id);
+
   return (
     <div className="container">
       <div className="pageHeader">
         <h1 className="section-header">User Profile</h1>
-        <button onClick={toggleEdit}>
-          {isEditing ? "Save Changes" : "Edit Profile"}
-        </button>
+        {showEditButton && (
+          <button onClick={toggleEdit}>
+            {isEditing ? "Save Changes" : "Edit Profile"}
+          </button>
+        )}
       </div>
       <article className="HeroSection">
         <UserPreview
@@ -97,4 +115,5 @@ function ProfilePage() {
     </div>
   );
 }
+
 export default ProfilePage;
