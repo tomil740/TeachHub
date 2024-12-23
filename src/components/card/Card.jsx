@@ -7,14 +7,17 @@ const Card = ({
   rating,
   backgroundImage,
 }) => {
+  const truncatedTypeOfService =
+    typeOfService.join(" | ").split(" ").slice(0, 3).join(" ") +
+    (typeOfService.join(" | ").split(" ").length > 3 ? "..." : "");
   return (
     <>
-      <article className="flex w-96 flex-col gap-4 overflow-hidden rounded-xl border">
+      <article className="flex h-96 w-96 flex-col gap-4 overflow-hidden rounded-xl border">
         {/* IMG SECTION */}
         <section className="h-48 w-full">
           <img
             src="/images/defultServ.jpg"
-            alt={typeOfService}
+            alt={truncatedTypeOfService}
             className="h-full w-full object-cover"
           />
         </section>
@@ -23,7 +26,7 @@ const Card = ({
         <article className="px-4 pb-4">
           <section className="flex flex-col justify-between gap-4">
             {/* HEADER SECTION */}
-            <section className="flex items-center justify-center gap-3">
+            <section className="flex w-28 items-start justify-start gap-3">
               <img
                 className="h-16 w-16 rounded-full object-cover"
                 src={profileImage}
@@ -31,13 +34,13 @@ const Card = ({
               />
               <div className="flex flex-col">
                 <h4 className="font-bold capitalize md:text-lg">{name}</h4>
-                <p className="text-sm font-bold text-blue-500 md:text-base">
-                  {typeOfService.join(" | ")}
+                <p className="truncate-title overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold text-blue-500">
+                  {truncatedTypeOfService}
                 </p>
               </div>
             </section>
 
-            <p className="text-sm md:text-base">{description}</p>
+            <p className="line-clamp-2 text-sm md:text-base">{description}</p>
 
             {/* RATING SECTION */}
             <section className="flex items-center justify-between">
