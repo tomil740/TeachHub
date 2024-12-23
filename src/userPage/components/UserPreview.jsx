@@ -53,7 +53,7 @@ function UserPreview({ isEditing, onEdit, user, flex }) {
           <div>
             <h2 className="font-bold md:text-lg">{user.name}</h2>
             <span className="font-bold text-blue-500">
-              {user.typeOfService.join(" | ")}
+              {user.typeOfService?.join(" | ")}
             </span>
           </div>
         </div>
