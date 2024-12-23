@@ -19,7 +19,7 @@ const Navbar = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
-        setUserId(user.uid); // Save the user ID
+        setUserId(user.uid);
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
@@ -27,7 +27,7 @@ const Navbar = () => {
         }
       } else {
         setIsLoggedIn(false);
-        setUserId(null); // Reset user ID on logout
+        setUserId(null);
       }
     });
 
