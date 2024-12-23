@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 function UserInfo({ isEditing, onEdit, user }) {
   const cultureOptions = ["Arab", "Jewish"];
   const languageOptions = ["Arabic", "Hebrew", "English"];
@@ -22,22 +21,21 @@ function UserInfo({ isEditing, onEdit, user }) {
   const [feedback, setFeedback] = useState("");
 
   function onlanguagePick(value) {
-    const currentState = [...user.language];
+    const currentState = [...(user.language || [])]; // Ensure user.language is an array
     let feedbackMessage = "";
 
     if (!currentState.includes(value)) {
       currentState.push(value);
-      feedbackMessage = `✔️,vlaue:${currentState.join(", ")}`;
+      feedbackMessage = `✔️, value: ${currentState.join(", ")}`;
     } else {
       const indexToRemove = currentState.indexOf(value);
       if (indexToRemove !== -1) {
         currentState.splice(indexToRemove, 1);
-        feedbackMessage = `❌,vlaue:${currentState.join(", ")}`;
+        feedbackMessage = `❌, value: ${currentState.join(", ")}`;
       }
     }
 
     onEdit("language", currentState);
-
     setFeedback(feedbackMessage);
     setTimeout(() => setFeedback(""), 3000);
   }
@@ -46,7 +44,6 @@ function UserInfo({ isEditing, onEdit, user }) {
     <div className="user-info">
       <h3>User Information</h3>
       <div className="info-grid">
-        
         {/* Culture */}
         <div className="FieldH">
           <span className="FieldH">Culture:</span>
@@ -105,7 +102,7 @@ function UserInfo({ isEditing, onEdit, user }) {
               ))}
             </select>
           ) : (
-            <span>{user.language.join(", ") || "Not specified"}</span>
+            <span>{(user.language || []).join(", ") || "Not specified"}</span>
           )}
 
           {/* Feedback Message */}
