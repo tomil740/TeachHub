@@ -13,7 +13,7 @@ const Card = ({
         {/* IMG SECTION */}
         <section className="h-48 w-full">
           <img
-            src={backgroundImage}
+            src="/images/defultServ.jpg"
             alt={typeOfService}
             className="h-full w-full object-cover"
           />

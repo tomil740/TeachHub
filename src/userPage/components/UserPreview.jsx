@@ -34,7 +34,7 @@ function UserPreview({ isEditing, onEdit, user, flex }) {
           <img
             className="h-16 w-16 rounded-full"
             onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
-            src="/images/default.jpeg"
+            src={user.imgURL || "/images/default.jpeg"}
             alt={user.name}
           />
 
