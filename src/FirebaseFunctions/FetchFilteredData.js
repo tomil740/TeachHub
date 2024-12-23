@@ -30,7 +30,6 @@ const categorizeUsers = async () => {
       });
     });
 
-    console.log("Categorized users:", categories);
     return categories;
   } catch (error) {
     console.error("Error categorizing users:", error);

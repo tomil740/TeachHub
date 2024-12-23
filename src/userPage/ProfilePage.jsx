@@ -4,17 +4,18 @@ import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
 import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase"; // Import db (Firestore)
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
 
 function ProfilePage() {
+  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   const { id } = useParams();
-  console.log(id);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -31,7 +32,6 @@ function ProfilePage() {
         setLoading(true);
         const categorizedData = await categorizeUsers();
         const users = Object.values(categorizedData).flat();
-        console.log("All Users:", users);
         setAllUsers(users);
         setLoading(false);
       } catch (error) {
@@ -41,6 +41,26 @@ function ProfilePage() {
     };
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userRef = doc(db, "users", id); // Replace "users" with your Firestore collection name
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setCurrentUser(userSnap.data()); // Updated to setCurrentUser
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching user: ", error);
+      }
+    };
+
+    if (id) {
+      fetchUserData();
+    }
+  }, [id]);
 
   const profile = allUsers.find((user) => String(user.id) === String(id));
 
@@ -59,12 +79,28 @@ function ProfilePage() {
   ];
   const TypeOfSkills = ["Python", "JavaScript", "C", "React", "CSS"];
 
+  // Function to update user data in Firestore
+  const updateUserInFirebase = async (userId, updatedData) => {
+    try {
+      const userRef = doc(db, "users", userId); // Replace "users" with your Firestore collection name
+      await updateDoc(userRef, updatedData);
+      console.log("User updated successfully");
+    } catch (error) {
+      console.error("Error updating user: ", error);
+    }
+  };
+
+  // Toggle edit mode and save changes
   function toggleEdit() {
+    if (isEditing) {
+      updateUserInFirebase(id, currentUser); // Save changes to Firestore
+    }
     setIsEditing((prev) => !prev);
   }
 
+  // Handle dropdown change
   const handleDropdownChange = (field, value) => {
-    setUser((prevUser) => ({
+    setCurrentUser((prevUser) => ({
       ...prevUser,
       [field]: value,
     }));
@@ -87,19 +123,19 @@ function ProfilePage() {
       </div>
       <article className="grid grid-cols-1 gap-6 py-4 md:grid-cols-[67%_30%]">
         <UserPreview
-          user={profile}
+          user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
         <UserInfo
-          user={profile}
+          user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
       </article>
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My services</h1>
       <AttributeContainer
-        user={profile}
+        user={currentUser} // Updated to currentUser
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"typeOfService"}
@@ -107,7 +143,7 @@ function ProfilePage() {
       />
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My skills</h1>
       <AttributeContainer
-        user={profile}
+        user={currentUser} // Updated to currentUser
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"MySkills"}

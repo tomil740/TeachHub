@@ -3,7 +3,7 @@ import { useState } from "react";
 function UserInfo({ isEditing, onEdit, user }) {
   const cultureOptions = ["Arab", "Jewish"];
   const languageOptions = ["Arabic", "Hebrew", "English"];
-  const cityOptions = ["Haifa", "SomeCity"];
+  console.log(user);
   const academicInstitutionOptions = [
     "Technion",
     "Tel Aviv University",
@@ -49,8 +49,8 @@ function UserInfo({ isEditing, onEdit, user }) {
           <span className="FieldH">Culture:</span>
           {isEditing ? (
             <select
-              value={user.culture || ""}
-              onChange={(e) => onEdit("culture", e.target.value)}
+              value={user.religion || ""}
+              onChange={(e) => onEdit("religion", e.target.value)}
               className="relative inline-block w-full cursor-pointer border-none bg-transparent px-6 py-1 text-base font-normal text-black"
             >
               {cultureOptions.map((option) => (
@@ -60,7 +60,7 @@ function UserInfo({ isEditing, onEdit, user }) {
               ))}
             </select>
           ) : (
-            <span>{user.culture || "Not specified"}</span>
+            <span>{user.religion || "Not specified"}</span>
           )}
         </div>
 
@@ -118,8 +118,8 @@ function UserInfo({ isEditing, onEdit, user }) {
           <span className="FieldH">University:</span>
           {isEditing ? (
             <select
-              value={user.academicInstitution || ""}
-              onChange={(e) => onEdit("academicInstitution", e.target.value)}
+              value={user.education || ""}
+              onChange={(e) => onEdit("education", e.target.value)}
               className="dropdown"
             >
               {academicInstitutionOptions.map((option) => (
@@ -129,7 +129,7 @@ function UserInfo({ isEditing, onEdit, user }) {
               ))}
             </select>
           ) : (
-            <span>{user.academicInstitution || "Not specified"}</span>
+            <span>{user.education || "Not specified"}</span>
           )}
         </div>
       </div>
