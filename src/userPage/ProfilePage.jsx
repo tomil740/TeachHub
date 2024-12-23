@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
-import categorizeUsers from "../FirebaseFunctions/FetchFilteredData"; // Adjust the path
+import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -20,7 +20,7 @@ function ProfilePage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedInUserId(user.uid); // Set logged-in user ID
+        setLoggedInUserId(user.uid);
       }
     });
     return () => unsubscribe();
@@ -32,7 +32,7 @@ function ProfilePage() {
         setLoading(true);
         const categorizedData = await categorizeUsers();
         const users = Object.values(categorizedData).flat();
-        console.log("All Users:", users); // Debugging
+        console.log("All Users:", users);
         setAllUsers(users);
         setLoading(false);
       } catch (error) {
@@ -71,20 +71,22 @@ function ProfilePage() {
     }));
   };
 
-  // Only show "Edit Profile" button if the logged-in user is viewing their own profile
   const showEditButton = String(loggedInUserId) === String(id);
 
   return (
-    <div className="container">
-      <div className="pageHeader">
-        <h1 className="section-header">User Profile</h1>
+    <div className="pagePadding container mx-auto pt-20">
+      <div id="pageHeader" className="mb-4 flex items-center justify-between">
+        <h1 className="mb-4 text-lg font-bold md:text-xl">User Profile</h1>
         {showEditButton && (
-          <button onClick={toggleEdit}>
+          <button
+            className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            onClick={toggleEdit}
+          >
             {isEditing ? "Save Changes" : "Edit Profile"}
           </button>
         )}
       </div>
-      <article className="HeroSection">
+      <article className="grid grid-cols-1 gap-6 py-4 md:grid-cols-[67%_30%]">
         <UserPreview
           user={profile}
           isEditing={isEditing}
@@ -96,7 +98,7 @@ function ProfilePage() {
           onEdit={handleDropdownChange}
         />
       </article>
-      <h1 className="section-header">My services</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My services</h1>
       <AttributeContainer
         user={profile}
         isEditing={isEditing}
@@ -104,7 +106,7 @@ function ProfilePage() {
         listKey={"typeOfService"}
         options={TypeOfService}
       />
-      <h1 className="section-header">My skills</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My skills</h1>
       <AttributeContainer
         user={profile}
         isEditing={isEditing}

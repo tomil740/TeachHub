@@ -21,15 +21,19 @@ function AttributeContainer({ isEditing, onEdit, user, listKey, options }) {
   };
 
   return (
-    <div className="attribute-container">
-      <div className="attribute-container-list">
+    <div className="rounded border p-4">
+      <div id="attribute-container-list" className="flex justify-center gap-4">
         {/* Selected Items */}
         {(user[listKey] || []).map((item, index) => (
-          <div key={index} className="attribute-container-item">
+          <div
+            key={index}
+            id="attribute-container-item"
+            className="flex min-w-[150px] items-center gap-2 whitespace-nowrap rounded-lg bg-blue-100 p-2 px-4 text-base text-blue-700 shadow-sm"
+          >
             <span>{item}</span>
             {isEditing && (
               <button
-                className="remove-btn"
+                className="cursor-pointer text-red-500 transition-all duration-300 hover:text-red-600"
                 onClick={() => handleRemoveItem(item)}
               >
                 ✖
@@ -40,9 +44,9 @@ function AttributeContainer({ isEditing, onEdit, user, listKey, options }) {
       </div>
 
       {isEditing && (
-        <div className="add-attribute">
+        <div className="flex items-center gap-2">
           <button
-            className="add-attribute-btn"
+            className="rounded bg-blue-500 px-4 py-1 text-white transition-all duration-300 hover:bg-blue-600"
             onClick={() => setDropdownVisible(!dropdownVisible)}
           >
             Add {listKey}
@@ -50,7 +54,7 @@ function AttributeContainer({ isEditing, onEdit, user, listKey, options }) {
 
           {dropdownVisible && (
             <select
-              className="list-manager-dropdown"
+              className="absolute z-10 mt-2 rounded-lg border border-gray-300 bg-white p-2 text-base text-gray-800 shadow-md"
               onChange={(e) => {
                 handleAddItem(e.target.value);
                 e.target.value = ""; // Reset dropdown

@@ -17,7 +17,7 @@ function Rating({ rating }) {
   ];
 
   return (
-    <div className="rating">
+    <div className="text-amber-500">
       {stars.map((star, index) => (
         <span key={index} className="star">
           {star}
