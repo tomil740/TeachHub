@@ -76,7 +76,7 @@ const MarketPlace = () => {
           <span>Loading...</span>
         </div>
       ) : filterd.size === 0 ? (
-        <div className="flex flex-wrap gap-4">
+        <div className="cards-container grid-row-[repeat(auto-fit, minmax(350px, 1fr))] grid items-stretch gap-4">
           {currentPosts.map((user, userIndex) => (
             <Link to={`/profile/${user.id}`}>
               <Card
@@ -101,7 +101,10 @@ const MarketPlace = () => {
         [...filterd].map((title) => {
           const currentUsers = categories[title];
           return (
-            <div key={title} className="flex flex-wrap gap-4">
+            <div
+              key={title}
+              className="cards-container grid-rows-[repeat(auto-fit, minmax(350px, 1fr))] grid items-stretch gap-4"
+            >
               {currentUsers.map((user, userIndex) => (
                 <Link to={`/profile/${user.id}`}>
                   <Card
