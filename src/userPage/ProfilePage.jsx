@@ -65,7 +65,11 @@ function ProfilePage() {
   const profile = allUsers.find((user) => String(user.id) === String(id));
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center font-bold">
+        Loading...
+      </div>
+    );
   }
 
   if (!profile) {
