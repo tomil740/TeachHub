@@ -89,7 +89,7 @@ const Navbar = () => {
       <div className="hidden gap-6 md:flex">
         {isLoggedIn && (
           <div>
-            <i class="fa-brands fa-bitcoin transform text-3xl text-amber-500 transition-transform hover:scale-110"></i>
+            <i class="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
             <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
               {coins}
             </span>

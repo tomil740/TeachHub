@@ -73,11 +73,71 @@ function ProfilePage() {
   }
 
   const TypeOfService = [
-    "Digital Marketing",
+    "Basic Programming",
+    "Full-Stack Development",
+    "Front-End Development",
+    "Back-End Development",
+    "Mobile Development",
+    "Data Analysis",
+    "UI/UX Design",
     "Graphic Design",
     "Video Editing",
+    "Digital Marketing",
   ];
-  const TypeOfSkills = ["Python", "JavaScript", "C", "React", "CSS"];
+
+  const TypeOfSkills = [
+    "Python",
+    "JavaScript",
+    "Problem Solving",
+    "Debugging",
+    "Git",
+    "HTML5",
+    "CSS3",
+    "Node.js",
+    "React",
+    "MongoDB",
+    "MySQL",
+    "API Development",
+    "TypeScript",
+    "Redux",
+    "Responsive Design",
+    "Express.js",
+    "Django",
+    "RESTful APIs",
+    "GraphQL",
+    "PostgreSQL",
+    "React Native",
+    "Flutter",
+    "Swift",
+    "Kotlin",
+    "Firebase",
+    "Pandas",
+    "NumPy",
+    "SQL",
+    "Data Visualization",
+    "Excel",
+    "Machine Learning Basics",
+    "Figma",
+    "Adobe XD",
+    "User Journey Mapping",
+    "Wireframing",
+    "Usability Testing",
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Canva",
+    "Vector Design",
+    "Typography",
+    "Adobe Premiere Pro",
+    "Final Cut Pro",
+    "After Effects",
+    "DaVinci Resolve",
+    "Color Grading",
+    "SEO",
+    "Social Media Campaigns",
+    "Google Ads",
+    "Email Marketing",
+    "Content Strategy",
+  ];
 
   // Function to update user data in Firestore
   const updateUserInFirebase = async (userId, updatedData) => {
@@ -110,7 +170,7 @@ function ProfilePage() {
 
   return (
     <div className="pagePadding container mx-auto pt-20">
-      <div id="pageHeader" className="mb-4 flex items-center justify-between">
+      <div id="pageHeader" className="flex items-baseline justify-between">
         <h1 className="mb-4 text-lg font-bold md:text-xl">User Profile</h1>
         {showEditButton && (
           <button
@@ -121,19 +181,21 @@ function ProfilePage() {
           </button>
         )}
       </div>
-      <article className="grid grid-cols-1 gap-6 py-4 md:grid-cols-[67%_30%]">
+      <article className="flex flex-col justify-between gap-4 lg:flex-row">
         <UserPreview
           user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
+          flex="flex-[7]"
         />
         <UserInfo
           user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
+          flex="flex-[3]"
         />
       </article>
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My services</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Services</h1>
       <AttributeContainer
         user={currentUser} // Updated to currentUser
         isEditing={isEditing}
@@ -141,7 +203,7 @@ function ProfilePage() {
         listKey={"typeOfService"}
         options={TypeOfService}
       />
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My skills</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Skills</h1>
       <AttributeContainer
         user={currentUser} // Updated to currentUser
         isEditing={isEditing}
