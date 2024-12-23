@@ -26,7 +26,7 @@ const MarketPlace = () => {
   });
   const [allUsers, setAllUsers] = useState([]);
 
-  function Filter(text) {
+  const Filter = (text) => {
     setFilterd((prevFilterd) => {
       const newFilterd = new Set(prevFilterd);
       if (newFilterd.has(text)) {
@@ -36,8 +36,7 @@ const MarketPlace = () => {
       }
       return newFilterd;
     });
-  }
-  console.log(allUsers);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -72,6 +71,16 @@ const MarketPlace = () => {
 
   const currentPosts = allUsers.slice(firstPostInx, lastPostInx);
 
+  const filteredUsers = [...filterd].reduce((acc, title) => {
+    const users = categories[title] || [];
+    users.forEach((user) => {
+      if (!acc.some((existingUser) => existingUser.id === user.id)) {
+        acc.push(user);
+      }
+    });
+    return acc;
+  }, []);
+
   return (
     <div className="pagePadding container mx-auto flex flex-col">
       <HomePageCategory
@@ -86,9 +95,8 @@ const MarketPlace = () => {
       ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
           {currentPosts.map((user) => (
-            <Link to={`/profile/${user.id}`}>
+            <Link to={`/profile/${user.id}`} key={user.id}>
               <Card
-                key={user.id}
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.bio}
@@ -106,27 +114,21 @@ const MarketPlace = () => {
           />
         </div>
       ) : (
-        [...filterd].map((title) => {
-          const currentUsers = categories[title];
-          return (
-            <div key={title} className="flex flex-wrap gap-4">
-              {currentUsers.map((user, userIndex) => (
-                <Link to={`/profile/${user.id}`}>
-                  <Card
-                    key={user.id}
-                    name={user.name}
-                    typeOfService={user.typeOfService}
-                    description={user.bio}
-                    coins={user.coins}
-                    profileImage={user.imgUrl}
-                    rating={user.rating}
-                    backgroundImage={user.backgroundImage}
-                  />
-                </Link>
-              ))}
-            </div>
-          );
-        })
+        <div className="flex flex-wrap gap-4">
+          {filteredUsers.map((user) => (
+            <Link to={`/profile/${user.id}`} key={user.id}>
+              <Card
+                name={user.name}
+                typeOfService={user.typeOfService}
+                description={user.bio}
+                coins={user.coins}
+                profileImage={user.imgUrl}
+                rating={user.rating}
+                backgroundImage={user.backgroundImage}
+              />
+            </Link>
+          ))}
+        </div>
       )}
     </div>
   );
