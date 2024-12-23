@@ -3,6 +3,7 @@ import { useState } from "react";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
+import { MdCastForEducation } from "react-icons/md";
 
 export default function ProfilePage() {
   //the shred db user object
@@ -18,8 +19,8 @@ export default function ProfilePage() {
     profession: "engineering",
     culture: "Jewish",
     academicInstitution: "University of Haifa",
-    typeOfService: ["Private lessons"],
-    MySkills: ["Programming"],
+    typeOfService: ["Digital Marketing"],
+    MySkills: ["JavaScript"],
     aboutMe: "Passionate about design and innovation.",
     experience: "year",
   });
@@ -27,12 +28,22 @@ export default function ProfilePage() {
 
   //const data menu
   const TypeOfService = [
-    "Exam preparation",
-    "Private lessons",
-    "Professional intention",
+    // "Exam preparation",
+    // "Private lessons",
+    // "Professional intention",
+    "Digital Marketing",
+    "Graphic Design",
+    "Video Editing",
+    "Full-Stack Development",
+    "Front-End Development",
+    "Back-End Development",
+    "Basic Programming",
+    "Data Analysis",
+    "UI/UX",
+    "Mobile App Development"
   ];
 
-  const TypeOfSkills = ["Chess", "Programming", "Cooking"];
+  const TypeOfSkills = ["Python", "JavaScript", "C","C++","FIGMA","HTML","CSS","SQL", "REACT", "Assembly"];
 
   function toggleEdit() {
     setIsEditing((isEditingPrev) => {
