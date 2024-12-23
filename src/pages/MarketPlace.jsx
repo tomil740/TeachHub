@@ -45,7 +45,15 @@ const MarketPlace = () => {
         setLoading(true);
         const categorizedData = await categorizeUsers();
         setCategories(categorizedData);
-        setAllUsers(Object.values(categorizedData).flat());
+        const uniqueUsers = Object.values(categorizedData)
+          .flat()
+          .reduce((acc, user) => {
+            if (!acc.some((existingUser) => existingUser.id === user.id)) {
+              acc.push(user);
+            }
+            return acc;
+          }, []);
+        setAllUsers(uniqueUsers);
         setLoading(false);
 
         if (category) {
@@ -77,12 +85,12 @@ const MarketPlace = () => {
         </div>
       ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
-          {currentPosts.map((user, userIndex) => (
+          {currentPosts.map((user) => (
             <Link to={`/profile/${user.id}`}>
               <Card
-                key={userIndex}
+                key={user.id}
                 name={user.name}
-                profession={user.profession}
+                typeOfService={user.typeOfService}
                 description={user.bio}
                 coins={user.coins}
                 profileImage={user.imgUrl}
@@ -105,9 +113,9 @@ const MarketPlace = () => {
               {currentUsers.map((user, userIndex) => (
                 <Link to={`/profile/${user.id}`}>
                   <Card
-                    key={userIndex}
+                    key={user.id}
                     name={user.name}
-                    profession={user.profession}
+                    typeOfService={user.typeOfService}
                     description={user.bio}
                     coins={user.coins}
                     profileImage={user.imgUrl}

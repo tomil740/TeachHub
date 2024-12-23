@@ -2,7 +2,7 @@ const Card = ({
   name,
   description,
   profileImage,
-  profession,
+  typeOfService,
   coins,
   rating,
   backgroundImage,
@@ -14,7 +14,7 @@ const Card = ({
         <section className="h-48 w-full">
           <img
             src={backgroundImage}
-            alt={profession}
+            alt={typeOfService}
             className="h-full w-full object-cover"
           />
         </section>
@@ -32,7 +32,7 @@ const Card = ({
               <div className="flex flex-col">
                 <h4 className="font-bold capitalize md:text-lg">{name}</h4>
                 <p className="text-sm font-bold text-blue-500 md:text-base">
-                  {profession.join(" | ")}
+                  {typeOfService.join(" | ")}
                 </p>
               </div>
             </section>

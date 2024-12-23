@@ -17,7 +17,7 @@ const SignUp = () => {
   const [dob, setDob] = useState("");
   const [education, setEducation] = useState("");
   const [experience, setExperience] = useState("");
-  const [profession, setProfession] = useState([]);
+  const [typeOfService, setTypeOfService] = useState([]);
 
   const navigate = useNavigate();
 
@@ -25,9 +25,9 @@ const SignUp = () => {
     const { value, checked } = e.target;
 
     if (checked) {
-      setProfession((prev) => [...prev, value]);
+      setTypeOfService((prev) => [...prev, value]);
     } else {
-      setProfession((prev) => prev.filter((item) => item !== value));
+      setTypeOfService((prev) => prev.filter((item) => item !== value));
     }
   };
 
@@ -57,15 +57,16 @@ const SignUp = () => {
 
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
+        rating: 0,
         name: name,
         email: email,
         religion: religion,
         dob: dob,
         education: education,
         experience: experience,
-        profession: profession,
+        typeOfService: typeOfService,
         coins: 0,
-        imgUrl: "public/images/default.jpeg",
+        imgUrl: "/images/default.jpeg",
       });
       // Redirect to login page
       navigate("/");
@@ -250,7 +251,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Digital Marketing"
-                      checked={profession.includes("Digital Marketing")}
+                      checked={typeOfService.includes("Digital Marketing")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -260,7 +261,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Graphic Design"
-                      checked={profession.includes("Graphic Design")}
+                      checked={typeOfService.includes("Graphic Design")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -270,7 +271,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Video Editing"
-                      checked={profession.includes("Video Editing")}
+                      checked={typeOfService.includes("Video Editing")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -280,7 +281,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Full-Stack Development"
-                      checked={profession.includes("Full-Stack Development")}
+                      checked={typeOfService.includes("Full-Stack Development")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -290,7 +291,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Front-End Development"
-                      checked={profession.includes("Front-End Development")}
+                      checked={typeOfService.includes("Front-End Development")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -300,7 +301,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Back-End Development"
-                      checked={profession.includes("Back-End Development")}
+                      checked={typeOfService.includes("Back-End Development")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -310,7 +311,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Basic Programming"
-                      checked={profession.includes("Basic Programming")}
+                      checked={typeOfService.includes("Basic Programming")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -320,7 +321,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Data Analysis"
-                      checked={profession.includes("Data Analysis")}
+                      checked={typeOfService.includes("Data Analysis")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -330,7 +331,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="UI/UX"
-                      checked={profession.includes("UI/UX")}
+                      checked={typeOfService.includes("UI/UX")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
@@ -340,7 +341,7 @@ const SignUp = () => {
                     <input
                       type="checkbox"
                       value="Mobile App Development"
-                      checked={profession.includes("Mobile App Development")}
+                      checked={typeOfService.includes("Mobile App Development")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />
