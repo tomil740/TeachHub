@@ -20,17 +20,14 @@ const categorizeUsers = async () => {
     const querySnapshot = await getDocs(usersCollectionRef);
 
     querySnapshot.forEach((doc) => {
-      const user = doc.data();
+      const user = { id: doc.id, ...doc.data() };
 
-      // Determine the category based on the profession
-      user.profession.forEach((prof) => {
+      user.typeOfService.forEach((prof) => {
         if (categories[prof]) {
           categories[prof].push(user);
         }
       });
     });
-
-    console.log("Categorized users:", categories);
     return categories;
   } catch (error) {
     console.error("Error categorizing users:", error);

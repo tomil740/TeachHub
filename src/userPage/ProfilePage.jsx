@@ -1,10 +1,73 @@
-import "../userPage/ProfilePage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
-import { MdCastForEducation } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
+import { auth, db } from "../firebase"; // Import db (Firestore)
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
+
+function ProfilePage() {
+  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
+  const [allUsers, setAllUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedInUserId(user.uid);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const categorizedData = await categorizeUsers();
+        const users = Object.values(categorizedData).flat();
+        setAllUsers(users);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching and categorizing users:", error);
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userRef = doc(db, "users", id); // Replace "users" with your Firestore collection name
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setCurrentUser(userSnap.data()); // Updated to setCurrentUser
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching user: ", error);
+      }
+    };
+
+    if (id) {
+      fetchUserData();
+    }
+  }, [id]);
+
+  const profile = allUsers.find((user) => String(user.id) === String(id));
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
 
 export default function ProfilePage() {
   //the shred db user object
@@ -33,110 +96,90 @@ export default function ProfilePage() {
  // }
   const [isEditing, setIsEditing] = useState(false);
 
-  //const data menu
+  if (!profile) {
+    return <div>Profile not found</div>;
+  }
+
+
   const TypeOfService = [
-    // "Exam preparation",
-    // "Private lessons",
-    // "Professional intention",
     "Digital Marketing",
     "Graphic Design",
     "Video Editing",
-    "Full-Stack Development",
-    "Front-End Development",
-    "Back-End Development",
-    "Basic Programming",
-    "Data Analysis",
-    "UI/UX",
-    "Mobile App Development"
   ];
+  const TypeOfSkills = ["Python", "JavaScript", "C", "React", "CSS"];
 
-  const TypeOfSkills = ["Python", "JavaScript", "C","C++","FIGMA","HTML","CSS","SQL", "REACT", "Assembly"];
+  // Function to update user data in Firestore
+  const updateUserInFirebase = async (userId, updatedData) => {
+    try {
+      const userRef = doc(db, "users", userId); // Replace "users" with your Firestore collection name
+      await updateDoc(userRef, updatedData);
+      console.log("User updated successfully");
+    } catch (error) {
+      console.error("Error updating user: ", error);
+    }
+  };
 
+  // Toggle edit mode and save changes
   function toggleEdit() {
-    setIsEditing((isEditingPrev) => {
-      return !isEditingPrev;
-    });
+    if (isEditing) {
+      updateUserInFirebase(id, currentUser); // Save changes to Firestore
+    }
+    setIsEditing((prev) => !prev);
   }
+
+  // Handle dropdown change
   const handleDropdownChange = (field, value) => {
-    setUser((prevUser) => ({
+    setCurrentUser((prevUser) => ({
       ...prevUser,
       [field]: value,
     }));
   };
 
+  const showEditButton = String(loggedInUserId) === String(id);
+
   return (
-    <div className="container">
-      <div className="pageHeader">
-        <h1 className="section-header">User Profile</h1>
-        <button onClick={() => toggleEdit()}>
-          {isEditing ? "Save Changes" : "Edit Profile"}
-        </button>
+    <div className="pagePadding container mx-auto pt-20">
+      <div id="pageHeader" className="mb-4 flex items-center justify-between">
+        <h1 className="mb-4 text-lg font-bold md:text-xl">User Profile</h1>
+        {showEditButton && (
+          <button
+            className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            onClick={toggleEdit}
+          >
+            {isEditing ? "Save Changes" : "Edit Profile"}
+          </button>
+        )}
       </div>
-      <article className="HeroSection">
+      <article className="grid grid-cols-1 gap-6 py-4 md:grid-cols-[67%_30%]">
         <UserPreview
-          user={profile}
+          user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
         <UserInfo
-          user={profile}
+          user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
         />
       </article>
-
-      <h1 className="section-header">My services</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My services</h1>
       <AttributeContainer
-        user={profile}
+        user={currentUser} // Updated to currentUser
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"typeOfService"}
         options={TypeOfService}
       />
-
-      <h1 className="section-header">My skills</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My skills</h1>
       <AttributeContainer
-        user={profile}
+        user={currentUser} // Updated to currentUser
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"MySkills"}
         options={TypeOfSkills}
       />
-
-      <h1 className="section-header">Feedback</h1>
-      <div className="square bottom">
-        <div className="feedback-item">
-          <div className="feedback-header">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Daniel"
-              className="feedback-avatar"
-            />
-            <h5>
-              <a href="/profile/daniel" className="feedback-name">
-                Daniel
-              </a>
-            </h5>
-          </div>
-          <p className="feedback-comment">Amazing professional!</p>
-        </div>
-
-        <div className="feedback-item">
-          <div className="feedback-header">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Sarah"
-              className="feedback-avatar"
-            />
-            <h5>
-              <a href="/profile/daniel" className="feedback-name">
-                Sarah
-              </a>
-            </h5>
-          </div>
-          <p className="feedback-comment">Good!</p>
-        </div>
-      </div>
     </div>
   );
 }
+
+export default ProfilePage;

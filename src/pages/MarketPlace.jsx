@@ -4,10 +4,12 @@ import HomePageCategory from "../components/HomePageCategory";
 import Card from "./../components/card/Card";
 import { Link } from "react-router-dom";
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
+import Pagination from "../components/Pagination";
 
 const MarketPlace = () => {
   const { category } = useParams();
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(9);
   const [filterd, setFilterd] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState({
@@ -24,7 +26,7 @@ const MarketPlace = () => {
   });
   const [allUsers, setAllUsers] = useState([]);
 
-  function Filter(text) {
+  const Filter = (text) => {
     setFilterd((prevFilterd) => {
       const newFilterd = new Set(prevFilterd);
       if (newFilterd.has(text)) {
@@ -34,7 +36,7 @@ const MarketPlace = () => {
       }
       return newFilterd;
     });
-  }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -42,7 +44,15 @@ const MarketPlace = () => {
         setLoading(true);
         const categorizedData = await categorizeUsers();
         setCategories(categorizedData);
-        setAllUsers(Object.values(categorizedData).flat());
+        const uniqueUsers = Object.values(categorizedData)
+          .flat()
+          .reduce((acc, user) => {
+            if (!acc.some((existingUser) => existingUser.id === user.id)) {
+              acc.push(user);
+            }
+            return acc;
+          }, []);
+        setAllUsers(uniqueUsers);
         setLoading(false);
 
         if (category) {
@@ -55,6 +65,21 @@ const MarketPlace = () => {
     };
     fetchUsers();
   }, [category]);
+
+  const lastPostInx = currentPage * postPerPage;
+  const firstPostInx = lastPostInx - postPerPage;
+
+  const currentPosts = allUsers.slice(firstPostInx, lastPostInx);
+
+  const filteredUsers = [...filterd].reduce((acc, title) => {
+    const users = categories[title] || [];
+    users.forEach((user) => {
+      if (!acc.some((existingUser) => existingUser.id === user.id)) {
+        acc.push(user);
+      }
+    });
+    return acc;
+  }, []);
 
   return (
     <div className="pagePadding container mx-auto flex flex-col">
@@ -69,12 +94,32 @@ const MarketPlace = () => {
         </div>
       ) : filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
-          {allUsers.map((user, userIndex) => (
-            <Link to={`/profile/${user.id}`}>
+          {currentPosts.map((user) => (
+            <Link to={`/profile/${user.id}`} key={user.id}>
               <Card
-                key={userIndex}
                 name={user.name}
-                profession={user.profession}
+                typeOfService={user.typeOfService}
+                description={user.bio}
+                coins={user.coins}
+                profileImage={user.imgUrl}
+                rating={user.rating}
+                backgroundImage={user.backgroundImage}
+              />
+            </Link>
+          ))}
+          <Pagination
+            totalPosts={allUsers.length}
+            postsPerPage={postPerPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-4">
+          {filteredUsers.map((user) => (
+            <Link to={`/profile/${user.id}`} key={user.id}>
+              <Card
+                name={user.name}
+                typeOfService={user.typeOfService}
                 description={user.bio}
                 coins={user.coins}
                 profileImage={user.imgUrl}
@@ -84,28 +129,6 @@ const MarketPlace = () => {
             </Link>
           ))}
         </div>
-      ) : (
-        [...filterd].map((title) => {
-          const currentUsers = categories[title];
-          return (
-            <div key={title} className="flex flex-wrap gap-4">
-              {currentUsers.map((user, userIndex) => (
-                <Link to={`/profile/${user.id}`}>
-                  <Card
-                    key={userIndex}
-                    name={user.name}
-                    profession={user.profession}
-                    description={user.bio}
-                    coins={user.coins}
-                    profileImage={user.imgUrl}
-                    rating={user.rating}
-                    backgroundImage={user.backgroundImage}
-                  />
-                </Link>
-              ))}
-            </div>
-          );
-        })
       )}
     </div>
   );
