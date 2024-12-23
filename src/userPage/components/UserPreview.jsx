@@ -1,14 +1,25 @@
 import Rating from "./util/Rating";
 
 function UserPreview({ isEditing, onEdit, user }) {
-  const professionOptions = ["social science", "exact sciences", "engineering"];
+  const professionOptions = [
+    "Basic Programming",
+    "Full-Stack Development",
+    "Front-End Development",
+    "Back-End Development",
+    "Mobile Development",
+    "Data Analysis",
+    "UI/UX Design",
+    "Graphic Design",
+    "Video Editing",
+    "Digital Marketing",
+  ];
 
   const handleImgChange = (e) => {
     if (isEditing) {
       const file = e.target.files[0];
       if (file) {
         const imgURL = URL.createObjectURL(file);
-        onEdit("profileImg", imgURL); // Update the profile image using onEdit callback
+        onEdit("imgUrl", imgURL); // Update the profile image using onEdit callback
       }
     }
   };
@@ -21,7 +32,7 @@ function UserPreview({ isEditing, onEdit, user }) {
           <img
             className="h-24 w-24 rounded-full"
             onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
-            src={user.imgURL}
+            src="/images/default.jpeg"
             alt={user.name}
           />
 
@@ -43,8 +54,8 @@ function UserPreview({ isEditing, onEdit, user }) {
             </h2>
             {isEditing ? (
               <select
-                value={user.profession}
-                onChange={(e) => onEdit("profession", e.target.value)}
+                value={user.typeOfService}
+                onChange={(e) => onEdit("typeOfService", e.target.value)}
                 className="relative inline-block w-full cursor-pointer border-none bg-transparent px-6 py-1 text-base font-normal text-black"
               >
                 {professionOptions.map((option, index) => (
@@ -54,7 +65,7 @@ function UserPreview({ isEditing, onEdit, user }) {
                 ))}
               </select>
             ) : (
-              <span>{user.profession}</span>
+              <span>{user.typeOfService}</span>
             )}
           </div>
         </div>
