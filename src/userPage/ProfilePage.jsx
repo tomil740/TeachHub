@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 export default function ProfilePage() {
   //the shred db user object
-  const [user, setUser] = useState([{
+  const [user, setUser] = useState({
     name: "Ohad",
     coins: 100,
     rating: "2",
@@ -25,12 +25,12 @@ export default function ProfilePage() {
     aboutMe: "Passionate about design and innovation.",
     experience: "year",
     id:"1"
-  }]);
-  const {id}=useParams();/*retrieve the id using useParams*/
-  const profile=user.find(User=>User.id===id);/*choose the correct profile using the id*/
-  if (!profile) {
-    return <div>Profile not found</div>; // Handle case where profile is not found
-  }
+  });
+  //const {id}=useParams();/*retrieve the id using useParams*/
+  const profile = user//.find(User=>User.id===id);/*choose the correct profile using the id*/
+  //if (!profile) {
+   // return <div>Profile not found</div>; // Handle case where profile is not found
+ // }
   const [isEditing, setIsEditing] = useState(false);
 
   //const data menu
