@@ -1,6 +1,6 @@
 import Rating from "./util/Rating";
 
-function UserPreview({ isEditing, onEdit, user }) {
+function UserPreview({ isEditing, onEdit, user ,onMes }) {
   const professionOptions = [
     "Basic Programming",
     "Full-Stack Development",
@@ -84,7 +84,9 @@ function UserPreview({ isEditing, onEdit, user }) {
         )}
         <div className="flex">
           <Rating rating={user.rating} />
-          <button className="message-btn">Message</button>
+          <button onClick={onMes} className="message-btn">
+            Message
+          </button>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
 import { auth, db } from "../firebase"; // Import db (Firestore)
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
+import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
 
 function ProfilePage() {
   const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
@@ -14,6 +15,8 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+  const [inChate, setinChate] = useState(false); // Track whether the user is in chat
 
   const { id } = useParams();
 
@@ -68,38 +71,9 @@ function ProfilePage() {
     return <div>Loading...</div>;
   }
 
-
-export default function ProfilePage() {
-  //the shred db user object
-  const [user, setUser] = useState({
-    name: "Ohad",
-    coins: 100,
-    rating: "2",
-    basicStatistics: "need to be improved...",
-    feedback: "daniel: amazing, shara: good",
-    profileImg:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQi2Mm5P8j09P4hPKa1B-t9eIOHzHmR7IBkw&s",
-    language: ["Hebrew"],
-    profession: "engineering",
-    culture: "Jewish",
-    academicInstitution: "University of Haifa",
-    typeOfService: ["Digital Marketing"],
-    MySkills: ["JavaScript"],
-    aboutMe: "Passionate about design and innovation.",
-    experience: "year",
-    id:"1"
-  });
-  //const {id}=useParams();/*retrieve the id using useParams*/
-  const profile = user//.find(User=>User.id===id);/*choose the correct profile using the id*/
-  //if (!profile) {
-   // return <div>Profile not found</div>; // Handle case where profile is not found
- // }
-  const [isEditing, setIsEditing] = useState(false);
-
   if (!profile) {
     return <div>Profile not found</div>;
   }
-
 
   const TypeOfService = [
     "Digital Marketing",
@@ -155,6 +129,7 @@ export default function ProfilePage() {
           user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
+          onMes={()=>setinChate(true)}
         />
         <UserInfo
           user={currentUser} // Updated to currentUser
@@ -178,6 +153,9 @@ export default function ProfilePage() {
         listKey={"MySkills"}
         options={TypeOfSkills}
       />
+
+      {/* Toggle ChatComponent visibility based on inChate state */}
+      {inChate && <ChatComponent closeChat={() => setinChate(false)} />}
     </div>
   );
 }
