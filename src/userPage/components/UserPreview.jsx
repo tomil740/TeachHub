@@ -19,7 +19,7 @@ function UserPreview({ isEditing, onEdit, user }) {
       const file = e.target.files[0];
       if (file) {
         const imgURL = URL.createObjectURL(file);
-        onEdit("profileImg", imgURL); // Update the profile image using onEdit callback
+        onEdit("imgUrl", imgURL); // Update the profile image using onEdit callback
       }
     }
   };
@@ -32,7 +32,7 @@ function UserPreview({ isEditing, onEdit, user }) {
           <img
             className="h-24 w-24 rounded-full"
             onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
-            src={user.imgURL}
+            src="/images/default.jpeg"
             alt={user.name}
           />
 
