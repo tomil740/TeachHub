@@ -37,6 +37,7 @@ const MarketPlace = () => {
       return newFilterd;
     });
   }
+  console.log(allUsers);
 
   useEffect(() => {
     const fetchUsers = async () => {

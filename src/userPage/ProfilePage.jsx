@@ -1,62 +1,69 @@
 import "../userPage/ProfilePage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
-import { MdCastForEducation } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import categorizeUsers from "../FirebaseFunctions/FetchFilteredData"; // Adjust the path
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
-export default function ProfilePage() {
-  //the shred db user object
-  const [user, setUser] = useState([{
-    name: "Ohad",
-    coins: 100,
-    rating: "2",
-    basicStatistics: "need to be improved...",
-    feedback: "daniel: amazing, shara: good",
-    profileImg:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQi2Mm5P8j09P4hPKa1B-t9eIOHzHmR7IBkw&s",
-    language: ["Hebrew"],
-    profession: "engineering",
-    culture: "Jewish",
-    academicInstitution: "University of Haifa",
-    typeOfService: ["Digital Marketing"],
-    MySkills: ["JavaScript"],
-    aboutMe: "Passionate about design and innovation.",
-    experience: "year",
-    id:"1"
-  }]);
-  const {id}=useParams();/*retrieve the id using useParams*/
-  const profile=user.find(User=>User.id===id);/*choose the correct profile using the id*/
-  if (!profile) {
-    return <div>Profile not found</div>; // Handle case where profile is not found
-  }
+function ProfilePage() {
+  const [allUsers, setAllUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
-  //const data menu
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedInUserId(user.uid); // Set logged-in user ID
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const categorizedData = await categorizeUsers();
+        const users = Object.values(categorizedData).flat();
+        console.log("All Users:", users); // Debugging
+        setAllUsers(users);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching and categorizing users:", error);
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const profile = allUsers.find((user) => String(user.id) === String(id));
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!profile) {
+    return <div>Profile not found</div>;
+  }
+
   const TypeOfService = [
-    // "Exam preparation",
-    // "Private lessons",
-    // "Professional intention",
     "Digital Marketing",
     "Graphic Design",
     "Video Editing",
-    "Full-Stack Development",
-    "Front-End Development",
-    "Back-End Development",
-    "Basic Programming",
-    "Data Analysis",
-    "UI/UX",
-    "Mobile App Development"
   ];
-
-  const TypeOfSkills = ["Python", "JavaScript", "C","C++","FIGMA","HTML","CSS","SQL", "REACT", "Assembly"];
+  const TypeOfSkills = ["Python", "JavaScript", "C", "React", "CSS"];
 
   function toggleEdit() {
-    setIsEditing((isEditingPrev) => {
-      return !isEditingPrev;
-    });
+    setIsEditing((prev) => !prev);
   }
+
   const handleDropdownChange = (field, value) => {
     setUser((prevUser) => ({
       ...prevUser,
@@ -64,13 +71,18 @@ export default function ProfilePage() {
     }));
   };
 
+  // Only show "Edit Profile" button if the logged-in user is viewing their own profile
+  const showEditButton = String(loggedInUserId) === String(id);
+
   return (
     <div className="container">
       <div className="pageHeader">
         <h1 className="section-header">User Profile</h1>
-        <button onClick={() => toggleEdit()}>
-          {isEditing ? "Save Changes" : "Edit Profile"}
-        </button>
+        {showEditButton && (
+          <button onClick={toggleEdit}>
+            {isEditing ? "Save Changes" : "Edit Profile"}
+          </button>
+        )}
       </div>
       <article className="HeroSection">
         <UserPreview
@@ -84,7 +96,6 @@ export default function ProfilePage() {
           onEdit={handleDropdownChange}
         />
       </article>
-
       <h1 className="section-header">My services</h1>
       <AttributeContainer
         user={profile}
@@ -93,7 +104,6 @@ export default function ProfilePage() {
         listKey={"typeOfService"}
         options={TypeOfService}
       />
-
       <h1 className="section-header">My skills</h1>
       <AttributeContainer
         user={profile}
@@ -102,41 +112,8 @@ export default function ProfilePage() {
         listKey={"MySkills"}
         options={TypeOfSkills}
       />
-
-      <h1 className="section-header">Feedback</h1>
-      <div className="square bottom">
-        <div className="feedback-item">
-          <div className="feedback-header">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Daniel"
-              className="feedback-avatar"
-            />
-            <h5>
-              <a href="/profile/daniel" className="feedback-name">
-                Daniel
-              </a>
-            </h5>
-          </div>
-          <p className="feedback-comment">Amazing professional!</p>
-        </div>
-
-        <div className="feedback-item">
-          <div className="feedback-header">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Sarah"
-              className="feedback-avatar"
-            />
-            <h5>
-              <a href="/profile/daniel" className="feedback-name">
-                Sarah
-              </a>
-            </h5>
-          </div>
-          <p className="feedback-comment">Good!</p>
-        </div>
-      </div>
     </div>
   );
 }
+
+export default ProfilePage;
