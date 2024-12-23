@@ -9,7 +9,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState({
     name: "Ohad",
     coins: 100,
-    rating: "4.7/5",
+    rating: "3.7",
     basicStatistics: "need to be improved...",
     feedback: "daniel: amazing, shara: good",
     profileImg:
@@ -33,7 +33,7 @@ export default function ProfilePage() {
   ];
 
   const TypeOfSkills = ["Chess", "Programming", "Cooking"];
-
+ 
   function toggleEdit() {
     setIsEditing((isEditingPrev) => {
       return !isEditingPrev;
