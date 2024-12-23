@@ -14,6 +14,7 @@ export default async function initializeChat(user1Id, user2Id) {
     if (!chatDocSnap.exists()) {
       // If the document does not exist, initialize it
       await setDoc(chatDocRef, {
+        dealRequest:false,
         messages: [], // Initialize with an empty messages array
       });
       console.log("Chat initialized successfully!");

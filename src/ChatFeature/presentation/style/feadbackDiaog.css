@@ -1,0 +1,127 @@
+/* General reset for better consistency */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.feedback-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.feedback-dialog h2 {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Star rating styling */
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating label {
+  font-size: 1rem;
+  color: #333;
+  margin-right: 8px;
+}
+
+.rating .star {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.rating .star.selected {
+  color: #f5c518; /* Gold color for selected stars */
+}
+
+.rating .star:hover {
+  color: #f5c518;
+}
+
+/* Comment box styling */
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+textarea:focus {
+  border-color: #007bff; /* Highlighted border */
+}
+
+/* Submit button styling */
+button {
+  padding: 12px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+/* Error message */
+.error {
+  color: #d9534f;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive styling for chat container */
+@media (max-width: 600px) {
+  .feedback-dialog {
+    padding: 12px;
+    border-radius: 4px;
+  }
+
+  .feedback-dialog h2 {
+    font-size: 1.25rem;
+  }
+
+  .rating .star {
+    font-size: 1.8rem;
+  }
+
+  textarea {
+    min-height: 80px;
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+}

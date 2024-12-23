@@ -6,10 +6,11 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { db } from "../../firebase"; // Your Firebase setup
-import initializeChat from "../data/initializeChat"; // The function to initialize chat
+import { db } from "../../firebase";
+import initializeChat from "../data/initializeChat"; 
+import {initiateDealRequest} from "../data/initiateDealRequest"; 
 
-function useMatchedChat(user1Id, user2Id) {
+function useMatchedChat(user1Id, user2Id,onDealRequest) {
   const [chatState, setChatState] = useState([]);
 
   const [isChatInitialized, setIsChatInitialized] = useState(false); // Track initialization
@@ -34,6 +35,7 @@ function useMatchedChat(user1Id, user2Id) {
           const chatData = docSnap.data();
           setChatState(chatData.messages || []);
           setIsLoadingChat(false); // Data loaded, set loading to false
+          onDealRequest(chatData.dealRequest);
         }
       });
 
@@ -68,8 +70,22 @@ function useMatchedChat(user1Id, user2Id) {
     },
     [chatRef, user1Id],
   );
+  const initDealReq = useCallback(async (chatId1 = chatId) => {
+    try {
+      await initiateDealRequest(chatId1);
+      alert("Deal request sent!");
+    } catch (error) {
+      alert("Failed to send deal request. Please try again.");
+    }
+  });
 
-  return { chatState, sendMes, isLoadingChat, isLoadingSend };
+  return {
+    chatState,
+    sendMes,
+    initDealReq,
+    isLoadingChat,
+    isLoadingSend,
+  };
 }
 
 export default useMatchedChat;
