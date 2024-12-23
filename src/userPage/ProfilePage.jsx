@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState({
     name: "Ohad",
     coins: 100,
-    rating: "4.7/5",
+    rating: "2",
     basicStatistics: "need to be improved...",
     feedback: "daniel: amazing, shara: good",
     profileImg:
