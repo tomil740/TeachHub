@@ -1,9 +1,8 @@
 import { useState } from "react";
 
-function UserInfo({ isEditing, onEdit, user }) {
+function UserInfo({ isEditing, onEdit, user, flex }) {
   const cultureOptions = ["Arab", "Jewish"];
   const languageOptions = ["Arabic", "Hebrew", "English"];
-  const cityOptions = ["Haifa", "SomeCity"];
   const academicInstitutionOptions = [
     "Technion",
     "Tel Aviv University",
@@ -17,41 +16,37 @@ function UserInfo({ isEditing, onEdit, user }) {
     "Reichman University",
   ];
 
+  const yearsOfExperience = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   // State for feedback message
-  const [feedback, setFeedback] = useState("");
 
   function onlanguagePick(value) {
     const currentState = [...(user.language || [])]; // Ensure user.language is an array
-    let feedbackMessage = "";
 
     if (!currentState.includes(value)) {
       currentState.push(value);
-      feedbackMessage = `✔️, value: ${currentState.join(", ")}`;
     } else {
       const indexToRemove = currentState.indexOf(value);
       if (indexToRemove !== -1) {
         currentState.splice(indexToRemove, 1);
-        feedbackMessage = `❌, value: ${currentState.join(", ")}`;
       }
     }
 
     onEdit("language", currentState);
-    setFeedback(feedbackMessage);
-    setTimeout(() => setFeedback(""), 3000);
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border p-4">
-      <h3 className="text-lg font-bold text-red-500">User Information</h3>
-      <div className="grid grid-cols-2 gap-4">
+    <div className={`flex flex-col gap-4 rounded-lg border p-4 ${flex}`}>
+      <h3 className="font-bold md:text-lg">User Information</h3>
+      <div className="flex flex-wrap gap-4">
         {/* Culture */}
-        <div className="FieldH">
-          <span className="FieldH">Culture:</span>
+        <div>
+          <span className="mr-2 font-bold text-blue-500">Culture:</span>
           {isEditing ? (
             <select
-              value={user.culture || ""}
-              onChange={(e) => onEdit("culture", e.target.value)}
-              className="relative inline-block w-full cursor-pointer border-none bg-transparent px-6 py-1 text-base font-normal text-black"
+              value={user.religion || ""}
+              onChange={(e) => onEdit("religion", e.target.value)}
+              className="w-40 overflow-hidden rounded border"
             >
               {cultureOptions.map((option) => (
                 <option key={option} value={option}>
@@ -60,37 +55,21 @@ function UserInfo({ isEditing, onEdit, user }) {
               ))}
             </select>
           ) : (
-            <span>{user.culture || "Not specified"}</span>
-          )}
-        </div>
-
-        {/* Social Links */}
-        <div className="FieldH">
-          <span className="FieldH">Social Links:</span>
-          {user.instagram && (
-            <a href={user.instagram} target="_blank" rel="noreferrer">
-              📸
-            </a>
-          )}
-          {user.facebook && (
-            <a href={user.facebook} target="_blank" rel="noreferrer">
-              🔗
-            </a>
+            <span>{user.religion || "Not specified"}</span>
           )}
         </div>
 
         {/* Language */}
         <div>
-          <span className="FieldH">Language:</span>
+          <span className="mr-2 font-bold text-blue-500">Language:</span>
           {isEditing ? (
             <select
               value=""
               onChange={(e) => {
                 const selectedLanguage = e.target.value;
-                console.log("seee", selectedLanguage);
                 onlanguagePick(selectedLanguage);
               }}
-              className="dropdown"
+              className="w-40 overflow-hidden rounded border"
             >
               <option value="" disabled>
                 Select a language
@@ -104,23 +83,16 @@ function UserInfo({ isEditing, onEdit, user }) {
           ) : (
             <span>{(user.language || []).join(", ") || "Not specified"}</span>
           )}
-
-          {/* Feedback Message */}
-          {feedback && (
-            <div className="mt-2 w-max rounded bg-gray-200 px-2.5 py-1.5 text-gray-800">
-              {feedback}
-            </div>
-          )}
         </div>
 
         {/* University */}
         <div>
-          <span className="FieldH">University:</span>
+          <span className="mr-2 font-bold text-blue-500">University:</span>
           {isEditing ? (
             <select
-              value={user.academicInstitution || ""}
-              onChange={(e) => onEdit("academicInstitution", e.target.value)}
-              className="dropdown"
+              value={user.education || ""}
+              onChange={(e) => onEdit("education", e.target.value)}
+              className="w-40 overflow-hidden rounded border"
             >
               {academicInstitutionOptions.map((option) => (
                 <option key={option} value={option}>
@@ -129,8 +101,34 @@ function UserInfo({ isEditing, onEdit, user }) {
               ))}
             </select>
           ) : (
-            <span>{user.academicInstitution || "Not specified"}</span>
+            <span>{user.education || "Not specified"}</span>
           )}
+        </div>
+
+        {/* Experience */}
+        <div>
+          <span className="mr-2 font-bold text-blue-500">Experience:</span>
+          {isEditing ? (
+            <select
+              value={user.experience || ""}
+              onChange={(e) => onEdit("experience", e.target.value)}
+              className="w-40 overflow-hidden rounded border"
+            >
+              {yearsOfExperience.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span>{user.experience || "Not specified"}</span>
+          )}
+        </div>
+
+        {/* DOB */}
+        <div>
+          <span className="mr-2 font-bold text-blue-500">Date Of Birth:</span>
+          <span>{user.dob || "Not specified"}</span>
         </div>
       </div>
     </div>
