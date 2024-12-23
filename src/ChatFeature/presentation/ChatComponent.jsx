@@ -3,6 +3,20 @@ import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
 import '../presentation/style/chat.css'
 
+/*
+Purpose: Manages a live chat between two matched users.
+arguments:
+user1Id: Represents the logged-in user's ID (current user's account).
+user2Id: Represents the matched user's ID (the person the current user is chatting with).
+closeChat: A function to close or exit the chat, passed as a prop.
+Functionality:
+
+Chat Initialization: The component listens for updates to the chat between the two users. If the chat doesn't exist, it * * *   initializes it in Firestore.
+Real-Time Sync: The component listens to Firestore changes (new messages) and updates the UI accordingly.
+Message Sending: The component allows the current user to send messages, which are appended to the chat document in Firestore.
+User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
+*/
+
 function ChatComponent({
   user1Id = "Bqx5GLVVEXhSRtxK2v8cIlvMXzk1",
   user2Id = "NZwoRx3zkCTtamXDjYBSlI0Tif23",
