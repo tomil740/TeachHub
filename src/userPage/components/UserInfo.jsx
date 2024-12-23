@@ -41,9 +41,9 @@ function UserInfo({ isEditing, onEdit, user }) {
   }
 
   return (
-    <div className="user-info">
-      <h3>User Information</h3>
-      <div className="info-grid">
+    <div className="flex flex-col gap-4 rounded-xl border p-4">
+      <h3 className="text-lg font-bold text-red-500">User Information</h3>
+      <div className="grid grid-cols-2 gap-4">
         {/* Culture */}
         <div className="FieldH">
           <span className="FieldH">Culture:</span>
@@ -51,7 +51,7 @@ function UserInfo({ isEditing, onEdit, user }) {
             <select
               value={user.culture || ""}
               onChange={(e) => onEdit("culture", e.target.value)}
-              className="dropdown"
+              className="relative inline-block w-full cursor-pointer border-none bg-transparent px-6 py-1 text-base font-normal text-black"
             >
               {cultureOptions.map((option) => (
                 <option key={option} value={option}>
@@ -106,7 +106,11 @@ function UserInfo({ isEditing, onEdit, user }) {
           )}
 
           {/* Feedback Message */}
-          {feedback && <div className="feedback">{feedback}</div>}
+          {feedback && (
+            <div className="mt-2 w-max rounded bg-gray-200 px-2.5 py-1.5 text-gray-800">
+              {feedback}
+            </div>
+          )}
         </div>
 
         {/* University */}
