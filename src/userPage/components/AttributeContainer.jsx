@@ -1,7 +1,15 @@
 import { useState } from "react";
 
-function AttributeContainer({ isEditing, onEdit, user, listKey, options }) {
+function AttributeContainer({
+  isEditing,
+  onEdit,
+  user,
+  listKey,
+  options,
+  canEdit,
+}) {
   // Ensure user[listKey] is always an array
+
   const availableOptions = options.filter(
     (option) => !(user[listKey] || []).includes(option), // Fallback to empty array if undefined
   );

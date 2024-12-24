@@ -1,19 +1,6 @@
 import Rating from "./util/Rating";
 
-function UserPreview({ isEditing, onEdit, user, flex }) {
-  const professionOptions = [
-    "Basic Programming",
-    "Full-Stack Development",
-    "Front-End Development",
-    "Back-End Development",
-    "Mobile Development",
-    "Data Analysis",
-    "UI/UX Design",
-    "Graphic Design",
-    "Video Editing",
-    "Digital Marketing",
-  ];
-
+function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
   const handleImgChange = (e) => {
     if (isEditing) {
       const file = e.target.files[0];
@@ -81,9 +68,11 @@ function UserPreview({ isEditing, onEdit, user, flex }) {
               {user.coins}
             </span>
           </div>
-          <button className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600">
-            Message
-          </button>
+          {canEdit === false && (
+            <button className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600">
+              Message
+            </button>
+          )}
         </div>
       </div>
     </div>
