@@ -149,6 +149,25 @@ const Navbar = () => {
             />
           );
         })}
+
+        <div className="flex gap-4">
+          {isLoggedIn && (
+            <div>
+              <i className="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
+              <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
+                {coins}
+              </span>
+            </div>
+
+            /* Coins Display (Desktop) */
+          )}
+          {isLoggedIn && (
+            <button onClick={handleProfileClick} className="text-xl text-black">
+              <i className="fa-solid fa-user text-2xl text-blue-500 transition-all duration-300 hover:text-blue-600"></i>
+            </button>
+          )}
+        </div>
+
         <div className="w-full border"></div>
         {isLoggedIn ? (
           <button
