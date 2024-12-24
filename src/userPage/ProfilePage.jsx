@@ -191,12 +191,14 @@ function ProfilePage() {
           isEditing={isEditing}
           onEdit={handleDropdownChange}
           flex="flex-[7]"
+          canEdit={showEditButton}
         />
         <UserInfo
           user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
           flex="flex-[3]"
+          canEdit={showEditButton}
         />
       </article>
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Services</h1>
