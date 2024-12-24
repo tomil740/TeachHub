@@ -12,7 +12,7 @@ const Card = ({
     (typeOfService.join(" | ").split(" ").length > 3 ? "..." : "");
   return (
     <>
-      <article className="flex h-96 w-96 flex-col gap-4 overflow-hidden rounded-xl border">
+      <article className="flex w-96 flex-col gap-4 overflow-hidden rounded-xl border">
         {/* IMG SECTION */}
         <section className="h-48 w-full">
           <img
@@ -50,10 +50,12 @@ const Card = ({
                   {rating}
                 </p>
               </div>
-
-              <h3 className="text-sm font-bold text-amber-500 md:text-base">
-                {coins} Coins
-              </h3>
+              <div className="flex items-center justify-center gap-2">
+                <i className="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
+                <h3 className="text-sm font-bold text-amber-500 md:text-base">
+                  {coins}
+                </h3>
+              </div>
             </section>
           </section>
         </article>
