@@ -46,6 +46,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
+      setAuthenticatedUser(null);
       console.log("Logged out!");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -103,7 +104,19 @@ const Navbar = () => {
               >
                 <i className="fa-solid fa-user text-2xl text-blue-500 transition-all duration-300 hover:text-blue-600"></i>
               </button>
+              <button
+                onClick={handleLogout}
+                className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600"
+              >
+                Logout
+              </button>
             </div>
+          )}
+
+          {!isLoggedIn && (
+            <button className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600">
+              <NavLink to="/login">Login</NavLink>
+            </button>
           )}
         </ul>
 
