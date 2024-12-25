@@ -1,6 +1,6 @@
 import Rating from "./util/Rating";
 
-function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
+function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
   const handleImgChange = (e) => {
     if (isEditing) {
       const file = e.target.files[0];
@@ -69,7 +69,10 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
             </span>
           </div>
           {canEdit === false && (
-            <button className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600">
+            <button
+              onClick={onMes}
+              className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            >
               Message
             </button>
           )}
