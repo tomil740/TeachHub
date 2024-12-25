@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { db } from "../../firebase";
+import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 
-function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
+function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
   const UPLOAD_PRESET = "Avivsalem";
@@ -70,6 +71,7 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
             </span>
           </div>
         </div>
+        <Rating rating={user.rating} />
       </div>
 
       <div>
@@ -83,6 +85,24 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit }) {
         ) : (
           <p className="text-sm md:text-base">{user.aboutMe}</p>
         )}
+      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <div>
+            <i class="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
+            <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
+              {user.coins}
+            </span>
+          </div>
+          {canEdit === false && (
+            <button
+              onClick={onMes}
+              className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            >
+              Message
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
