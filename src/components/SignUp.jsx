@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -20,7 +20,7 @@ const SignUp = () => {
   const [typeOfService, setTypeOfService] = useState([]);
 
   const navigate = useNavigate();
-
+  const { ProfileTovisit } = useParams();
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
@@ -70,7 +70,12 @@ const SignUp = () => {
         imgUrl: "/images/default.jpeg",
       });
       // Redirect to login page
-      navigate("/");
+
+      if (ProfileTovisit) {
+        navigate(`/profile/${ProfileTovisit}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("Failed to create an account. Please try again.");
       console.error(err);
@@ -174,7 +179,7 @@ const SignUp = () => {
                   required
                 >
                   <option value="" disabled>
-                    Select your religion
+                    Select your culture
                   </option>
                   <option value="Jewish">Jewish</option>
                   <option value="Arab">Arab</option>

@@ -3,12 +3,15 @@ import axios from "axios";
 import { db } from "../../firebase";
 import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
-
+import { useNavigate } from "react-router-dom";
 function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
+  const navigate = useNavigate();
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
   const UPLOAD_PRESET = "Avivsalem";
-
+  function NavToLogIn() {
+    navigate(`/login/${user.uid}`);
+  }
   const handleImgChange = async (e) => {
     if (isEditing) {
       const file = e.target.files[0];
@@ -97,6 +100,14 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
           {canEdit === false && (
             <button
               onClick={onMes}
+              className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            >
+              Message
+            </button>
+          )}
+          {canEdit === null && (
+            <button
+              onClick={NavToLogIn}
               className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
             >
               Message
