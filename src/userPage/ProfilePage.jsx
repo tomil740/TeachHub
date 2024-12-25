@@ -7,13 +7,26 @@ import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
 import { auth, db } from "../firebase"; // Import db (Firestore)
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
+import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
+import { useRecoilValue } from "recoil";
+import { AuthenticatedUserState } from "../AuthenticatedUserState";
+
 
 function ProfilePage() {
-  const [currentUser, setCurrentUser] = useState({});
+
+
+  //get the authinticated user 
+  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
+
+
+  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
+
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+  const [inChate, setinChate] = useState(false); // Track whether the user is in chat
 
   const { id } = useParams();
 
@@ -197,6 +210,7 @@ function ProfilePage() {
           user={currentUser}
           isEditing={isEditing}
           onEdit={handleDropdownChange}
+          onMes={() => setinChate(true)}
           flex="flex-[7]"
           canEdit={showEditButton}
         />
@@ -224,6 +238,16 @@ function ProfilePage() {
         listKey={"MySkills"}
         options={TypeOfSkills}
       />
+
+      {/* Toggle ChatComponent visibility based on inChate state */}
+      {inChate && (
+        <ChatComponent
+          user1Id={authenticatedUser}
+          user2Id={id}
+          dealPrice={5}
+          closeChat={() => setinChate(false)}
+        />
+      )}
     </div>
   );
 }

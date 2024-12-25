@@ -1,0 +1,31 @@
+/* yourRequestItem.css */
+.your-request-item {
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.request-header {
+  background-color: #d8d8d8;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.request-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.request-details {
+  margin-bottom: 12px;
+}
+
+.request-details p {
+  font-size: 14px;
+  color: #555;
+}

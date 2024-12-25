@@ -1,0 +1,41 @@
+.deals-manager {
+  width: 100%;
+  position: relative;
+}
+
+.deals-manager-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.deals-manager-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #fff;
+  color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deals-manager-buttons button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.deals-manager-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1000;
+}
