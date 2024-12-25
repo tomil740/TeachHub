@@ -238,6 +238,8 @@ function ProfilePage() {
         listKey={"MySkills"}
         options={TypeOfSkills}
       />
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Review</h1>
+      <ReviewForCard userId={id}/>
 
       {/* Toggle ChatComponent visibility based on inChate state */}
       {inChate && (
