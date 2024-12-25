@@ -82,7 +82,7 @@ const MarketPlace = () => {
   }, []);
 
   return (
-    <div className="pagePadding container mx-auto flex flex-col">
+    <div className="pagePadding container mx-auto flex flex-col items-center gap-5">
       <HomePageCategory
         padding="pt-20"
         filterFunc={Filter}
@@ -99,7 +99,7 @@ const MarketPlace = () => {
               <Card
                 name={user.name}
                 typeOfService={user.typeOfService}
-                description={user.bio}
+                description={user.aboutMe}
                 coins={user.coins}
                 profileImage={user.imgUrl}
                 rating={user.rating}
@@ -107,11 +107,6 @@ const MarketPlace = () => {
               />
             </Link>
           ))}
-          <Pagination
-            totalPosts={allUsers.length}
-            postsPerPage={postPerPage}
-            setCurrentPage={setCurrentPage}
-          />
         </div>
       ) : (
         <div className="flex flex-wrap gap-4">
@@ -120,7 +115,7 @@ const MarketPlace = () => {
               <Card
                 name={user.name}
                 typeOfService={user.typeOfService}
-                description={user.bio}
+                description={user.aboutMe}
                 coins={user.coins}
                 profileImage={user.imgUrl}
                 rating={user.rating}
@@ -129,6 +124,14 @@ const MarketPlace = () => {
             </Link>
           ))}
         </div>
+      )}
+
+      {filterd.size === 0 && !loading && (
+        <Pagination
+          totalPosts={allUsers.length}
+          postsPerPage={postPerPage}
+          setCurrentPage={setCurrentPage}
+        />
       )}
     </div>
   );
