@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
@@ -11,22 +11,17 @@ import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
 
-
 function ProfilePage() {
-
-
-  //get the authinticated user 
+  //get the authinticated user
   const authenticatedUser = useRecoilValue(AuthenticatedUserState);
-
-
   const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
-
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
-
   const [inChate, setinChate] = useState(false); // Track whether the user is in chat
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -37,6 +32,7 @@ function ProfilePage() {
         setLoggedInUserId(user.uid);
       } else {
         setLoggedInUserId(null);
+        setIsEditing(false);
       }
     });
     return () => unsubscribe();
