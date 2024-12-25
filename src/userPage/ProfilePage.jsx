@@ -10,7 +10,7 @@ import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore
 import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
-
+import ReviewForCard from "../components/ReviewForCard";
 
 function ProfilePage() {
 
