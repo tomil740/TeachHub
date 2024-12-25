@@ -65,6 +65,7 @@ const SignUp = () => {
         education: education,
         experience: experience,
         typeOfService: typeOfService,
+        priceOfService: 0,
         coins: 0,
         imgUrl: "/images/default.jpeg",
       });

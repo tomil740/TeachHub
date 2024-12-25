@@ -100,7 +100,7 @@ const MarketPlace = () => {
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.aboutMe}
-                coins={user.coins}
+                priceOfService={user.priceOfService}
                 profileImage={user.imgUrl}
                 rating={user.rating}
                 backgroundImage={user.backgroundImage}
@@ -116,7 +116,7 @@ const MarketPlace = () => {
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.aboutMe}
-                coins={user.coins}
+                priceOfService={user.priceOfService}
                 profileImage={user.imgUrl}
                 rating={user.rating}
                 backgroundImage={user.backgroundImage}
