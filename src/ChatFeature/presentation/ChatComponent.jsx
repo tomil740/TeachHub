@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
 import '../presentation/style/chat.css'
-import FeedbackDialog from './FeadbackDialog';
-import DealDialog from "./DealDialog";
-import WaitingForDeal from "./WaitingForDeal";
+
 
 
 /*
@@ -21,13 +19,13 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({
-  user1Id = "2SP0OZ6QHwQkosr2BHqMvsJZK4u1",
-  user2Id = "LLSbAg2TO6XWGxSgxayeplS6xj93",
+function ChatComponent({  
+  user1Id,
+  user2Id,
+  dealPrice,
   closeChat,
 }) {
-  
-  const [watingForDeal, setwatingForDeal] = useState(false);
+
   const [dealReqState, setDealReqState] = useState(false);
   const { chatState, sendMes,initDealReq, isLoadingChat, isLoadingSend } = useMatchedChat(
     user1Id,
@@ -35,8 +33,6 @@ function ChatComponent({
     setDealReqState,
   );
   const [message, setMessage] = useState("");
-
-  const [exposeFeadbcak, setexposeFeadbcak] = useState(true);
 
   //scroll state controll
   const [isAtBottom, setIsAtBottom] = useState(true); // Track if the user is at the bottom
@@ -87,61 +83,48 @@ function ChatComponent({
     <div className="chat-container">
       <div className="chat-header">
         <span>User1 && User2 :</span>
-        <button onClick={() => initDealReq()}>Make a deal!</button>
+        <button onClick={() => initDealReq(dealPrice)}>Make a deal!</button>
         <button onClick={closeChat}>X</button>
-      </div>
-      {dealReqState ? (
-        watingForDeal ? (
-          <WaitingForDeal
-            userId={user1Id}
-            dealPrice={5}
-            dealRequestState={dealReqState}
-            onDone={() => setwatingForDeal(false)}
-          />
-        ) : (
-          <DealDialog closeDialog={closeChat} />
-        )
-      ) : (
-        <>
-          <div
-            className="chat-messages"
-            ref={chatMessagesRef}
-            onScroll={handleScroll}
-          >
-            {isLoadingChat ? (
-              <LoadingDialog
-                isLoading={true}
-                message="Loading chat messages..."
-              />
-            ) : (
-              chatState.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
-                >
-                  <p>{msg.text}</p>
-                  <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
-                </div>
-              ))
-            )}
-
-            <div ref={messagesEndRef} />
-          </div>
-
-          <div className="chat-input">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message..."
-              disabled={isLoadingSend} // Disable input while sending
+      </div> 
+      <>
+        <div
+          className="chat-messages"
+          ref={chatMessagesRef}
+          onScroll={handleScroll}
+        >
+          {isLoadingChat ? (
+            <LoadingDialog
+              isLoading={true}
+              message="Loading chat messages..."
             />
-            <button onClick={handleSend} disabled={isLoadingSend}>
-              {isLoadingSend ? "Sending..." : "Send"}
-            </button>
-          </div>
-        </>
-      )}
+          ) : (
+            chatState.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
+              >
+                <p>{msg.text}</p>
+                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+              </div>
+            ))
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        <div className="chat-input">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message..."
+            disabled={isLoadingSend} // Disable input while sending
+          />
+          <button onClick={handleSend} disabled={isLoadingSend}>
+            {isLoadingSend ? "Sending..." : "Send"}
+          </button>
+        </div>
+      </>
     </div>
   );
 }

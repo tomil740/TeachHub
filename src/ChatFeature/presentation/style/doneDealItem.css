@@ -1,0 +1,140 @@
+.done-deal-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  overflow: hidden; /* To prevent content from spilling outside during transition */
+}
+
+.deal-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.deal-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.deal-price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deal-price {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.negative {
+  color: red;
+}
+
+.positive {
+  color: green;
+}
+
+.deal-description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.feedback-button {
+  background-color: #0066cc;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.feedback-button:hover {
+  background-color: #005bb5;
+}
+
+/* Add fade-out effect when feedback dialog is opened */
+.deal-info-container.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Feedback Dialog Styling */
+.feedback-dialog-container {
+  position: fixed;  /* Make sure it's positioned relative to the viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+  z-index: 9999;  /* High z-index to ensure it’s on top of everything */
+  padding: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.feedback-dialog-container .feedback-dialog-container {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.feedback-dialog-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.star.selected {
+  color: gold;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+
+button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

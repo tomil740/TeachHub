@@ -8,8 +8,16 @@ import { auth, db } from "../firebase"; // Import db (Firestore)
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
 import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
+import { useRecoilValue } from "recoil";
+import { AuthenticatedUserState } from "../AuthenticatedUserState";
+
 
 function ProfilePage() {
+
+  //get the authinticated user 
+  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
+
+
   const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -129,7 +137,7 @@ function ProfilePage() {
           user={currentUser} // Updated to currentUser
           isEditing={isEditing}
           onEdit={handleDropdownChange}
-          onMes={()=>setinChate(true)}
+          onMes={() => setinChate(true)}
         />
         <UserInfo
           user={currentUser} // Updated to currentUser
@@ -155,7 +163,14 @@ function ProfilePage() {
       />
 
       {/* Toggle ChatComponent visibility based on inChate state */}
-      {inChate && <ChatComponent closeChat={() => setinChate(false)} />}
+      {inChate && (
+        <ChatComponent
+          user1Id={authenticatedUser}
+          user2Id={id}
+          dealPrice={5}
+          closeChat={() => setinChate(false)}
+        />
+      )}
     </div>
   );
 }

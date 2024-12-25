@@ -8,8 +8,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import initializeChat from "../data/initializeChat"; 
-import {initiateDealRequest} from "../data/initiateDealRequest"; 
+import { makeDealRequestObj } from "../data/makeDealRequestObj"; 
 
+//should be deleted all of the all method...(onDealRequest)
 function useMatchedChat(user1Id, user2Id,onDealRequest) {
   const [chatState, setChatState] = useState([]);
 
@@ -35,7 +36,9 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
           const chatData = docSnap.data();
           setChatState(chatData.messages || []);
           setIsLoadingChat(false); // Data loaded, set loading to false
-          onDealRequest(chatData.dealRequest);
+
+          
+          //onDealRequest(chatData.dealRequest);
         }
       });
 
@@ -70,10 +73,12 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
     },
     [chatRef, user1Id],
   );
-  const initDealReq = useCallback(async (chatId1 = chatId) => {
+  const initDealReq = useCallback(async (dealPrice) => {
     try {
-      await initiateDealRequest(chatId1);
-      alert("Deal request sent!");
+      //await initiateDealRequest(chatId1);
+      //creating new deal object
+      const mes = await makeDealRequestObj(user1Id, user2Id,dealPrice);
+      alert(`${mes.success}, ${mes.message}`);
     } catch (error) {
       alert("Failed to send deal request. Please try again.");
     }
