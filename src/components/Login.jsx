@@ -2,9 +2,10 @@ import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Login() {
+  const { ProfileTovisit } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,8 +22,11 @@ export default function Login() {
         email,
         password,
       );
-
-      navigate("/");
+      if (ProfileTovisit) {
+        navigate(`/profile/${ProfileTovisit}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("Invalid email or password.");
     }
