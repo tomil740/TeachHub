@@ -71,7 +71,7 @@ export default function Login() {
 
           {/* Create Account Link */}
           <a
-            href="/signup"
+            href={ProfileTovisit ? `/signup/${ProfileTovisit}` : "/signup"}
             className="block text-center text-sm text-blue-500 hover:underline"
           >
             Create an Account

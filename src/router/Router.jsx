@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: "/signup/:ProfileTovisit?",
     element: <SignUp />,
   },
 ]);
