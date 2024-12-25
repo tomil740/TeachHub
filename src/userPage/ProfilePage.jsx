@@ -10,6 +10,7 @@ import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore
 import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
+import ReviewForCard from "../components/ReviewForCard";
 
 function ProfilePage() {
   //get the authinticated user
@@ -76,7 +77,7 @@ function ProfilePage() {
     }
   }, [id]);
 
-  const profile = allUsers.find((user) => String(user.id) === String(id));
+  const profile = allUsers.find((user) => user.id === id);
 
   // Conditional rendering for edit button
   const showEditButton =
@@ -218,22 +219,26 @@ function ProfilePage() {
           canEdit={showEditButton}
         />
       </article>
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Services</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Services</h1>
       <AttributeContainer
         user={currentUser}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"typeOfService"}
         options={TypeOfService}
+        defaultState="No services available yet."
       />
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Skills</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Skills</h1>
       <AttributeContainer
         user={currentUser}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"MySkills"}
         options={TypeOfSkills}
+        defaultState="No skills available yet."
       />
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Reviews</h1>
+      <ReviewForCard userId={id} />
 
       {/* Toggle ChatComponent visibility based on inChate state */}
       {inChate && (
