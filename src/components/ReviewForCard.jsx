@@ -8,7 +8,8 @@ const ReviewForCard=({userId})=>{
     useEffect(()=>{
         const fetchFeedback=async ()=>{
             try{
-                const feedback=collection(db,"Feedback", userId, "comment")
+                const feedback=collection(db,"Feedback",)
+                console.log(feedback)
                 const feedbackSnapshot = await getDocs(feedback);
                 setLoading(false);
                 if (!feedbackSnapshot.empty) {
@@ -29,17 +30,14 @@ const ReviewForCard=({userId})=>{
     },[userId])
     if (loading) return <div>Loading...</div>;
     return(
-        <div>
-            {feedbackData.length > 0 ? (
-        feedbackData.map((feedback, index) => (
-          <div key={index}>
-            <p>{feedback.text}</p>
-          </div>
-        ))
-      ) : (
-        <p>No feedback available.</p>
-      )}
-        </div>
-    )
+        <div> {feedbackData.length > 0 ? 
+            ( feedbackData.map((feedback) => ( <div key={feedback.id}> <h4>Feedback from User: {feedback.userid}</h4>
+             {feedback.feedbackItems?.length > 0 ? 
+             ( feedback.feedbackItems.map((item, index) => ( <div key={`${feedback.id}-${index}`}> 
+             <p>Comment: {item.comment}</p> 
+             <p>Rating: {item.rating}</p> 
+             <p>User ID: {item.userId}</p> </div> )) ) :
+              ( <p>No feedback items available.</p> )} </div> )) ) :
+               ( <p>No feedback available.</p> )} </div>)
 }
 export default ReviewForCard
