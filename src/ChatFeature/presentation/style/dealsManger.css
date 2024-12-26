@@ -1,10 +1,10 @@
-.deals-manager{
+.deals-manager {
   display: flex;
   flex-direction: row;
   justify-content: right;
 }
-.deals-manager-bar{
-  overflow-x: auto; 
+.deals-manager-bar {
+  overflow-x: auto;
   padding: 12px;
 }
 .deals-manager-buttons {
@@ -93,7 +93,7 @@
   width: 100%;
   min-height: 22px;
   max-height: 300px;
-  overflow-y: auto; 
+  overflow-y: auto;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
