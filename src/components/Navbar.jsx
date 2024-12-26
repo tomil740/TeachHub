@@ -69,7 +69,7 @@ const Navbar = () => {
 
   return (
     <>
-      <DealsManager userId={userId} />
+      <DealsManager userId={userId} /> 
       <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
         {/* Logo */}
         <NavLink className="text-2xl font-bold text-black" to="/">

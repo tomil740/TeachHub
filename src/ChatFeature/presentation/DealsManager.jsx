@@ -11,7 +11,7 @@ function DealsManager ({ userId }){
     deals: { doneDeals, buyerRequests, yourRequests },
     loading,
     error,
-    acceptDeal,
+    acceptDeal, 
     leaveFeedback,
   } = useDealsManager(userId); 
 
@@ -23,27 +23,28 @@ function DealsManager ({ userId }){
 
   return (
     <div className="deals-manager">
-      {/* Top Bar */}
       <div className="deals-manager-bar">
-        <h3>Deals Manager</h3>
         <div className="deals-manager-buttons">
           <button
-            className={activeTab === "done" ? "active" : ""}
+            className={`done ${activeTab === "done" ? "active" : ""}`}
             onClick={() => toggleTab("done")}
           >
-            Done Deals {activeTab === "done" && <span>✔</span>}
+            <span className="icon">✔</span> Done Deals
+            {activeTab === "done" && <span>✔</span>}
           </button>
           <button
-            className={activeTab === "buyer" ? "active" : ""}
+            className={`buyer ${activeTab === "buyer" ? "active" : ""}`}
             onClick={() => toggleTab("buyer")}
           >
-            Buyers Requests {activeTab === "buyer" && <span>✔</span>}
+            <span className="icon">🔽</span> Buyer Requests
+            {activeTab === "buyer" && <span>✔</span>}
           </button>
           <button
-            className={activeTab === "your" ? "active" : ""}
+            className={`your ${activeTab === "your" ? "active" : ""}`}
             onClick={() => toggleTab("your")}
           >
-            Your Requests {activeTab === "your" && <span>✔</span>}
+            <span className="icon">👤</span> Your Requests
+            {activeTab === "your" && <span>✔</span>}
           </button>
         </div>
       </div>
@@ -83,11 +84,8 @@ function DealsManager ({ userId }){
               <DealDialog
                 key={deal.id}
                 deal={deal}
-                price={deal.dealPrice}
-                isBuyerRequest={false}
-                user1Id={deal.sellerUserId}
-                user2Id={deal.buyerUserId}
                 onDealDone={() => acceptDeal(deal.id)}
+                closeDialog={() => console.log("Dialog closed")}
               />
             ))}
         </div>

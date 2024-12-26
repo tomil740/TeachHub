@@ -15,6 +15,31 @@ function DoneDealItem({ deal, userId, onFeedback }) {
 
   return (
     <div className="done-deal-item">
+      {/* Transaction Header */}
+      <div
+        className="deal-header"
+        style={{
+          backgroundColor: isBuyer ? "#e6f7ff" : "#f6ffe6",
+          padding: "10px",
+          borderRadius: "5px",
+          textAlign: "center",
+          marginBottom: "15px",
+        }}
+      >
+        <h2
+          style={{
+            color: isBuyer ? "#1890ff" : "#52c41a",
+            fontWeight: "bold",
+            margin: 0,
+          }}
+        >
+          {isBuyer
+            ? `Purchase Transaction from ${deal.sellerName}`
+            : `Sale Transaction to ${deal.buyerName}`}
+        </h2>
+      </div>
+
+      {/* Deal Info */}
       <div className="deal-info">
         <p className="deal-price" style={{ color: isBuyer ? "red" : "green" }}>
           {isBuyer ? "-" : "+"}${deal.dealPrice}
@@ -23,13 +48,15 @@ function DoneDealItem({ deal, userId, onFeedback }) {
           {isBuyer ? "You bought this deal." : "You sold this deal."}
         </p>
       </div>
+
+      {/* Feedback Button */}
       {feedbackAvailable && (
         <button className="done-deal-feedback-button" onClick={handleFeedback}>
           Leave Feedback
         </button>
       )}
 
-      {/* Render the FeedbackDialog if it's open */}
+      {/* Feedback Dialog */}
       {isFeedbackDialogOpen && (
         <div className="done-deal-feedback-dialog-overlay">
           <div className="done-deal-feedback-dialog-container">

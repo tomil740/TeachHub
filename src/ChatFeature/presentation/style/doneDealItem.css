@@ -2,30 +2,51 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15px;
+  align-items: center; /* Center the content horizontally */
+  padding: 1rem;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
   background-color: #fff;
-  overflow: hidden; /* To prevent content from spilling outside during transition */
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.deal-header {
+  width: 100%;
+  background-color: #e6f7ff; /* Light blue for buyer */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.deal-header h2 {
+  color: #1890ff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .deal-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center; /* Horizontally center the content */
+  justify-content: flex-start;
   width: 100%;
+  padding-left: 1rem; /* Align with the start of the header */
+  box-sizing: border-box;
+  text-align: center; /* Center the text inside */
 }
 
 .deal-price {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: bold;
 }
 
 .deal-description {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 0.625rem;
+  font-size: 1rem;
   color: #555;
 }
 
@@ -34,12 +55,12 @@
 .done-deal-close-dialog-button {
   background-color: #0066cc;
   color: white;
-  padding: 10px;
+  padding: 0.625rem 1rem;
   border: none;
-  border-radius: 5px;
-  margin-top: 15px;
+  border-radius: 0.3125rem;
+  margin-top: 1rem;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .done-deal-feedback-button:hover,
@@ -59,24 +80,71 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 9999;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .done-deal-feedback-dialog-container {
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
   width: 90%;
-  max-width: 500px;
+  max-width: 32rem;
 }
 
 /* Updated textarea styles */
 .done-deal-textarea {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
+  padding: 0.625rem;
+  font-size: 1rem;
+  border-radius: 0.3125rem;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   resize: vertical;
+}
+
+/* Mobile-first adjustments */
+@media (max-width: 576px) {
+  .done-deal-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .deal-info {
+    padding-left: 0.5rem;
+  }
+
+  .deal-header h2 {
+    font-size: 1.125rem;
+  }
+
+  .done-deal-feedback-button,
+  .done-deal-close-dialog-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+  }
+
+  .done-deal-feedback-dialog-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .done-deal-textarea {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .done-deal-item {
+    padding: 1rem;
+  }
+
+  .deal-header h2 {
+    font-size: 1.125rem;
+  }
+
+  .done-deal-feedback-button,
+  .done-deal-close-dialog-button {
+    font-size: 1rem;
+    padding: 0.625rem 1rem;
+  }
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import getUserNameById from "../data/getUserNameById"
 import {
   query,
   collection,
@@ -36,6 +37,7 @@ export const useDealsManager = (userId) => {
       querySnapshot.forEach((doc) =>
         buyerDeals.push({ id: doc.id, ...doc.data() }),
       );
+    
       updateDeals(buyerDeals, "buyer");
     });
 
@@ -47,29 +49,53 @@ export const useDealsManager = (userId) => {
       updateDeals(sellerDeals, "seller");
     });
 
-    const updateDeals = (dealsData, type) => {
+
+    const updateDeals = async (dealsData, type) => {
+      // Helper function to add buyerName and sellerName to deals
+      const enrichDealWithNames = async (deal) => {
+        const buyerName = await getUserNameById(deal.buyerUserId);
+        const sellerName = await getUserNameById(deal.sellerUserId);
+        return { ...deal, buyerName, sellerName }; // Add new fields locally
+      };
+
+      // Separate pending and completed deals
+      const pendingDeals = [];
+      const completedDeals = [];
+
+      dealsData.forEach((deal) => {
+        if (deal.isPending) {
+          pendingDeals.push(deal);
+        } else {
+          completedDeals.push(deal);
+        }
+      });
+
+      // Process all deals with enriched fields
+      const enrichedPendingDeals = await Promise.all(
+        pendingDeals.map(enrichDealWithNames),
+      );
+      const enrichedCompletedDeals = await Promise.all(
+        completedDeals.map(enrichDealWithNames),
+      );
+
+      // Update state
       setDeals((prevDeals) => {
         const updatedDeals = { ...prevDeals };
+
         if (type === "buyer") {
-          updatedDeals.buyerRequests = dealsData.filter(
-            (deal) => deal.isPending,
-          );
-          updatedDeals.doneDeals = [
-            ...prevDeals.doneDeals,
-            ...dealsData.filter((deal) => (!deal.isPending)),
-          ];
+          updatedDeals.buyerRequests = enrichedPendingDeals;
         } else if (type === "seller") {
-          updatedDeals.yourRequests = dealsData.filter(
-            (deal) => deal.isPending,
-          );
-          updatedDeals.doneDeals = [
-            ...prevDeals.doneDeals,
-            ...dealsData.filter((deal) => (!deal.isPending)),
-          ];
+          updatedDeals.yourRequests = enrichedPendingDeals;
         }
+
+        updatedDeals.doneDeals = [
+          ...prevDeals.doneDeals,
+          ...enrichedCompletedDeals,
+        ];
         return updatedDeals;
       });
     };
+
 
     setLoading(false);
 

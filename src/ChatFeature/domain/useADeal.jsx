@@ -24,9 +24,12 @@ export function useADeal() {
         throw new Error("Insufficient coins");
       }
 
+      const user1updatedCoins = Math.round(user1Coins + price);
+      const user2updatedCoins = Math.round(user2Coins - price);
+
       // Update coin balances
-      await updateDoc(user1Ref, { coins: user1Coins + price });
-      await updateDoc(user2Ref, { coins: user2Coins - price });
+      await updateDoc(user1Ref, { coins: user1updatedCoins });
+      await updateDoc(user2Ref, { coins: user2updatedCoins });
       
       return true; // Success
     } catch (error) {
