@@ -19,12 +19,14 @@ const ReviewForCard = ({ userId }) => {
       try {
         const feedbackCollection = collection(db, "Feedback");
         const feedbackSnapshot = await getDocs(feedbackCollection);
-
         const processedFeedback = await Promise.all(
           feedbackSnapshot.docs
             .filter((doc) => {
               const data = doc.data();
-              return data.feedbackItems?.[0]?.userId === userId;
+              if (doc.id === userId) {
+                return data.feedbackItems;
+              }
+              return;
             })
             .map(async (feedbackDoc) => {
               const feedbackData = feedbackDoc.data();
