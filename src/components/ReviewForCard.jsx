@@ -13,7 +13,7 @@ const ReviewForCard = ({ userId }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
     const fetchFeedbackAndUserData = async () => {
       try {
@@ -21,32 +21,27 @@ const ReviewForCard = ({ userId }) => {
         const feedbackSnapshot = await getDocs(feedbackCollection);
         const processedFeedback = await Promise.all(
           feedbackSnapshot.docs
-            .filter((doc) => {
-              const data = doc.data();
-              if (doc.id === userId) {
-                return data.feedbackItems;
-              }
-              return;
-            })
-            .map(async (feedbackDoc) => {
+            .filter(
+              (doc) =>
+                doc.id === userId && doc.data().feedbackItems?.length > 0,
+            )
+            .flatMap((feedbackDoc) => {
               const feedbackData = feedbackDoc.data();
-              const userDocRef = doc(
-                db,
-                "users",
-                feedbackData.feedbackItems[0].userId,
-              );
-              const userDoc = await getDoc(userDocRef);
+              return feedbackData.feedbackItems.map(async (item) => {
+                const userDocRef = doc(db, "users", item.userId);
+                const userDoc = await getDoc(userDocRef);
 
-              if (!userDoc.exists()) return null;
+                if (!userDoc.exists()) return null;
 
-              const userData = userDoc.data();
-              return {
-                id: feedbackDoc.id,
-                comment: feedbackData.feedbackItems[0].comment,
-                rating: feedbackData.feedbackItems[0].rating,
-                userName: userData.name,
-                userImage: userData.imgUrl,
-              };
+                const userData = userDoc.data();
+                return {
+                  id: `${feedbackDoc.id}-${item.userId}`,
+                  comment: item.comment,
+                  rating: item.rating,
+                  userName: userData.name,
+                  userImage: userData.imgUrl,
+                };
+              });
             }),
         );
 
