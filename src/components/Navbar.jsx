@@ -20,10 +20,6 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAuthenticatedUser(userId);
-  }, [userId]);
-
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
@@ -32,6 +28,7 @@ const Navbar = () => {
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           setCoins(userDoc.data().coins || 0);
+          setAuthenticatedUser([userDoc.data(),user.uid]);
         }
       } else {
         setIsLoggedIn(false);
@@ -46,7 +43,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
-      setAuthenticatedUser(null);
+      setAuthenticatedUser([null,null]);
       console.log("Logged out!");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -72,7 +69,7 @@ const Navbar = () => {
 
   return (
     <>
-      <DealsManager userId={userId} />
+      <DealsManager userId={userId} /> 
       <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
         {/* Logo */}
         <NavLink className="text-2xl font-bold text-black" to="/">

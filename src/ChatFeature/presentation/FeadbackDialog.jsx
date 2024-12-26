@@ -28,7 +28,8 @@ function FeedbackDialog({
         const feedbackDoneSuccess = await onDealFeadbackDone();
         if (feedbackDoneSuccess) {
           alert("Feedback submitted successfully!");
-          onSubmit();
+          await onSubmit();
+          window.location.reload();
         } else {
           alert("Failed to finalize the feedback process.");
         }
@@ -41,16 +42,20 @@ function FeedbackDialog({
     }
   };
 
-
+ 
   return (
     <div className="feedback-dialog">
-      <h2>Leave Feedback</h2>
-      <div className="rating">
-        <label>Rating:</label>
+      <h2 className="feedback-dialog-title">Leave Feedback</h2>
+      <div className="feedback-dialog-rating">
+        <label className="feedback-dialog-rating-label">Rating:</label>
         {[1, 2, 3, 4, 5].map((star) => (
           <span
             key={star}
-            className={star <= rating ? "star selected" : "star"}
+            className={
+              star <= rating
+                ? "feedback-dialog-star feedback-dialog-star-selected"
+                : "feedback-dialog-star"
+            }
             onClick={() => setRating(star)}
           >
             ★
@@ -58,14 +63,19 @@ function FeedbackDialog({
         ))}
       </div>
       <textarea
+        className="feedback-dialog-textarea"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         placeholder="Leave your feedback here..."
       />
-      <button onClick={handleSubmit} disabled={loading}>
+      <button
+        className="feedback-dialog-submit-button"
+        onClick={handleSubmit}
+        disabled={loading}
+      >
         {loading ? "Submitting..." : "Submit Feedback"}
       </button>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="feedback-dialog-error">{error}</p>}
     </div>
   );
 }

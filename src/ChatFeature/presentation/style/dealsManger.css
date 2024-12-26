@@ -1,41 +1,118 @@
-.deals-manager {
-  width: 100%;
-  position: relative;
-}
-
-.deals-manager-bar {
+.deals-manager{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f7f7f7;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+  justify-content: right;
+}
+.deals-manager-bar{
+  overflow-x: auto; 
+  padding: 12px;
+}
+.deals-manager-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: nowrap; /* Ensures buttons stay in one row */
+  width: 100%;
+  overflow-x: auto; /* Horizontal scroll if needed */
 }
 
 .deals-manager-buttons button {
-  margin: 0 5px;
-  padding: 5px 10px;
-  border: none;
+  padding: 0.05rem 1rem;
+  border: 2px solid #007bff;
   background-color: #fff;
   color: #007bff;
+  border-radius: 25px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  min-width: 150px; /* Ensures each button is of equal size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  gap: 10px; /* Space between text and icon */
 }
 
 .deals-manager-buttons button.active {
   background-color: #007bff;
   color: #fff;
+  border: 2px solid #0056b3;
 }
 
+.deals-manager-buttons button:hover {
+  background-color: #005bb5;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Icon Styles */
+.deals-manager-buttons button .icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.deals-manager-buttons button.done {
+  background-color: #28a745; /* Green for Done */
+  border-color: #218838;
+  color: #fff;
+}
+
+.deals-manager-buttons button.done.active {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.deals-manager-buttons button.buyer {
+  background-color: #ffc107; /* Yellow for Buyer Request */
+  border-color: #e0a800;
+  color: #fff;
+}
+
+.deals-manager-buttons button.buyer.active {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+.deals-manager-buttons button.your {
+  background-color: #007bff; /* Blue for Your Request */
+  border-color: #0056b3;
+  color: #fff;
+}
+
+.deals-manager-buttons button.your.active {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+/* Dropdown Container */
 .deals-manager-container {
   position: absolute;
-  top: 50px;
+  top: 70px; /* Ensure the dropdown starts below the menu bar */
   left: 0;
   width: 100%;
+  min-height: 22px;
   max-height: 300px;
-  overflow-y: auto;
+  overflow-y: auto; 
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
   z-index: 1000;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .deals-manager-buttons button {
+    min-width: 120px;
+    font-size: 0.875rem;
+    padding: 0.05rem 0.75rem;
+  }
+
+  .deals-manager-buttons {
+    gap: 0.75rem; /* Reduced gap for smaller screens */
+  }
+
+  .deals-manager-container {
+    max-height: 250px; /* Adjust the height for mobile */
+  }
 }

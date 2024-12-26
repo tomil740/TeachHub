@@ -4,7 +4,8 @@ import { db } from "../../firebase";
 import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
+
+function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }) {
   const navigate = useNavigate();
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
@@ -91,12 +92,30 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
-          <div>
-            <i class="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
+          <div className="flex items-center space-x-4">
+            <i className="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
             <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
-              {user.coins}
+              {user.priceOfService}
             </span>
+            {/* need to be changed to user.servicePrice or somthing matched... */}
+            {dealPrice[0] != user.priceOfService && (
+              <div className="flex flex-col items-start">
+                <span className="text-xl font-medium text-gray-700">
+                  Updated Price:
+                  <span className="text-green-600">${dealPrice[0]}</span>
+                </span>
+                <span className="text-sm italic text-gray-500">
+                  {dealPrice[1]}
+                </span>
+              </div>
+            )}
+            {dealPrice[0] == user.priceOfService && (
+              <span className="text-sm italic text-gray-500">
+                {dealPrice[1]}
+              </span>
+            )}
           </div>
+
           {canEdit === false && (
             <button
               onClick={onMes}

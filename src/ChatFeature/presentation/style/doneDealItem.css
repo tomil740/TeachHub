@@ -2,79 +2,75 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15px;
+  align-items: center; /* Center the content horizontally */
+  padding: 1rem;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
   background-color: #fff;
-  overflow: hidden; /* To prevent content from spilling outside during transition */
+  overflow: hidden;
+  max-width: 100%;
 }
 
-.deal-info-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.deal-header {
   width: 100%;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  background-color: #e6f7ff; /* Light blue for buyer */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.deal-header h2 {
+  color: #1890ff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .deal-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center; /* Horizontally center the content */
+  justify-content: flex-start;
   width: 100%;
-}
-
-.deal-price-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding-left: 1rem; /* Align with the start of the header */
+  box-sizing: border-box;
+  text-align: center; /* Center the text inside */
 }
 
 .deal-price {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: bold;
 }
 
-.negative {
-  color: red;
-}
-
-.positive {
-  color: green;
-}
-
 .deal-description {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 0.625rem;
+  font-size: 1rem;
   color: #555;
 }
 
-.feedback-button {
+/* Updated button styles */
+.done-deal-feedback-button,
+.done-deal-close-dialog-button {
   background-color: #0066cc;
   color: white;
-  padding: 10px;
+  padding: 0.625rem 1rem;
   border: none;
-  border-radius: 5px;
-  margin-top: 15px;
+  border-radius: 0.3125rem;
+  margin-top: 1rem;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
-.feedback-button:hover {
+.done-deal-feedback-button:hover,
+.done-deal-close-dialog-button:hover {
   background-color: #005bb5;
 }
 
-/* Add fade-out effect when feedback dialog is opened */
-.deal-info-container.fade-out {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
 /* Feedback Dialog Styling */
-.feedback-dialog-container {
-  position: fixed;  /* Make sure it's positioned relative to the viewport */
+.done-deal-feedback-dialog-overlay {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -82,59 +78,73 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
-  z-index: 9999;  /* High z-index to ensure it’s on top of everything */
-  padding: 20px;
-  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  padding: 2rem;
 }
 
-.feedback-dialog-container .feedback-dialog-container {
-  opacity: 1;
-  transition: opacity 0.3s ease;
+.done-deal-feedback-dialog-container {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 32rem;
 }
 
-.feedback-dialog-container h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: white;
-}
-
-.rating {
-  display: flex;
-  justify-content: space-between;
+/* Updated textarea styles */
+.done-deal-textarea {
   width: 100%;
-  margin-bottom: 20px;
-}
-
-.star {
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.star.selected {
-  color: gold;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
+  padding: 0.625rem;
+  font-size: 1rem;
+  border-radius: 0.3125rem;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   resize: vertical;
 }
 
-button {
-  padding: 12px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+/* Mobile-first adjustments */
+@media (max-width: 576px) {
+  .done-deal-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .deal-info {
+    padding-left: 0.5rem;
+  }
+
+  .deal-header h2 {
+    font-size: 1.125rem;
+  }
+
+  .done-deal-feedback-button,
+  .done-deal-close-dialog-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+  }
+
+  .done-deal-feedback-dialog-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .done-deal-textarea {
+    font-size: 0.875rem;
+  }
 }
 
-button:hover {
-  background-color: #0056b3;
+@media (max-width: 768px) {
+  .done-deal-item {
+    padding: 1rem;
+  }
+
+  .deal-header h2 {
+    font-size: 1.125rem;
+  }
+
+  .done-deal-feedback-button,
+  .done-deal-close-dialog-button {
+    font-size: 1rem;
+    padding: 0.625rem 1rem;
+  }
 }
