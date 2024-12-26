@@ -5,7 +5,7 @@ import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
+function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }) {
   const navigate = useNavigate();
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
