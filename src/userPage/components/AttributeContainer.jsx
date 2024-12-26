@@ -7,6 +7,7 @@ function AttributeContainer({
   listKey,
   options,
   canEdit,
+  defaultState,
 }) {
   // Ensure user[listKey] is always an array
 
@@ -31,24 +32,28 @@ function AttributeContainer({
   return (
     <div className="rounded-lg border p-4">
       <div className="flex flex-wrap justify-center gap-4">
-        {/* Selected Items */}
-        {(user[listKey] || []).map((item, index) => (
-          <div
-            key={index}
-            id="attribute-container-item"
-            className="flex items-center justify-center gap-4 rounded border bg-blue-500 px-4 py-1 text-white"
-          >
-            <span>{item}</span>
-            {isEditing && (
-              <button
-                className="h-4 w-4 cursor-pointer rounded bg-white font-bold leading-[0.7] text-blue-500"
-                onClick={() => handleRemoveItem(item)}
-              >
-                x
-              </button>
-            )}
-          </div>
-        ))}
+        {/* Check if there are items in the list */}
+        {(user[listKey] || []).length > 0 ? (
+          (user[listKey] || []).map((item, index) => (
+            <div
+              key={index}
+              id="attribute-container-item"
+              className="flex items-center justify-center gap-4 rounded border bg-blue-500 px-4 py-1 text-white"
+            >
+              <span>{item}</span>
+              {isEditing && (
+                <button
+                  className="h-4 w-4 cursor-pointer rounded bg-white font-bold leading-[0.7] text-blue-500"
+                  onClick={() => handleRemoveItem(item)}
+                >
+                  x
+                </button>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">{defaultState}</p>
+        )}
       </div>
 
       {isEditing && (

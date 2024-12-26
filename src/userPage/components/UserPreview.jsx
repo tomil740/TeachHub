@@ -1,12 +1,43 @@
+import React from "react";
+import axios from "axios";
+import { db } from "../../firebase";
 import Rating from "./util/Rating";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
-function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes,dealPrice }) {
-  const handleImgChange = (e) => {
+function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes }) {
+  const navigate = useNavigate();
+  const CLOUDINARY_URL =
+    "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
+  const UPLOAD_PRESET = "Avivsalem";
+  function NavToLogIn() {
+    navigate(`/login/${user.uid}`);
+  }
+  const handleImgChange = async (e) => {
     if (isEditing) {
       const file = e.target.files[0];
       if (file) {
-        const imgURL = URL.createObjectURL(file);
-        onEdit("imgUrl", imgURL); // Update the profile image using onEdit callback
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", UPLOAD_PRESET);
+
+          const response = await axios.post(CLOUDINARY_URL, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          const imgUrl = response.data.secure_url;
+
+          const userDocRef = doc(db, "users", user.uid);
+          await setDoc(userDocRef, { imgUrl: imgUrl }, { merge: true });
+
+          console.log("User image URL updated successfully.");
+          onEdit("imgUrl", imgUrl);
+        } catch (error) {
+          console.error("Image upload failed:", error);
+        }
       }
     }
   };
@@ -21,7 +52,7 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes,dealPrice }
           <img
             className="h-16 w-16 rounded-full"
             onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
-            src={user.imgURL || "/images/default.jpeg"}
+            src={user.imgUrl || "/images/default.jpeg"}
             alt={user.name}
           />
 
@@ -59,7 +90,6 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes,dealPrice }
           <p className="text-sm md:text-base">{user.aboutMe}</p>
         )}
       </div>
-
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="flex items-center space-x-4">
@@ -89,6 +119,14 @@ function UserPreview({ isEditing, onEdit, user, flex, canEdit, onMes,dealPrice }
           {canEdit === false && (
             <button
               onClick={onMes}
+              className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
+            >
+              Message
+            </button>
+          )}
+          {canEdit === null && (
+            <button
+              onClick={NavToLogIn}
               className="rounded bg-blue-500 px-8 py-1 text-base font-bold text-white transition hover:bg-blue-600"
             >
               Message

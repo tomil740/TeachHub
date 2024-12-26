@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
@@ -11,12 +11,13 @@ import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
 import calculateServicePrice from "./domain/calculateServicePrice";
-
-
+import ReviewForCard from "../components/ReviewForCard";
 
 function ProfilePage() {
-  // States
-  const [currentUser, setCurrentUser] = useState({});
+
+  //get the authinticated user
+  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
+
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -28,12 +29,21 @@ function ProfilePage() {
   const authenticatedUser = useRecoilValue(AuthenticatedUserState);
 
   // Get user ID from URL params 
+  const [inChate, setinChate] = useState(false); // Track whether the user is in chat
+
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   // Track logged-in user ID 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setLoggedInUserId(user ? user.uid : null);
+      if (user) {
+        setLoggedInUserId(user.uid);
+      } else {
+        setLoggedInUserId(null);
+        setIsEditing(false);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -234,22 +244,26 @@ function ProfilePage() {
           canEdit={showEditButton}
         />
       </article>
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Services</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Services</h1>
       <AttributeContainer
         user={currentUser}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"typeOfService"}
         options={TypeOfService}
+        defaultState="No services available yet."
       />
-      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">My Skills</h1>
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Skills</h1>
       <AttributeContainer
         user={currentUser}
         isEditing={isEditing}
         onEdit={handleDropdownChange}
         listKey={"MySkills"}
         options={TypeOfSkills}
+        defaultState="No skills available yet."
       />
+      <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Reviews</h1>
+      <ReviewForCard userId={id} />
 
       {/* Toggle ChatComponent visibility based on inChat state */}
       {inChat && (

@@ -5,6 +5,7 @@ const Card = ({
   typeOfService,
   coins,
   rating,
+  priceOfService,
   backgroundImage,
 }) => {
   const truncatedTypeOfService =
@@ -53,7 +54,7 @@ const Card = ({
               <div className="flex items-center justify-center gap-2">
                 <i className="fa-brands fa-bitcoin transform text-3xl text-amber-500"></i>
                 <h3 className="text-sm font-bold text-amber-500 md:text-base">
-                  {coins}
+                  {priceOfService}
                 </h3>
               </div>
             </section>
