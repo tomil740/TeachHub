@@ -65,8 +65,8 @@ const SignUp = () => {
         education: education,
         experience: experience,
         typeOfService: typeOfService,
-        priceOfService: 0,
-        coins: 0,
+        priceOfService: 10,
+        coins: 100,
         imgUrl: "/images/default.jpeg",
       });
       // Redirect to login page

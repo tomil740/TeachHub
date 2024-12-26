@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import FeedbackDialog from "./FeadbackDialog";
 import DealDialog from "./DealDialog";
 import { useDealsManager } from "../domain/useDealsManager";
-import './style/dealsManger.css'
+import "./style/dealsManger.css";
 import DoneDealItem from "./DoneDealItem";
-import YourRequestItem from './util/YourRequestItem';
+import YourRequestItem from "./util/YourRequestItem";
 
-function DealsManager ({ userId }){
+function DealsManager({ userId }) {
   const {
     deals: { doneDeals, buyerRequests, yourRequests },
     loading,
     error,
-    acceptDeal, 
+    acceptDeal,
     leaveFeedback,
-  } = useDealsManager(userId); 
+  } = useDealsManager(userId);
 
   const [activeTab, setActiveTab] = useState(null);
 
@@ -22,7 +22,7 @@ function DealsManager ({ userId }){
   };
 
   return (
-    <div className="deals-manager">
+    <div className="deals-manager border-b">
       <div className="deals-manager-bar">
         <div className="deals-manager-buttons">
           <button
@@ -92,7 +92,6 @@ function DealsManager ({ userId }){
       )}
     </div>
   );
-};
+}
 
 export default DealsManager;
-
