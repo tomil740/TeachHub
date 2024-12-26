@@ -10,7 +10,7 @@ export function useFeedback(myId, userIdtoFeadBack) {
     setLoading(true);
     setError(null);
 
-    const feedbackId = [myId, userIdtoFeadBack].sort().join("-");
+    const feedbackId = userIdtoFeadBack;//[myId, userIdtoFeadBack].sort().join("-");
     const feedbackRef = doc(db, "Feedback", feedbackId);
 
     try {

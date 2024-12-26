@@ -4,8 +4,6 @@ import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
 export default async function initializeChat(user1Id, user2Id) {
   const chatId = [user1Id, user2Id].sort().join("-"); // Predictable chat ID
-  console.log("user1",user1Id);
-    console.log("user2", user2Id); 
 
   const chatRef = collection(db, "chats");
   const chatDocRef = doc(chatRef, chatId); // Create document reference with chatId

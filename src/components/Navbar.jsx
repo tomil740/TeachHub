@@ -20,10 +20,6 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAuthenticatedUser(userId);
-  }, [userId]);
-
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
@@ -32,6 +28,7 @@ const Navbar = () => {
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           setCoins(userDoc.data().coins || 0);
+          setAuthenticatedUser([userDoc.data(),user.uid]);
         }
       } else {
         setIsLoggedIn(false);

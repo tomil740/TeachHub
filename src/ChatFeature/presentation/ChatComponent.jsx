@@ -22,6 +22,8 @@ User-Specific Chat: It fetches and displays messages in the order they were sent
 function ChatComponent({  
   user1Id,
   user2Id,
+  user1Name,
+  user2Name,
   dealPrice,
   closeChat,
 }) {
@@ -82,10 +84,12 @@ function ChatComponent({
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <span>User1 && User2 :</span>
+        <span>
+          User1 {user1Name} && User2 : {user2Name}
+        </span>
         <button onClick={() => initDealReq(dealPrice)}>Make a deal!</button>
         <button onClick={closeChat}>X</button>
-      </div> 
+      </div>
       <>
         <div
           className="chat-messages"

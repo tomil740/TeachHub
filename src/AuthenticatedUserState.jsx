@@ -5,5 +5,5 @@ import { atom } from "recoil";
 */
 export const AuthenticatedUserState = atom({
   key: "AuthenticatedUserState", // Unique ID for the atom
-  default: null, // Default value, can be null or an empty string
+  default: [null,null], // Default value, can be null or an empty string
 });

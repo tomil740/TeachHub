@@ -10,34 +10,30 @@ import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore
 import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
+import calculateServicePrice from "./domain/calculateServicePrice";
+
 
 
 function ProfilePage() {
-
-
-  //get the authinticated user 
-  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
-
-
-  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
-
+  // States
+  const [currentUser, setCurrentUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [inChat, setInChat] = useState(false);
+  const [dealPrice, setDealPrice] = useState([]);
 
-  const [inChate, setinChate] = useState(false); // Track whether the user is in chat
+  // Get authenticated user from Recoil
+  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
 
+  // Get user ID from URL params 
   const { id } = useParams();
 
-  // Track logged-in user ID
+  // Track logged-in user ID 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoggedInUserId(user.uid);
-      } else {
-        setLoggedInUserId(null);
-      }
+      setLoggedInUserId(user ? user.uid : null);
     });
     return () => unsubscribe();
   }, []);
@@ -50,9 +46,9 @@ function ProfilePage() {
         const categorizedData = await categorizeUsers();
         const users = Object.values(categorizedData).flat();
         setAllUsers(users);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching and categorizing users:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -63,7 +59,7 @@ function ProfilePage() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userRef = doc(db, "users", id); // Replace "users" with your Firestore collection name
+        const userRef = doc(db, "users", id);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           setCurrentUser(userSnap.data());
@@ -80,6 +76,19 @@ function ProfilePage() {
     }
   }, [id]);
 
+  // Calculate and update dealPrice
+  useEffect(() => {
+    if (authenticatedUser[0]?.religion && currentUser?.religion) {
+      const price = calculateServicePrice(
+        authenticatedUser[0].religion,
+        currentUser.religion,
+        currentUser.priceOfService, //needs to be updated according to the matched user field (base service price)
+      );
+      setDealPrice(price);
+    }
+  }, [authenticatedUser[0]?.religion, currentUser?.religion]);
+
+  // Find profile in allUsers
   const profile = allUsers.find((user) => String(user.id) === String(id));
 
   // Conditional rendering for edit button
@@ -89,7 +98,7 @@ function ProfilePage() {
   // Update user in Firestore
   const updateUserInFirebase = async (userId, updatedData) => {
     try {
-      const userRef = doc(db, "users", userId); // Replace "users" with your Firestore collection name
+      const userRef = doc(db, "users", userId);
       await updateDoc(userRef, updatedData);
       console.log("User updated successfully");
     } catch (error) {
@@ -210,9 +219,10 @@ function ProfilePage() {
           user={currentUser}
           isEditing={isEditing}
           onEdit={handleDropdownChange}
-          onMes={() => setinChate(true)}
+          onMes={() => setInChat(true)}
           flex="flex-[7]"
           canEdit={showEditButton}
+          dealPrice={dealPrice}
         />
         <UserInfo
           user={currentUser}
@@ -239,13 +249,15 @@ function ProfilePage() {
         options={TypeOfSkills}
       />
 
-      {/* Toggle ChatComponent visibility based on inChate state */}
-      {inChate && (
+      {/* Toggle ChatComponent visibility based on inChat state */}
+      {inChat && (
         <ChatComponent
-          user1Id={authenticatedUser}
+          user1Id={authenticatedUser[1]}
           user2Id={id}
-          dealPrice={5}
-          closeChat={() => setinChate(false)}
+          user1Name={authenticatedUser[0]?.name}
+          user2Name={"User2Name..."}
+          dealPrice={dealPrice}
+          closeChat={() => setInChat(false)}
         />
       )}
     </div>
