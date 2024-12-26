@@ -21,6 +21,7 @@ function DealDialog({
 
     if (success) {
       onDealDone();
+      alert("Deal has been made,check out doneDeals.");
     }
   };
 

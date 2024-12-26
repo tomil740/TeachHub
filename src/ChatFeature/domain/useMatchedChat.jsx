@@ -74,6 +74,7 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
     [chatRef, user1Id],
   );
   const initDealReq = useCallback(async (dealPrice) => {
+    console.log(dealPrice)
     try {
       //await initiateDealRequest(chatId1);
       //creating new deal object

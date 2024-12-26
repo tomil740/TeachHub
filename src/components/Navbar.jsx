@@ -43,7 +43,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
-      setAuthenticatedUser(null);
+      setAuthenticatedUser([null,null]);
       console.log("Logged out!");
     } catch (error) {
       console.error("Error logging out:", error);

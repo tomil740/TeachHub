@@ -77,6 +77,7 @@ function ProfilePage() {
   }, [id]);
 
   // Calculate and update dealPrice
+  
   useEffect(() => {
     if (authenticatedUser[0]?.religion && currentUser?.religion) {
       const price = calculateServicePrice(
@@ -88,8 +89,9 @@ function ProfilePage() {
     }
   }, [authenticatedUser[0]?.religion, currentUser?.religion]);
 
+
   // Find profile in allUsers
-  const profile = allUsers.find((user) => String(user.id) === String(id));
+  const profile = allUsers?.find((user) => String(user.id) === String(id));
 
   // Conditional rendering for edit button
   const showEditButton =
@@ -256,7 +258,7 @@ function ProfilePage() {
           user2Id={id}
           user1Name={authenticatedUser[0]?.name}
           user2Name={"User2Name..."}
-          dealPrice={dealPrice}
+          dealPrice={dealPrice[0]}
           closeChat={() => setInChat(false)}
         />
       )}

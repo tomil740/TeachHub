@@ -21,7 +21,7 @@ User-Specific Chat: It fetches and displays messages in the order they were sent
 
 function ChatComponent({  
   user1Id,
-  user2Id,
+  user2Id, 
   user1Name,
   user2Name,
   dealPrice,
@@ -32,7 +32,7 @@ function ChatComponent({
   const { chatState, sendMes,initDealReq, isLoadingChat, isLoadingSend } = useMatchedChat(
     user1Id,
     user2Id,
-    setDealReqState,
+    setDealReqState, 
   );
   const [message, setMessage] = useState("");
 
