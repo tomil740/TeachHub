@@ -1,46 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { db } from "../../firebase";
 import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import CalculateAverageRating from "../../components/RatingAvg";
 
-function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }) {
+function UserPreview({
+  isEditing,
+  onEdit,
+  user,
+  dealPrice,
+  flex,
+  canEdit,
+  onMes,
+}) {
   const navigate = useNavigate();
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
   const UPLOAD_PRESET = "Avivsalem";
-  function NavToLogIn() {
+
+  const [averageRating, setAverageRating] = useState(null);
+  const [error, setError] = useState(null);
+
+  const NavToLogIn = () => {
     navigate(`/login/${user.uid}`);
-  }
+  };
+
   const handleImgChange = async (e) => {
-    if (isEditing) {
-      const file = e.target.files[0];
-      if (file) {
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", UPLOAD_PRESET);
+    if (!isEditing) return;
 
-          const response = await axios.post(CLOUDINARY_URL, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
 
-          const imgUrl = response.data.secure_url;
+        const response = await axios.post(CLOUDINARY_URL, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-          const userDocRef = doc(db, "users", user.uid);
-          await setDoc(userDocRef, { imgUrl: imgUrl }, { merge: true });
+        const imgUrl = response.data.secure_url;
+        const userDocRef = doc(db, "users", user.uid);
 
-          console.log("User image URL updated successfully.");
-          onEdit("imgUrl", imgUrl);
-        } catch (error) {
-          console.error("Image upload failed:", error);
-        }
+        await setDoc(userDocRef, { imgUrl }, { merge: true });
+        console.log("User image URL updated successfully.");
+        onEdit("imgUrl", imgUrl);
+      } catch (error) {
+        console.error("Image upload failed:", error);
       }
     }
   };
+
+  useEffect(() => {
+    const fetchAverageRating = async () => {
+      try {
+        const avg = await CalculateAverageRating(user.uid);
+        setAverageRating(avg);
+      } catch (err) {
+        console.error("Error calculating average rating:", err);
+        setError("Failed to calculate average rating");
+      }
+    };
+
+    if (user?.uid) {
+      fetchAverageRating();
+    }
+  }, [user?.uid]);
 
   return (
     <div
@@ -48,15 +77,12 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex gap-4">
-          {/* Image as clickable to open file input */}
           <img
             className="h-16 w-16 rounded-full"
-            onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
+            onClick={() => document.getElementById("profileImgUpload").click()}
             src={user.imgUrl || "/images/default.jpeg"}
             alt={user.name}
           />
-
-          {/* Hidden file input element */}
           {isEditing && (
             <input
               className="input-file"
@@ -64,7 +90,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
               id="profileImgUpload"
               accept="image/*"
               onChange={handleImgChange}
-              style={{ display: "none" }} // Hide the input field
+              style={{ display: "none" }}
             />
           )}
 
@@ -90,6 +116,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
           <p className="text-sm md:text-base">{user.aboutMe}</p>
         )}
       </div>
+
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="flex items-center space-x-4">
@@ -97,8 +124,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
             <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
               {user.priceOfService}
             </span>
-            {/* need to be changed to user.servicePrice or somthing matched... */}
-            {dealPrice[0] != user.priceOfService && (
+            {dealPrice[0] !== user.priceOfService && (
               <div className="flex flex-col items-start">
                 <span className="text-xl font-medium text-gray-700">
                   Updated Price:
@@ -109,12 +135,37 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
                 </span>
               </div>
             )}
-            {dealPrice[0] == user.priceOfService && (
+            {dealPrice[0] === user.priceOfService && (
               <span className="text-sm italic text-gray-500">
                 {dealPrice[1]}
               </span>
             )}
           </div>
+
+          <h1>
+            Rating Avarege:{" "}
+            {averageRating !== null ? (
+              <>
+                {/* {Number(averageRating).toFixed(2)} */}
+                <div className="flex">
+                  {[...Array(5)].map((_, index) => (
+                    <span
+                      key={index}
+                      className={`text-lg ${
+                        index < Math.round(averageRating)
+                          ? "text-amber-500"
+                          : "text-gray-300"
+                      }`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </>
+            ) : (
+              "Calculating..."
+            )}
+          </h1>
 
           {canEdit === false && (
             <button
