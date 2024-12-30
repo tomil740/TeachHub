@@ -163,7 +163,7 @@ function UserPreview({
                 </div>
               </>
             ) : (
-              "Calculating..."
+              "There is no feedback yet"
             )}
           </h1>
 
