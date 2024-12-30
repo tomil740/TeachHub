@@ -39,7 +39,7 @@ const users = [
     experience: "3 years in marketing",
     imgUrl: "/images/default.jpeg",
     rating: 0,
-    coins: 0,
+    coins: 10,
     typeOfService: ["Front-End Development", "Digital Marketing"],
     MySkills: ["HTML", "CSS", "JavaScript"],
     aboutMe:
@@ -269,6 +269,7 @@ const addTestUsers = async () => {
   } catch (error) {
     console.error("Error adding test users:", error);
   }
+  return;
 };
 
 addTestUsers();

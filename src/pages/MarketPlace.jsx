@@ -97,6 +97,7 @@ const MarketPlace = () => {
           {currentPosts.map((user) => (
             <Link to={`/profile/${user.id}`} key={user.id}>
               <Card
+                userId={user.id}
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.aboutMe}
@@ -113,6 +114,7 @@ const MarketPlace = () => {
           {filteredUsers.map((user) => (
             <Link to={`/profile/${user.id}`} key={user.id}>
               <Card
+                userId={user.id}
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.aboutMe}
