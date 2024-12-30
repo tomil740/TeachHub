@@ -10,7 +10,14 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       messages: [...prev.messages, botMessage],
     }));
   };
+  const handleBye = () => {
+    const botMessage = createChatBotMessage("Bye Bye, Have a nice learning.");
 
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
   // Put the handleHello function in the actions object to pass to the MessageParser
   return (
     <div>
@@ -18,6 +25,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         return React.cloneElement(child, {
           actions: {
             handleHello,
+            handleBye,
           },
         });
       })}
