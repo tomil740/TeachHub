@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import FeedbackDialog from "./FeadbackDialog";
 import DealDialog from "./DealDialog";
+import FeedbackDialog from "./FeadbackDialog";
+
 import { useDealsManager } from "../domain/useDealsManager";
 import './style/dealsManger.css'
 import DoneDealItem from "./DoneDealItem";

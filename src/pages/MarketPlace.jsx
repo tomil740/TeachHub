@@ -5,6 +5,7 @@ import Card from "./../components/card/Card";
 import { Link } from "react-router-dom";
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 import Pagination from "../components/Pagination";
+import MatchingView from "../MatchingFeature/presentation/MatchingView";
 
 const MarketPlace = () => {
   const { category } = useParams();
@@ -81,18 +82,25 @@ const MarketPlace = () => {
     return acc;
   }, []);
 
-  return (
+  return <MatchingView userCollection={allUsers} />;
+  const a = (
     <div className="pagePadding container mx-auto flex flex-col items-center gap-5">
       <HomePageCategory
         padding="pt-20"
         filterFunc={Filter}
         category={category}
       />
-      {loading ? (
-        <div className="flex h-48 items-center justify-center">
-          <span>Loading...</span>
-        </div>
-      ) : filterd.size === 0 ? (
+      {/* Include my matching view component */}
+      {
+        loading ? (
+          <div className="flex h-48 items-center justify-center">
+            <span>Loading...</span>
+          </div>
+        ) : (
+          <h1>hell</h1>
+        )
+        /*
+      filterd.size === 0 ? (
         <div className="flex flex-wrap gap-4">
           {currentPosts.map((user) => (
             <Link to={`/profile/${user.id}`} key={user.id}>
@@ -124,7 +132,9 @@ const MarketPlace = () => {
             </Link>
           ))}
         </div>
-      )}
+      )
+      */
+      }
 
       {filterd.size === 0 && !loading && (
         <Pagination
@@ -135,6 +145,10 @@ const MarketPlace = () => {
       )}
     </div>
   );
+  /*
+  );
+  */
 };
+
 
 export default MarketPlace;
