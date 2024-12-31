@@ -9,7 +9,7 @@ import MatchingView from "../MatchingFeature/presentation/MatchingView";
 import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatchedDialog";
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
-import { data } from "autoprefixer";
+import SwitchButton from '../MatchingFeature/presentation/utilComponents/SwitchButton';
 
 const MarketPlace = () => {
   const { category } = useParams();
@@ -31,7 +31,11 @@ const MarketPlace = () => {
     "Digital Marketing": [],
   });
   const [allUsers, setAllUsers] = useState([]);
-  const [isMatchingView, setIsMatchingView] = useState(false); // State for toggle
+
+  //MatchingView states
+  const [isMatchingView, setIsMatchingView] = useState(false); 
+  const [matchingViewIndex, setMatchingViewIndex] = useState(0);
+
 
   const Filter = (text) => {
     setFilterd((prevFilterd) => {
@@ -98,6 +102,7 @@ const MarketPlace = () => {
 
  
 
+  //MatchingView
   function setPerefectMatch(data){
     setIsMatchingView(true)
     setAllUsers(data)
@@ -109,45 +114,21 @@ const MarketPlace = () => {
         padding="pt-20"
         filterFunc={Filter}
         category={category}
-        disabled={(isMatchingView)}
+        disabled={isMatchingView}
       />
 
       {/* Animated Two-Way Switch with Transparency */}
-      <div className="relative flex w-full max-w-md">
-        <button
-          onClick={() => setIsMatchingView(false)}
-          className={`flex-1 rounded-l-lg py-3 text-center transition-all duration-300 ${
-            !isMatchingView
-              ? "bg-blue-600 text-white shadow-md"
-              : "bg-gray-100 text-gray-500 opacity-50"
-          }`}
-        >
-          Show All Users
-        </button>
-        <button
-          onClick={() => setIsMatchingView(true)}
-          className={`flex-1 rounded-r-lg py-3 text-center transition-all duration-300 ${
-            isMatchingView
-              ? "bg-blue-600 text-white shadow-md"
-              : "bg-gray-100 text-gray-500 opacity-50"
-          }`}
-        >
-          Show Matched View
-        </button>
-        <div
-          className={`absolute left-0 top-0 h-full w-1/2 rounded-lg bg-blue-600 transition-transform duration-300 ease-in-out ${
-            isMatchingView ? "translate-x-full" : "translate-x-0"
-          }`}
-          style={{
-            zIndex: -1,
-          }}
-        ></div>
-      </div>
+      <SwitchButton
+        isMatchingView={isMatchingView}
+        setIsMatchingView={setIsMatchingView}
+        resListIndex={setMatchingViewIndex}
+      />
 
-      <PerfectMatchedDialog 
+      <PerfectMatchedDialog
         userCollection={allUsers.filter((user) => user.id !== loggedUser)}
         setCallback={setPerefectMatch}
         isMatchingView={isMatchingView}
+        setMatchingViewIndex={setMatchingViewIndex}
       />
 
       {isMatchingView ? (
@@ -158,6 +139,8 @@ const MarketPlace = () => {
         ) : (
           <MatchingView
             userCollection={allUsers.filter((user) => user.id !== loggedUser)}
+            matchingViewIndex={matchingViewIndex}
+            setMatchingViewIndex={setMatchingViewIndex}
           />
         )
       ) : (

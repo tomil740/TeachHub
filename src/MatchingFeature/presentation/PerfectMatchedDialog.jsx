@@ -3,39 +3,40 @@ import  usePerfectMatched  from "../domain/usePerfectMatched";
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../../AuthenticatedUserState";
 
-function PerfectMatchedDialog({userCollection, setCallback,isMatchingView}){
+function PerfectMatchedDialog({
+  userCollection,
+  setCallback,
+  isMatchingView,
+  setMatchingViewIndex,
+}) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const loggedUser = useRecoilValue(AuthenticatedUserState)[0];
 
   const { loading, error, sortedMatches } = usePerfectMatched(
-    loggedUser, 
-    userCollection, 
+    loggedUser,
+    userCollection,
   );
 
-  useEffect(()=>{
-    if(!isMatchingView){
-      setIsDialogOpen(false)
+  useEffect(() => {
+    if (!isMatchingView) {
+      setIsDialogOpen(false);
     }
-  },[isMatchingView])
+  }, [isMatchingView]);
 
-  useEffect(()=>{
-    if(!isDialogOpen){
+  useEffect(() => {
+    if (!isDialogOpen) {
       setCallback(userCollection);
-    }else{
-
     }
-  },[isDialogOpen])
-
-  
+  }, [isDialogOpen]);
 
   const handleToggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
 
     if (!isDialogOpen && sortedMatches.length > 0) {
       setCallback(sortedMatches);
+      setMatchingViewIndex(0);
     }
   };
-
 
   return (
     <div className="perfect-matched-dialog">
@@ -70,6 +71,7 @@ function PerfectMatchedDialog({userCollection, setCallback,isMatchingView}){
                       height: `${120 - index * 20}px`,
                       width: `${index === 0 ? 100 : 80}px`,
                     }}
+                    onClick={() => setMatchingViewIndex(index)} // Add onClick to set index
                   >
                     {/* Podium Rank */}
                     <span
