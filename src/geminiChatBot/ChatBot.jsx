@@ -8,17 +8,22 @@ const ChatBot = () => {
   const [chatHistory, setChatHistory] = useState([]);
 
   const generateBotResponse = async (history) => {
-    history = history.map(({ role, text }) => ({ role, parts: [{ text }] }));
+    const formattedHistory = history.map(({ role, text }) => ({
+      author: role, // 'author' is expected, not 'role'
+      content: text,
+    }));
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: history }),
+      body: JSON.stringify({
+        prompt: { messages: formattedHistory }, // 'prompt' and 'messages' are required
+      }),
     };
 
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_URL,
+        `${import.meta.env.VITE_API_URL}?key=${import.meta.env.VITE_API_KEY}`,
         requestOptions,
       );
 
@@ -26,8 +31,19 @@ const ChatBot = () => {
       if (!response.ok)
         throw new Error(data.error.message || "Something Went Wrong");
       console.log(data);
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        { role: "model", text: data.candidates[0]?.content || "No response." },
+      ]);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error.message);
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        {
+          role: "model",
+          text: "I encountered an issue. Please try again later.",
+        },
+      ]);
     }
   };
 
