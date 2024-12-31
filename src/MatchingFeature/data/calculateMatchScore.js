@@ -1,4 +1,4 @@
-export default function calculateMatchScore(user, seller) {
+export  function calculateMatchScore(user, seller) {
   let score = 0;
 
   // Type of Service Matching

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import  calculateMatchScore  from "../data/calculateMatchScore"; // Import calculateMatchScore function
+import {calculateMatchScore} from "../data/calculateMatchScore";
 
 export default function useMatchScore(user, seller) {
   const [matchScore, setMatchScore] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  
 
   useEffect(() => {
     if (!user || !seller) {

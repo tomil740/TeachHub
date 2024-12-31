@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
 import Pagination from "../components/Pagination";
 import MatchingView from "../MatchingFeature/presentation/MatchingView";
+import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatchedDialog";
+import { useRecoilValue } from "recoil";
+import { AuthenticatedUserState } from "../AuthenticatedUserState";
+import { data } from "autoprefixer";
 
 const MarketPlace = () => {
   const { category } = useParams();
@@ -13,6 +17,7 @@ const MarketPlace = () => {
   const [postPerPage, setPostPerPage] = useState(9);
   const [filterd, setFilterd] = useState(new Set());
   const [loading, setLoading] = useState(true);
+  const loggedUser = useRecoilValue(AuthenticatedUserState)[1];
   const [categories, setCategories] = useState({
     "Basic Programming": [],
     "Full-Stack Development": [],
@@ -20,7 +25,7 @@ const MarketPlace = () => {
     "Back-End Development": [],
     "Mobile Development": [],
     "Data Analysis": [],
-    "UI/UX Design": [],
+    "UI/UX Design": [], 
     "Graphic Design": [],
     "Video Editing": [],
     "Digital Marketing": [],
@@ -73,15 +78,30 @@ const MarketPlace = () => {
 
   const currentPosts = allUsers.slice(firstPostInx, lastPostInx);
 
-  const filteredUsers = [...filterd].reduce((acc, title) => {
-    const users = categories[title] || [];
-    users.forEach((user) => {
-      if (!acc.some((existingUser) => existingUser.id === user.id)) {
-        acc.push(user);
-      }
-    });
-    return acc;
-  }, []);
+ const filteredUsers =
+   filterd.length === 0
+     ? Object.values(categories)
+         .flat()
+         .filter((user) => user.id !== loggedUser)
+     : [...filterd].reduce((acc, title) => {
+         const users = categories[title] || [];
+         users.forEach((user) => {
+           if (
+             !acc.some((existingUser) => existingUser.id === user.id) &&
+             user.id !== loggedUser
+           ) {
+             acc.push(user);
+           }
+         });
+         return acc;
+       }, []);
+
+
+
+  function setPerefectMatch(data){
+    setIsMatchingView(true)
+    setAllUsers(data)
+  }
 
   return (
     <div className="pagePadding container mx-auto flex flex-col items-center gap-5">
@@ -89,6 +109,7 @@ const MarketPlace = () => {
         padding="pt-20"
         filterFunc={Filter}
         category={category}
+        disabled={(isMatchingView)}
       />
 
       {/* Animated Two-Way Switch with Transparency */}
@@ -123,14 +144,21 @@ const MarketPlace = () => {
         ></div>
       </div>
 
-      {/* Conditional Rendering */}
+      <PerfectMatchedDialog
+        userCollection={allUsers.filter((user) => user.id !== loggedUser)}
+        setCallback={setPerefectMatch}
+        isMatchingView={isMatchingView}
+      />
+
       {isMatchingView ? (
         loading ? (
           <div className="flex h-48 items-center justify-center">
             <span>Loading...</span>
           </div>
         ) : (
-          <MatchingView userCollection={allUsers} />
+          <MatchingView
+            userCollection={allUsers.filter((user) => user.id !== loggedUser)}
+          />
         )
       ) : (
         <>
