@@ -96,13 +96,13 @@ const Landing = () => {
           </section>
         </section>
       </article>
-      <div>
+      {/* <div>
         <Chatbot
           config={config}
           messageParser={MessageParser}
           actionProvider={ActionProvider}
         />
-      </div>
+      </div> */}
       {/* Categories */}
       <HomePageCategory padding="pt-4" filterFunc={handleCategoryClick} />
     </main>
