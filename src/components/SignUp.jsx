@@ -336,8 +336,8 @@ const SignUp = () => {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      value="UI/UX"
-                      checked={typeOfService.includes("UI/UX")}
+                      value="UI/UX Design"
+                      checked={typeOfService.includes("UI/UX Design")}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-0"
                     />

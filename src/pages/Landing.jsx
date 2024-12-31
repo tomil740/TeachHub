@@ -1,5 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import HomePageCategory from "../components/HomePageCategory";
+import Chatbot from "react-chatbot-kit";
+import config from "../Chatbot/config.js";
+import MessageParser from "../Chatbot/MessageParser.jsx";
+import ActionProvider from "../Chatbot/ActionProvider.jsx";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -92,7 +96,13 @@ const Landing = () => {
           </section>
         </section>
       </article>
-
+      <div>
+        <Chatbot
+          config={config}
+          messageParser={MessageParser}
+          actionProvider={ActionProvider}
+        />
+      </div>
       {/* Categories */}
       <HomePageCategory padding="pt-4" filterFunc={handleCategoryClick} />
     </main>
