@@ -9,7 +9,7 @@ function PerfectMatchedDialog({userCollection, setCallback,isMatchingView}){
 
   const { loading, error, sortedMatches } = usePerfectMatched(
     loggedUser, 
-    userCollection,
+    userCollection, 
   );
 
   useEffect(()=>{
@@ -21,6 +21,8 @@ function PerfectMatchedDialog({userCollection, setCallback,isMatchingView}){
   useEffect(()=>{
     if(!isDialogOpen){
       setCallback(userCollection);
+    }else{
+
     }
   },[isDialogOpen])
 
@@ -30,7 +32,6 @@ function PerfectMatchedDialog({userCollection, setCallback,isMatchingView}){
     setIsDialogOpen(!isDialogOpen);
 
     if (!isDialogOpen && sortedMatches.length > 0) {
-      // Pass the sorted matches back to the parent via the callback
       setCallback(sortedMatches);
     }
   };

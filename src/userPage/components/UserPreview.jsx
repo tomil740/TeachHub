@@ -97,7 +97,6 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
             <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
               {user.priceOfService}
             </span>
-            {/* need to be changed to user.servicePrice or somthing matched... */}
             {dealPrice[0] != user.priceOfService && (
               <div className="flex flex-col items-start">
                 <span className="text-xl font-medium text-gray-700">

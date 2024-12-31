@@ -40,9 +40,9 @@ const MarketPlace = () => {
         newFilterd.delete(text);
       } else {
         newFilterd.add(text);
-      }
+      } 
       return newFilterd;
-    });
+    }); 
   };
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const MarketPlace = () => {
          return acc;
        }, []);
 
-
+ 
 
   function setPerefectMatch(data){
     setIsMatchingView(true)
@@ -144,7 +144,7 @@ const MarketPlace = () => {
         ></div>
       </div>
 
-      <PerfectMatchedDialog
+      <PerfectMatchedDialog 
         userCollection={allUsers.filter((user) => user.id !== loggedUser)}
         setCallback={setPerefectMatch}
         isMatchingView={isMatchingView}

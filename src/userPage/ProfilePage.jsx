@@ -227,7 +227,7 @@ function ProfilePage() {
         )}
       </div>
       <article className="flex flex-col justify-between gap-4 lg:flex-row">
-        <UserPreview
+        <UserPreview 
           user={currentUser}
           isEditing={isEditing}
           onEdit={handleDropdownChange}
