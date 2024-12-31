@@ -11,19 +11,16 @@ const Card = ({
   priceOfService,
   backgroundImage,
 }) => {
-  const [rating, setRating] = useState(null); // State to store the fetched rating
-  const [loading, setLoading] = useState(true); // State to manage loading
+  const [rating, setRating] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRating = async () => {
       try {
         const avgRating = await CalculateAverageRating(userId);
-        setRating(
-          avgRating && avgRating > 0 ? avgRating.toFixed(1) : undefined,
-        );
+        setRating(avgRating && avgRating > 0 ? avgRating.toFixed(1) : null);
       } catch (error) {
         console.error("Error fetching rating:", error);
-        setRating(undefined);
       } finally {
         setLoading(false);
       }
@@ -72,11 +69,7 @@ const Card = ({
             <div className="flex items-center justify-center gap-1">
               <i className="fa-solid fa-star text-sm text-amber-500 md:text-base"></i>
               <p className="text-sm font-bold text-amber-500 md:text-base">
-                {loading
-                  ? "Loading..."
-                  : rating !== undefined
-                    ? rating
-                    : "No rating"}
+                {loading ? "Loading..." : rating ? rating : "No rating yet"}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2">

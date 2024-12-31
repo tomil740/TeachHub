@@ -4,7 +4,6 @@ import { db } from "../../firebase";
 import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import CalculateAverageRating from "../../components/RatingAvg";
 
 function UserPreview({
   isEditing,
@@ -19,9 +18,6 @@ function UserPreview({
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
   const UPLOAD_PRESET = "Avivsalem";
-
-  const [averageRating, setAverageRating] = useState(null);
-  const [error, setError] = useState(null);
 
   const NavToLogIn = () => {
     navigate(`/login/${user.uid}`);
@@ -55,22 +51,6 @@ function UserPreview({
     }
   };
 
-  useEffect(() => {
-    const fetchAverageRating = async () => {
-      try {
-        const avg = await CalculateAverageRating(user.uid);
-        setAverageRating(avg);
-      } catch (err) {
-        console.error("Error calculating average rating:", err);
-        setError("Failed to calculate average rating");
-      }
-    };
-
-    if (user?.uid) {
-      fetchAverageRating();
-    }
-  }, [user?.uid]);
-
   return (
     <div
       className={`flex ${flex} flex-col justify-between gap-4 rounded-lg border p-4`}
@@ -101,7 +81,7 @@ function UserPreview({
             </span>
           </div>
         </div>
-        <Rating rating={user.rating} />
+        <Rating user={user} />
       </div>
 
       <div>
@@ -141,31 +121,6 @@ function UserPreview({
               </span>
             )}
           </div>
-
-          <h1>
-            Rating Avarege:{" "}
-            {averageRating !== null ? (
-              <>
-                {/* {Number(averageRating).toFixed(2)} */}
-                <div className="flex">
-                  {[...Array(5)].map((_, index) => (
-                    <span
-                      key={index}
-                      className={`text-lg ${
-                        index < Math.round(averageRating)
-                          ? "text-amber-500"
-                          : "text-gray-300"
-                      }`}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-              </>
-            ) : (
-              "There is no feedback yet"
-            )}
-          </h1>
 
           {canEdit === false && (
             <button
