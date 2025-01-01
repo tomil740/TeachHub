@@ -1,23 +1,45 @@
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import CalculateAverageRating from "../../../components/RatingAvg";
 
-function Rating({ rating }) {
-  // Ensure rating is a valid number and between 0 and 5
-  const clampedRating = Math.min(Math.max(Number(rating) || 0, 0), 5);
+function Rating({ user }) {
+  const [averageRating, setAverageRating] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAverageRating = async () => {
+      try {
+        const avg = await CalculateAverageRating(user.uid);
+        setAverageRating(avg);
+      } catch (err) {
+        console.error("Error calculating average rating:", err);
+        setError("Failed to fetch rating from user");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.uid) {
+      fetchAverageRating();
+    }
+  }, [user?.uid]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="flex items-center justify-center gap-2 text-amber-500">
       <i className="fa-solid fa-star md:text-lg"></i>
-      <span className="font-bold md:text-lg">{clampedRating.toFixed(1)}</span>
+      <span className="font-bold md:text-lg">
+        {loading
+          ? "Loading..."
+          : !isNaN(averageRating) && averageRating > 0
+            ? averageRating?.toFixed(1)
+            : "No rating yet"}
+      </span>
     </div>
   );
 }
-
-Rating.propTypes = {
-  rating: PropTypes.number,
-};
-
-Rating.defaultProps = {
-  rating: 0,
-};
 
 export default Rating;
