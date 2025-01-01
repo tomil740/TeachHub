@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatbotIcon from "../components/ChatbotIcon";
 import ChatFrom from "../components/ChatFrom";
 import "./chatBot.css";
 import ChatMessage from "../components/ChatMessage";
 import { chat } from "./initGemini";
+import { companyInfo } from "../companyInfo";
 
 const ChatBot = () => {
-  const [chatHistory, setChatHistory] = useState([]);
-
+  const [chatHistory, setChatHistory] = useState([
+    {
+      hideInChat: true,
+      role: "model",
+      text: companyInfo,
+    },
+  ]);
+  const chatBodyRef = useRef();
   const generateBotResponse = async (history) => {
     const formattedHistory = history.map(({ role, text }) => ({
       author: role,
@@ -48,6 +55,13 @@ const ChatBot = () => {
     }
   };
 
+  useEffect(() => {
+    chatBodyRef.current.scrollTo({
+      top: chatBodyRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  });
+
   return (
     <article className="container">
       <section className="chatbot-popup">
@@ -63,7 +77,7 @@ const ChatBot = () => {
         </section>
 
         {/* body */}
-        <article className="chat-body">
+        <article ref={chatBodyRef} className="chat-body">
           <section className="message bot-message">
             <ChatbotIcon />
             <p className="message-text">
