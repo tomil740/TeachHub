@@ -28,7 +28,7 @@ const ChatFrom = ({ chatHistory, setChatHistory, generateBotResponse }) => {
   };
 
   return (
-    <form action="#" onSubmit={handleFormSubmit} className="chat-form">
+    <form onSubmit={handleFormSubmit} className="chat-form">
       <input
         ref={inputRef}
         required

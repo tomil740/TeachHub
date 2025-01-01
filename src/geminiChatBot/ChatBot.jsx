@@ -3,37 +3,38 @@ import ChatbotIcon from "../components/ChatbotIcon";
 import ChatFrom from "../components/ChatFrom";
 import "./chatBot.css";
 import ChatMessage from "../components/ChatMessage";
+import { chat } from "./initGemini";
 
 const ChatBot = () => {
   const [chatHistory, setChatHistory] = useState([]);
 
   const generateBotResponse = async (history) => {
     const formattedHistory = history.map(({ role, text }) => ({
-      author: role, // 'author' is expected, not 'role'
+      author: role,
       content: text,
     }));
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: { messages: formattedHistory }, // 'prompt' and 'messages' are required
-      }),
-    };
-
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     prompt: { messages: formattedHistory },
+    //   }),
+    // };
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}?key=${import.meta.env.VITE_API_KEY}`,
-        requestOptions,
+      const response = await chat(
+        formattedHistory[formattedHistory.length - 1].content,
       );
 
-      const data = await response.json();
-      if (!response.ok)
+      // const data = await response.json();
+      console.log(response);
+
+      if (!response)
         throw new Error(data.error.message || "Something Went Wrong");
-      console.log(data);
+      // console.log(data);
       setChatHistory((prevHistory) => [
         ...prevHistory,
-        { role: "model", text: data.candidates[0]?.content || "No response." },
+        { role: "model", text: response || "No response." },
       ]);
     } catch (error) {
       console.error("Error:", error.message);
