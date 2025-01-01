@@ -46,7 +46,7 @@ const Card = ({
             {/* RATING SECTION */}
             <section className="flex items-center justify-between">
               <div className="flex items-center justify-center gap-1">
-                <i class="fa-solid fa-star text-sm text-amber-500 md:text-base"></i>
+                <i className="fa-solid fa-star text-sm text-amber-500 md:text-base"></i>
                 <p className="text-sm font-bold text-amber-500 md:text-base">
                   {rating}
                 </p>
