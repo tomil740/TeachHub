@@ -24,7 +24,7 @@ const ChatFrom = ({ chatHistory, setChatHistory, generateBotResponse }) => {
         ...chatHistory,
         {
           role: "user",
-          text: `Using the details provided above, please address this query: ${userMessage}`,
+          text: userMessage,
         },
       ]);
     }, 600);
