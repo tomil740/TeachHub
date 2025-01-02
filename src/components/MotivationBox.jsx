@@ -58,70 +58,22 @@ export default function MotivationBox() {
   if (!isVisible) return null;
 
   return (
-    <div style={styles.box}>
+    <div className="fixed bottom-5 left-5 z-50 w-52 rounded-lg bg-blue-600 p-5 text-white shadow-lg md:w-96">
+      {/* Close Button */}
       <button
-        style={styles.closeButton}
+        className="absolute right-2 top-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-white bg-transparent text-sm text-white transition duration-200 hover:bg-white hover:text-blue-600"
         onClick={() => setIsVisible(false)}
-        onMouseEnter={(e) =>
-          Object.assign(e.target.style, styles.closeButtonHover)
-        }
-        onMouseLeave={(e) => Object.assign(e.target.style, styles.closeButton)}
       >
         ✖
       </button>
+
       {/* Title based on sentence type */}
-      <h3 style={styles.title}>
+      <h3 className="mb-3 text-center text-lg font-bold">
         {sentenceType === "joke" ? "The Daily Joke" : "The Daily Motivation"}
       </h3>
+
       {/* Conditionally render the motivational sentence or error */}
-      <h4 style={styles.text}>{error || Sentence}</h4>
+      <h4 className="text-sm leading-relaxed">{error || Sentence}</h4>
     </div>
   );
 }
-
-const styles = {
-  box: {
-    position: "fixed", // Ensures it stays at the bottom-left of the screen while scrolling
-    bottom: "20px", // Position from the bottom of the viewport
-    left: "20px", // Position from the left of the viewport
-    backgroundColor: "#1c4ed8", // Cool blue background
-    color: "#fff", // White text for contrast
-    padding: "20px", // Padding for the content
-    boxShadow: "0 8px 16px rgba(28, 78, 216, 0.4)", // Subtle shadow with blue tint
-    borderRadius: "10px", // Rounded corners for a modern look
-    zIndex: 1000, // Ensures it stays on top of other elements
-    maxWidth: "300px", // Limit the box width
-  },
-  closeButton: {
-    position: "absolute", // Absolute positioning inside the box
-    top: "10px", // Space from the top
-    right: "10px", // Space from the right
-    background: "transparent", // Transparent background
-    border: "1px solid #fff", // White border
-    color: "#fff", // White text (color for ✖)
-    fontSize: "16px", // Font size for the close button
-    borderRadius: "50%", // Rounded button for aesthetics
-    width: "24px", // Button size
-    height: "24px", // Button size
-    cursor: "pointer", // Pointer cursor on hover
-    display: "flex", // Center the ✖ inside the button
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "background 0.2s, color 0.2s", // Hover animation
-  },
-  closeButtonHover: {
-    background: "#fff", // White background on hover
-    color: "#1c4ed8", // Blue color for the ✖
-  },
-  title: {
-    margin: "0 0 10px 0", // Add margin to the bottom for spacing
-    fontSize: "18px", // Larger font size for the title
-    fontWeight: "bold", // Bold title
-    textAlign: "center", // Center-align the title
-  },
-  text: {
-    margin: 0, // Removes default margin from the text
-    fontSize: "16px", // Slightly larger font
-    lineHeight: "1.4", // Better text spacing
-  },
-};
