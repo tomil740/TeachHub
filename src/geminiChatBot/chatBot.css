@@ -70,6 +70,7 @@
 .chat-body .message {
   display: flex;
   gap: 11px;
+  max-width: 100%;
   align-items: flex-start;
   max-width: 100%;
 }

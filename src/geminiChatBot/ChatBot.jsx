@@ -11,7 +11,7 @@ const ChatBot = () => {
     {
       hideInChat: true,
       role: "model",
-      text: companyInfo,
+      text: `Here is some information about our company: ${companyInfo}`,
     },
   ]);
   const chatBodyRef = useRef();
@@ -21,27 +21,23 @@ const ChatBot = () => {
       content: text,
     }));
 
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     prompt: { messages: formattedHistory },
-    //   }),
-    // };
-    try {
-      const response = await chat(
-        formattedHistory[formattedHistory.length - 1].content,
-      );
+    // Combine companyInfo with chat history for context.
+    const context = `
+      Website Information: ${companyInfo}
+      User Chat History: ${formattedHistory
+        .map((msg) => `[${msg.author}]: ${msg.content}`)
+        .join("\n")}
+    `;
 
-      // const data = await response.json();
+    try {
+      const response = await chat(context);
       console.log(response);
 
-      if (!response)
-        throw new Error(data.error.message || "Something Went Wrong");
-      // console.log(data);
+      if (!response) throw new Error("No response from AI model.");
+
       setChatHistory((prevHistory) => [
         ...prevHistory,
-        { role: "model", text: response || "No response." },
+        { role: "model", text: response },
       ]);
     } catch (error) {
       console.error("Error:", error.message);
