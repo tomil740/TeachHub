@@ -71,7 +71,7 @@ const ChatBot = () => {
 
       <section className="chatbot-popup">
         {/* chatbot header */}
-        <section className="chat-header">
+        <section className="chatbot-header">
           <section className="header-info">
             <ChatbotIcon />
             <h2 className="logo-text">ChatBot</h2>
