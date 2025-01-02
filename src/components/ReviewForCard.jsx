@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const ReviewForCard = ({ userId }) => {
   const [feedbackData, setFeedbackData] = useState([]);
@@ -36,6 +37,7 @@ const ReviewForCard = ({ userId }) => {
                 const userData = userDoc.data();
                 return {
                   id: `${feedbackDoc.id}-${item.userId}`,
+                  commentedUserId: item.userId,
                   comment: item.comment,
                   rating: item.rating,
                   userName: userData.name,
@@ -80,49 +82,53 @@ const ReviewForCard = ({ userId }) => {
     <div className="rounded-lg border p-4 shadow-sm">
       {feedbackData.length > 0 ? (
         feedbackData.map((feedback) => (
-          <div
-            key={feedback.id}
-            className="mb-4 rounded-lg bg-white p-4 shadow-sm"
-          >
-            <div className="mb-3 flex items-center gap-3">
-              {feedback.userImage ? (
-                <img
-                  src={feedback.userImage}
-                  alt={`${feedback.userName}'s profile`}
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
-                  <span className="text-sm text-gray-500">
-                    {feedback.userName?.charAt(0) || "?"}
-                  </span>
-                </div>
-              )}
-              <h4 className="font-medium text-gray-900">{feedback.userName}</h4>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, index) => (
-                    <span
-                      key={index}
-                      className={`text-lg ${index < feedback.rating ? "text-amber-500" : "text-gray-300"}`}
-                    >
-                      ★
+          <Link to={`/profile/${feedback.commentedUserId}`} key={feedback.id}>
+            <div
+              key={feedback.id}
+              className="mb-4 rounded-lg bg-white p-4 shadow-sm"
+            >
+              <div className="mb-3 flex items-center gap-3">
+                {feedback.userImage ? (
+                  <img
+                    src={feedback.userImage}
+                    alt={`${feedback.userName}'s profile`}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
+                    <span className="text-sm text-gray-500">
+                      {feedback.userName?.charAt(0) || "?"}
                     </span>
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600">
-                  {feedback.rating}/5
-                </span>
+                  </div>
+                )}
+                <h4 className="font-medium text-gray-900">
+                  {feedback.userName}
+                </h4>
               </div>
 
-              {feedback.comment && (
-                <p className="text-gray-700">{feedback.comment}</p>
-              )}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[...Array(5)].map((_, index) => (
+                      <span
+                        key={index}
+                        className={`text-lg ${index < feedback.rating ? "text-amber-500" : "text-gray-300"}`}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-sm text-gray-600">
+                    {feedback.rating}/5
+                  </span>
+                </div>
+
+                {feedback.comment && (
+                  <p className="text-gray-700">{feedback.comment}</p>
+                )}
+              </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <div className="text-center text-gray-500">
