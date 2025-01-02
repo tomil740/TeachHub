@@ -7,11 +7,12 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import initializeChat from "../data/initializeChat"; 
-import { makeDealRequestObj } from "../data/makeDealRequestObj"; 
+import initializeChat from "../data/initializeChat";
+import { makeDealRequestObj } from "../data/makeDealRequestObj";
+import { toast } from "react-toastify";
 
 //should be deleted all of the all method...(onDealRequest)
-function useMatchedChat(user1Id, user2Id,onDealRequest) {
+function useMatchedChat(user1Id, user2Id, onDealRequest) {
   const [chatState, setChatState] = useState([]);
 
   const [isChatInitialized, setIsChatInitialized] = useState(false); // Track initialization
@@ -19,7 +20,7 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
   const [isLoadingChat, setIsLoadingChat] = useState(true); // Loading state for chat data
 
   //with sort we make sure to have predictable chat ID
-  const chatId = [user1Id, user2Id].sort().join("-"); 
+  const chatId = [user1Id, user2Id].sort().join("-");
   const chatRef = doc(collection(db, "chats"), chatId); // Reference to the chat document
 
   useEffect(() => {
@@ -37,7 +38,6 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
           setChatState(chatData.messages || []);
           setIsLoadingChat(false); // Data loaded, set loading to false
 
-          
           //onDealRequest(chatData.dealRequest);
         }
       });
@@ -73,17 +73,21 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
     },
     [chatRef, user1Id],
   );
-  const initDealReq = useCallback(async (dealPrice) => {
-    console.log(dealPrice)
-    try {
-      //await initiateDealRequest(chatId1);
-      //creating new deal object
-      const mes = await makeDealRequestObj(user1Id, user2Id,dealPrice);
-      alert(`${mes.success}, ${mes.message}`);
-    } catch (error) {
-      alert("Failed to send deal request. Please try again.");
-    }
-  });
+  const initDealReq = useCallback(
+    async (dealPrice) => {
+      try {
+        const mes = await makeDealRequestObj(user1Id, user2Id, dealPrice);
+        if (mes.success) {
+          toast.success(mes.message);
+        } else {
+          toast.error(mes.message);
+        }
+      } catch (error) {
+        toast.error("Failed to send deal request. Please try again.");
+      }
+    },
+    [user1Id, user2Id],
+  );
 
   return {
     chatState,

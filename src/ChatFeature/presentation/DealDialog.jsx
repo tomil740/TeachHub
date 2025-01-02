@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useADeal } from "../domain/useADeal";
-import "../presentation/style/dealDialog.css"
+import "../presentation/style/dealDialog.css";
+import { toast } from "react-toastify";
 
 const DealDialog = ({ deal, onDealDone, closeDialog }) => {
   const [dealStatus, setDealStatus] = useState(null); // null, "loading", "success", "error"
@@ -17,7 +18,9 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
 
     if (success) {
       onDealDone();
-      alert("Deal has been made, check out doneDeals.");
+      toast.success("🎉 Deal has been made, check out doneDeals!");
+    } else {
+      toast.error("❌ Error: Insufficient coins or process failed.");
     }
   };
 
