@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import HomePageCategory from "../components/HomePageCategory";
-import ChatBot from "../geminiChatBot/ChatBot";
+import PopupGfg from "./Popup";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ const Landing = () => {
   };
   return (
     <main className="pagePadding container mx-auto pt-20">
-      <ChatBot />
       <article className="group relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-lg border px-8 py-16">
         <div className="absolute -bottom-20 -right-10 h-52 w-52 rounded-full bg-blue-400 opacity-50 blur-[50px] transition-all duration-300"></div>
         <p className="w-3/5 text-center text-lg md:text-xl xl:text-2xl">
@@ -97,6 +96,7 @@ const Landing = () => {
 
       {/* Categories */}
       <HomePageCategory padding="pt-4" filterFunc={handleCategoryClick} />
+      <PopupGfg></PopupGfg>
     </main>
   );
 };
