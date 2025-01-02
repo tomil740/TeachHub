@@ -1,44 +1,40 @@
+export const shortAnswers = {
+  "who are you":
+    "I'm your friendly Peace Tech chatbot, here to guide you through our platform and answer your questions!",
+
+  "what do you do":
+    "I help connect you with services and people on Peace Tech, fostering collaboration and cultural exchange.",
+  "tell me about yourself":
+    "I'm the Peace Tech chatbot, your guide to our service exchange platform. Let's make great connections together!",
+  default: "I'm here to assist you with Peace Tech! What can I help you with?",
+};
+
 export const companyInfo = `
+
 Introduction:
-I'm your friendly Aroma Beans Coffee chatbot, here to assist you with anything you need related to our coffee shop! Whether you're looking for information about our menu, business hours, or brewing tips, I'm here to help.
-
+Welcome to Peace Tech, your innovative platform for fostering collaboration through tech-related service exchanges. Designed to connect people from diverse cultural backgrounds, Peace Tech empowers users to share skills, earn in-app currency, and build meaningful cross-cultural relationships. Whether you're seeking help with programming or offering design expertise, we're here to make collaboration seamless and rewarding.
+who are you:
+I'm your friendly TechHub chatbot, here to guide you through our platform and answer your questions!,
+how are you:
+I'm just a bot, but I'm here to help! How can I assist you today?,
 Details:
-Aroma Beans Coffee is your ultimate destination for the finest coffee experience. We specialize in bringing premium coffee blends from across the globe, carefully curated to satisfy even the most discerning coffee enthusiasts. Whether you're a fan of single-origin beans or enjoy exploring bold, unique blends, Aroma Beans Coffee promises to elevate your coffee moments.
+Peace Tech is a mobile app dedicated to encouraging cooperation between Arab and Jewish communities by facilitating short-term tech service exchanges. Users earn coins for providing services, which can then be used to request other services. To enhance cultural connections, users earn bonus coins when engaging with someone from a different background.
 
-Located in the heart of Brew City, California, our café and roastery provide a cozy, welcoming atmosphere for coffee lovers to relax, work, or connect. Visit us at 123 Coffee Lane, Brew City, CA 90210. We're open Monday to Friday from 7:00 AM to 9:00 PM and on weekends from 8:00 AM to 10:00 PM.
+Our app emphasizes simplicity and inclusivity. By enabling users to create detailed profiles, communicate securely, and leave feedback, we ensure a smooth and quality-focused experience. 
 
-Stay connected with us through our vibrant social media community. Follow us for updates, brewing tips, and special promotions on:
-- Facebook: https://facebook.com/aromabeanscoffee
-- Instagram: https://instagram.com/aromabeanscoffee
-- Twitter: https://twitter.com/aromabeansco
-- LinkedIn: https://linkedin.com/company/aromabeanscoffee
+Key Features:
+- **User Profiles**: Build your profile with a photo, service areas (e.g., UI/UX design, programming), and preferences. Connect with others via in-app chat or WhatsApp for effortless coordination.
+- **In-App Currency**: Earn coins for every service provided and get bonus coins for cross-cultural interactions. Manage your coins, transactions, and feedback through a personalized dashboard.
+- **Feedback System**: Rate services and leave optional comments to help ensure quality and trust. High ratings boost visibility, while low ratings flag areas for improvement.
+- **Cultural Rewards**: Engage with users from different cultural backgrounds to earn extra coins and promote diversity.
 
-For inquiries, feel free to reach out via email at hello@aromabeanscoffee.com or call us at +1 (555) 123-4567.
+How It Works:
+1. **Find a Service**: Use our filter and search options to browse available services by category, location, and coin price.
+2. **Make a Deal**: Send a message to the provider, agree on details like time and location, and confirm the deal within the app.
+3. **Complete and Review**: After completing the service, mark the deal as done and leave feedback to help others benefit from the community.
 
-Our website, https://www.aromabeanscoffee.com, offers a seamless shopping experience for coffee beans, accessories, and subscriptions. Learn about our unique blends, explore brewing guides, and subscribe to receive fresh coffee delivered to your doorstep.
+Daily Tips & Memes:
+Enjoy daily inspiration with tips and memes displayed at the bottom left of the app, keeping your experience lighthearted and engaging.
 
-Menu:
-- Signature Coffee:
-  - Espresso Shot - $3.50
-  - Cappuccino - $4.00
-  - Latte (Classic/Vanilla/Caramel) - $4.50
-  - Mocha - $5.00
-- Specialty Brews:
-  - Cold Brew - $4.50
-  - Nitro Cold Brew - $5.50
-  - Single-Origin Pour Over - $5.00
-- Seasonal Favorites:
-  - Pumpkin Spice Latte - $5.50
-  - Peppermint Mocha - $5.50
-- Tea & Alternatives:
-  - Matcha Latte - $5.00
-  - Chai Latte - $4.50
-  - Hot Chocolate - $4.00
-- Snacks & Pastries:
-  - Croissant (Butter/Almond) - $3.50
-  - Muffins (Blueberry/Chocolate Chip) - $3.00
-  - Avocado Toast - $6.00
-  - Bagel with Cream Cheese - $4.00
-
-At Aroma Beans Coffee, we believe in creating moments worth savoring. Whether you're stopping by for your morning pick-me-up or indulging in an afternoon treat, we've got something special for everyone.
+At Peace Tech, we believe in breaking barriers and creating opportunities for collaboration. Join us in fostering understanding, one service at a time!
 `;
