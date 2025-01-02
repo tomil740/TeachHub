@@ -1,5 +1,9 @@
 .chatbot-popup {
-  position: relative;
+  position: fixed;
+  bottom: 90px;
+  right: 35px;
+  opacity: 0;
+  pointer-events: none;
   width: 420px;
   overflow: hidden;
   background-color: white;
@@ -7,6 +11,28 @@
   box-shadow:
     0 0 128px 0 rgba(0, 0, 0, 0.1),
     0 32px 64px -48px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transform: scale(0.2);
+  transform-origin: bottom right;
+  transition: 0.3s ease-in-out;
+}
+
+.container .show-chatbot .chatbot-popup {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.container .show-chatbot #chatbot-toggler {
+  transform: rotate(90deg);
+}
+
+.container .show-chatbot #chatbot-toggler span:first-child {
+  opacity: 0;
+}
+
+.container .show-chatbot #chatbot-toggler span:last-child {
+  opacity: 1;
 }
 
 .chatbot-popup .chat-header {
@@ -15,6 +41,28 @@
   align-items: center;
   justify-content: space-between;
   background-color: #3b82f6;
+}
+
+#chatbot-toggler {
+  position: fixed;
+  bottom: 30px;
+  right: 35px;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #3b82f6;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: 0.3s ease-in-out;
+}
+
+#chatbot-toggler span {
+  position: absolute;
+  color: white;
 }
 
 .chat-header .header-info {
@@ -159,4 +207,30 @@
 
 .chat-form .message-input:valid ~ button {
   display: block;
+}
+
+@media (max-width: 520px) {
+  #chatbot-toggle {
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .chatbot-popup {
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .chatbot-popup .chat-header {
+    padding: 12px 15px;
+  }
+  .chat-body {
+    height: calc(90% - 55px);
+    padding: 25px 15px;
+  }
+  .chat-footer {
+    padding: 10px 15px 15px;
+  }
 }

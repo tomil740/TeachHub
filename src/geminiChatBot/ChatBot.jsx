@@ -7,6 +7,7 @@ import { chat } from "./initGemini";
 import { companyInfo } from "../companyInfo";
 
 const ChatBot = () => {
+  const [showChatBot, setShowChatBot] = useState(false);
   const [chatHistory, setChatHistory] = useState([
     {
       hideInChat: true,
@@ -59,14 +60,26 @@ const ChatBot = () => {
   });
 
   return (
-    <article className="container">
+    <article className={`container ${showChatBot ? "show-chatbot" : ""}`}>
+      <button
+        onClick={() => setShowChatBot((prev) => !prev)}
+        id="chatbot-toggler"
+      >
+        <span className="material-symbols-outlined">mode_comment</span>
+        <span className="material-symbols-outlined">close</span>
+      </button>
+
       <section className="chatbot-popup">
         {/* chatbot header */}
         <section className="chat-header">
           <section className="header-info">
             <ChatbotIcon />
             <h2 className="logo-text">ChatBot</h2>
-            <button type="button" className="material-symbols-outlined">
+            <button
+              onClick={() => setShowChatBot((prev) => !prev)}
+              type="button"
+              className="material-symbols-outlined"
+            >
               keyboard_arrow_down
             </button>
           </section>
