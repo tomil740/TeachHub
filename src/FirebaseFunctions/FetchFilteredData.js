@@ -28,6 +28,7 @@ const categorizeUsers = async () => {
         }
       });
     });
+    console.log(categories);
     return categories;
   } catch (error) {
     console.error("Error categorizing users:", error);

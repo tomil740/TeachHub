@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
-import '../presentation/style/chat.css'
-
-
+import "../presentation/style/chat.css";
 
 /*
 Purpose: Manages a live chat between two matched users.
@@ -19,21 +17,17 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({  
+function ChatComponent({
   user1Id,
-  user2Id, 
+  user2Id,
   user1Name,
   user2Name,
   dealPrice,
   closeChat,
 }) {
-
   const [dealReqState, setDealReqState] = useState(false);
-  const { chatState, sendMes,initDealReq, isLoadingChat, isLoadingSend } = useMatchedChat(
-    user1Id,
-    user2Id,
-    setDealReqState, 
-  );
+  const { chatState, sendMes, initDealReq, isLoadingChat, isLoadingSend } =
+    useMatchedChat(user1Id, user2Id, setDealReqState);
   const [message, setMessage] = useState("");
 
   //scroll state controll
@@ -85,10 +79,19 @@ function ChatComponent({
     <div className="chat-container">
       <div className="chat-header">
         <span>
-          User1 {user1Name} && User2 : {user2Name}
+          {user1Name} - {user2Name}
         </span>
-        <button onClick={() => initDealReq(dealPrice)}>Make a deal!</button>
-        <button onClick={closeChat}>X</button>
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => initDealReq(dealPrice)}
+            className="makeADealBtn"
+          >
+            Make a deal!
+          </button>
+          <button onClick={closeChat} className="exitDeal">
+            X
+          </button>
+        </div>
       </div>
       <>
         <div
@@ -134,7 +137,3 @@ function ChatComponent({
 }
 
 export default ChatComponent;
-
-
-
-

@@ -76,10 +76,13 @@ const MarketPlace = () => {
     users.forEach((user) => {
       if (!acc.some((existingUser) => existingUser.id === user.id)) {
         acc.push(user);
+        console.log(title);
+        console.log(user);
       }
     });
     return acc;
   }, []);
+  console.log("Filtered Users:", filteredUsers);
 
   return (
     <div className="pagePadding container mx-auto flex flex-col items-center gap-5">
