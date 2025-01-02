@@ -14,7 +14,6 @@ import calculateServicePrice from "./domain/calculateServicePrice";
 import ReviewForCard from "../components/ReviewForCard";
 
 function ProfilePage() {
-
   //get the authinticated user
   const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
 
@@ -28,14 +27,14 @@ function ProfilePage() {
   // Get authenticated user from Recoil
   const authenticatedUser = useRecoilValue(AuthenticatedUserState);
 
-  // Get user ID from URL params 
+  // Get user ID from URL params
   const [inChate, setinChate] = useState(false); // Track whether the user is in chat
 
   const navigate = useNavigate();
 
   const { id } = useParams();
 
-  // Track logged-in user ID 
+  // Track logged-in user ID
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -87,7 +86,7 @@ function ProfilePage() {
   }, [id]);
 
   // Calculate and update dealPrice
-  
+
   useEffect(() => {
     if (authenticatedUser[0]?.religion && currentUser?.religion) {
       const price = calculateServicePrice(
@@ -98,7 +97,6 @@ function ProfilePage() {
       setDealPrice(price);
     }
   }, [authenticatedUser[0]?.religion, currentUser?.religion]);
-
 
   // Find profile in allUsers
   const profile = allUsers?.find((user) => String(user.id) === String(id));
@@ -271,7 +269,7 @@ function ProfilePage() {
           user1Id={authenticatedUser[1]}
           user2Id={id}
           user1Name={authenticatedUser[0]?.name}
-          user2Name={"User2Name..."}
+          user2Name={currentUser?.name || "User"}
           dealPrice={dealPrice[0]}
           closeChat={() => setInChat(false)}
         />
