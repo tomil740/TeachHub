@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFeedback } from "../domain/useFeadback"; // Custom hook to manage feedback submission
 import "../presentation/style/feadbackDiaog.css";
+import { toast } from "react-toastify";
 
 function FeedbackDialog({
   userIdtoFeadBack,
@@ -18,31 +19,30 @@ function FeedbackDialog({
 
   const handleSubmit = async () => {
     if (!rating || !comment.trim()) {
-      alert("Please provide a rating and a comment!");
+      toast.error("Please provide a rating and a comment!");
       return;
     }
- 
+
     try {
       const success = await submitFeedback({ rating, comment });
       if (success) {
         const feedbackDoneSuccess = await onDealFeadbackDone();
         if (feedbackDoneSuccess) {
-          alert("Feedback submitted successfully!");
+          toast.success("Feedback submitted successfully!");
           await onSubmit();
           window.location.reload();
         } else {
-          alert("Failed to finalize the feedback process.");
+          toast.error("Failed to finalize the feedback process.");
         }
       } else {
-        alert("Failed to submit feedback.");
+        toast.error("Failed to submit feedback.");
       }
     } catch (error) {
-      alert("An unexpected error occurred.");
+      toast.error("An unexpected error occurred.");
       console.error(error);
     }
   };
 
- 
   return (
     <div className="feedback-dialog">
       <h2 className="feedback-dialog-title">Leave Feedback</h2>
