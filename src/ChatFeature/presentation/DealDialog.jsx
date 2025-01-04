@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useADeal } from "../domain/useADeal";
 import "../presentation/style/dealDialog.css"
+import updateUnreadStateById from "../data/updateUnreadStateById";
+
 
 const DealDialog = ({ deal, onDealDone, closeDialog }) => {
   const [dealStatus, setDealStatus] = useState(null); // null, "loading", "success", "error"
@@ -16,7 +18,23 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
     setDealStatus(success ? "success" : "error");
 
     if (success) {
-      onDealDone();
+      await onDealDone();
+            console.log("deal done",deal.sellerUserId);
+
+      //update the unread counter
+      //as the current user
+      await updateUnreadStateById({
+        userId: deal.sellerUserId,
+        keyIncrement: "done",
+      });
+      //for the other end
+      await updateUnreadStateById({
+        userId: deal.buyerUserId,
+        keyIncrement: "done",
+        key2: "your",
+      });
+
+
       alert("Deal has been made, check out doneDeals.");
     }
   };

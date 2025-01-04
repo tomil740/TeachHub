@@ -9,8 +9,8 @@ const Card = ({
   backgroundImage,
 }) => {
   const truncatedTypeOfService =
-    typeOfService.join(" | ").split(" ").slice(0, 3).join(" ") +
-    (typeOfService.join(" | ").split(" ").length > 3 ? "..." : "");
+    typeOfService?.join(" | ").split(" ")?.slice(0, 3)?.join(" ") +
+    (typeOfService?.join(" | ")?.split(" ").length > 3 ? "..." : "");
   return (
     <>
       <article className="flex w-96 flex-col gap-4 overflow-hidden rounded-xl border">

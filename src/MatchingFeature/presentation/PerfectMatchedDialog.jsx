@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../../AuthenticatedUserState";
 
 function PerfectMatchedDialog({
-  userCollection,
+  loadInitCallBack,
   setCallback,
   isMatchingView,
   setMatchingViewIndex,
@@ -14,7 +14,6 @@ function PerfectMatchedDialog({
 
   const { loading, error, sortedMatches } = usePerfectMatched(
     loggedUser,
-    userCollection,
   );
 
   useEffect(() => {
@@ -23,19 +22,18 @@ function PerfectMatchedDialog({
     }
   }, [isMatchingView]);
 
-  useEffect(() => {
-    if (!isDialogOpen) {
-      setCallback(userCollection);
-    }
-  }, [isDialogOpen]);
-
   const handleToggleDialog = () => {
-    setIsDialogOpen(!isDialogOpen);
 
     if (!isDialogOpen && sortedMatches.length > 0) {
       setCallback(sortedMatches);
       setMatchingViewIndex(0);
+    }else{
+      setCallback([])
+      loadInitCallBack();
     }
+    
+    setIsDialogOpen(!isDialogOpen);
+
   };
 
   return (

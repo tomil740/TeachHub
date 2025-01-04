@@ -4,7 +4,9 @@ function SwitchButton({ isMatchingView, setIsMatchingView,resListIndex }){
     function onSetMatchingView(){
         setIsMatchingView(true);
         resListIndex(0);
-
+    }
+    function onSetMatchingViewFalse() {
+      setIsMatchingView(false);
     }
 
   return (

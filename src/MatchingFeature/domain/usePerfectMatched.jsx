@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { db } from "../../firebase"; // Ensure correct path to Firebase config
+import { collection, getDocs } from "firebase/firestore";
 import { calculateMatchScore } from "../data/calculateMatchScore";
 
-function usePerfectMatched(loggedUser, userCollection) {
+function usePerfectMatched(loggedUser) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sortedMatches, setSortedMatches] = useState([]);
@@ -12,46 +14,51 @@ function usePerfectMatched(loggedUser, userCollection) {
       setError(null);
 
       try {
-        // Step 1: Prepare the user collection for processing
+        // Step 1: Fetch all user data from Firestore
+        const userCollectionRef = collection(db, "users");
+        const querySnapshot = await getDocs(userCollectionRef);
+        const userCollection = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Step 2: Filter the collection if too large
         let collectionToProcess = userCollection;
 
-        // If user collection is too large, apply two-level filtering
         if (userCollection.length > 20) {
-          // First, filter by matched 'typeOfService'
+          // Filter by matched 'typeOfService'
           collectionToProcess = userCollection.filter((seller) =>
-            seller.typeOfService.some((service) =>
+            seller.typeOfService?.some((service) =>
               loggedUser.typeOfService.includes(service),
             ),
           );
 
-          // If the collection is still too large, apply second filter by matched 'language'
           if (collectionToProcess.length > 20) {
+            // Filter by matched 'language'
             collectionToProcess = collectionToProcess.filter((seller) =>
-              seller.language.some((lang) =>
+              seller.language?.some((lang) =>
                 loggedUser.language.includes(lang),
               ),
             );
           }
 
-          // If no results after filtering, fallback to original collection slice
           if (collectionToProcess.length === 0) {
             collectionToProcess = userCollection.slice(0, 20);
           } else {
-            // Ensure the final collection size is within the range of 20
             collectionToProcess = collectionToProcess.slice(0, 20);
           }
         }
 
-        // Step 2: Calculate scores for each seller in the collection
+        // Step 3: Calculate scores and sort
         const scoredMatches = collectionToProcess.map((seller) => {
-          const score = calculateMatchScore(loggedUser, seller); // Calculate match score
-          return { ...seller, score }; // Add the score to the seller object
+          const score = calculateMatchScore(loggedUser, seller);
+          return { ...seller, score };
         });
 
-        // Step 3: Sort matches by score in descending order
         const sorted = scoredMatches.sort((a, b) => b.score - a.score);
-        setSortedMatches(sorted); // Store sorted matches
+        setSortedMatches(sorted);
       } catch (err) {
+        console.error("Error fetching user data:", err);
         setError("An error occurred while processing matches.");
       } finally {
         setLoading(false);
@@ -59,7 +66,7 @@ function usePerfectMatched(loggedUser, userCollection) {
     };
 
     processMatching();
-  }, [loggedUser, userCollection]);
+  }, [loggedUser]);
 
   return { loading, error, sortedMatches };
 }

@@ -9,6 +9,7 @@ import {
 import { db } from "../../firebase";
 import initializeChat from "../data/initializeChat"; 
 import { makeDealRequestObj } from "../data/makeDealRequestObj"; 
+import updateUnreadStateById from '../data/updateUnreadStateById';
 
 //should be deleted all of the all method...(onDealRequest)
 function useMatchedChat(user1Id, user2Id,onDealRequest) {
@@ -74,12 +75,20 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
     [chatRef, user1Id],
   );
   const initDealReq = useCallback(async (dealPrice) => {
-    console.log(dealPrice)
     try {
-      //await initiateDealRequest(chatId1);
       //creating new deal object
       const mes = await makeDealRequestObj(user1Id, user2Id,dealPrice);
       alert(`${mes.success}, ${mes.message}`);
+      if(mes.success){
+        updateUnreadStateById({
+          userId: user1Id,
+          keyIncrement: "your",
+        });
+        updateUnreadStateById({
+          userId: user2Id,
+          keyIncrement: "buyer",
+        });
+      }
     } catch (error) {
       alert("Failed to send deal request. Please try again.");
     }
