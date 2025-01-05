@@ -3,6 +3,13 @@ import { db } from "../../firebase"; // Ensure correct path to Firebase config
 import { collection, getDocs } from "firebase/firestore";
 import { calculateMatchScore } from "../data/calculateMatchScore";
 
+import {
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
+
+
 function usePerfectMatched(loggedUser) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,6 +24,7 @@ function usePerfectMatched(loggedUser) {
         // Step 1: Fetch all user data from Firestore
         const userCollectionRef = collection(db, "users");
         const querySnapshot = await getDocs(userCollectionRef);
+
         const userCollection = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
