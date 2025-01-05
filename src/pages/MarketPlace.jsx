@@ -8,16 +8,13 @@ import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatched
 import SwitchButton from '../MatchingFeature/presentation/utilComponents/SwitchButton';
 import usePaginatedUsers from '../MatchingFeature/domain/usePaginatedUsers';
 
-//Simply strcture what is it that neeeds to be done:
-//replace it and order by create at (by add this fields with some temp helper function and update the sign up to add it)
-//then use my function everthing should work well!
 
 const MarketPlace = () => {
   const { category } = useParams();
   const [filterd, setFilterd] = useState(new Set());
 
   //MatchingView states
-  const [isMatchingView, setIsMatchingView] = useState(true); 
+  const [isMatchingView, setIsMatchingView] = useState(false); 
   const [matchingViewIndex, setMatchingViewIndex] = useState(0);
 
   const [isPerfectDialogOpen, setIsPerfectDialogOpen] = useState(false);

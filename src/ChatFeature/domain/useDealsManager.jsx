@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import getUserNameById from "../data/getUserNameById";
 import {
   query,
   collection,
@@ -52,9 +51,7 @@ export const useDealsManager = (userId) => {
     const updateDeals = async (dealsData, type) => {
       // Helper function to add buyerName and sellerName to deals
       const enrichDealWithNames = async (deal) => {
-        const buyerName = await getUserNameById(deal.buyerUserId);
-        const sellerName = await getUserNameById(deal.sellerUserId);
-        return { ...deal, buyerName, sellerName }; // Add new fields locally
+        return { ...deal} //buyerName, sellerName }; // Add new fields locally
       };
 
       // Separate pending and completed deals

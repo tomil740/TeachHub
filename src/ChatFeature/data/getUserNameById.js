@@ -1,7 +1,8 @@
+/*
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-async function getUserNameById (userId)  {
+async function getUserNameById1 (userId)  { 
   try {
     const userDocRef = doc(db, "users", userId);
     const userDoc = await getDoc(userDocRef);
@@ -18,4 +19,5 @@ async function getUserNameById (userId)  {
   }
 };
 
-export default getUserNameById;
+export default getUserNameById1;
+*/
