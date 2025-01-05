@@ -17,9 +17,9 @@ function usePerfectMatched(loggedUser) {
 
   useEffect(() => {
     const processMatching = async () => {
-      setLoading(true);
+      setLoading(true); 
       setError(null);
-
+ 
       try {
         // Step 1: Fetch all user data from Firestore
         const userCollectionRef = collection(db, "users");

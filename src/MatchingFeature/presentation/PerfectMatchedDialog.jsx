@@ -4,12 +4,12 @@ import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../../AuthenticatedUserState";
 
 function PerfectMatchedDialog({
-  loadInitCallBack,
+  isPerfectDialogOpen, 
+  setIsPerfectDialogOpen,
   setCallback,
   isMatchingView,
   setMatchingViewIndex,
 }) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const loggedUser = useRecoilValue(AuthenticatedUserState)[0];
 
   const { loading, error, sortedMatches } = usePerfectMatched(
@@ -18,21 +18,18 @@ function PerfectMatchedDialog({
 
   useEffect(() => {
     if (!isMatchingView) {
-      setIsDialogOpen(false);
+      setIsPerfectDialogOpen(false);
     }
   }, [isMatchingView]);
 
   const handleToggleDialog = () => {
 
-    if (!isDialogOpen && sortedMatches.length > 0) {
+    if (!isPerfectDialogOpen && sortedMatches.length > 0) {
       setCallback(sortedMatches);
       setMatchingViewIndex(0);
-    }else{
-      setCallback([])
-      loadInitCallBack();
     }
     
-    setIsDialogOpen(!isDialogOpen);
+    setIsPerfectDialogOpen(!isPerfectDialogOpen);
 
   };
 
@@ -42,10 +39,10 @@ function PerfectMatchedDialog({
         onClick={handleToggleDialog}
         className="rounded bg-blue-500 px-4 py-2 text-white"
       >
-        {isDialogOpen ? "Close Perfect Match" : "Find Perfect Match"}
+        {isPerfectDialogOpen ? "Close Perfect Match" : "Find Perfect Match"}
       </button>
 
-      {isDialogOpen && (
+      {isPerfectDialogOpen && (
         <div className="dialog-content">
           {loading && <div className="loading-spinner">Loading...</div>}
           {error && <div className="error-message">{error}</div>}

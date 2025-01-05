@@ -33,8 +33,8 @@ function AttributeContainer({
     <div className="rounded-lg border p-4">
       <div className="flex flex-wrap justify-center gap-4">
         {/* Check if there are items in the list */}
-        {(user[listKey] || []).length > 0 ? (
-          (user[listKey] || []).map((item, index) => (
+        {(user[listKey] || [])?.length > 0 ? (
+          (user[listKey] || [])?.map((item, index) => (
             <div
               key={index}
               id="attribute-container-item"

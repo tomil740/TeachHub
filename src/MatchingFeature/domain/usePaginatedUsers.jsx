@@ -10,12 +10,27 @@ import {
 } from "firebase/firestore";
 
 export default function usePaginatedUsers() {
-  const [users, setUsers] = useState([]);
+  const PAGE_SIZE = 2;
+  const LOCAL_STORAGE_KEY = "users_cache";
+
   const [lastDoc, setLastDoc] = useState(null);
   const [loading1, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [users, setUsers] = useState(() => {
+    const cachedUsers = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return cachedUsers ? JSON.parse(cachedUsers) : [];
+  });
 
-  const PAGE_SIZE = 2;
+  const saveToLocalCache = (newUsers) => {
+    const cachedUsers =
+      JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    const uniqueNewUsers = newUsers.filter(
+      (user) => !cachedUsers.some((cachedUser) => cachedUser.uid === user.uid),
+    );
+    const updatedCache = [...cachedUsers, ...uniqueNewUsers];
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedCache));
+  };
+
   const isInitialFetch = useRef(true);
 
   const fetchUsers = async (lastDocument = null) => {
@@ -48,6 +63,9 @@ export default function usePaginatedUsers() {
           ...newUsers.filter((user) => !existingIds.has(user.id)),
         ];
       });
+
+      saveToLocalCache(newUsers);
+
 
       setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1] || null);
       setHasMore(querySnapshot.docs.length === PAGE_SIZE);

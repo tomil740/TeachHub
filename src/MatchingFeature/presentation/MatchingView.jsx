@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from '../../AuthenticatedUserState';
 
 function MatchingView({
-  userCollection,
+  userCollection, 
   matchingViewIndex,
   setMatchingViewIndex,
 }) {

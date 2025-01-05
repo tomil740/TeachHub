@@ -23,6 +23,10 @@ const MarketPlace = () => {
   const [isMatchingView, setIsMatchingView] = useState(true); 
   const [matchingViewIndex, setMatchingViewIndex] = useState(0);
 
+  const [isPerfectDialogOpen, setIsPerfectDialogOpen] = useState(false);
+  const [perfectSortedData,setPerfectSortedData] = useState([]);
+
+
   const { users, setUsers, loading1, hasMore, loadMoreUsers } =
     usePaginatedUsers();
 
@@ -82,7 +86,7 @@ const MarketPlace = () => {
        matchedUsers.push(user);
        seenUserIds.add(user.id);
      }
-   });
+   }); 
 
    return matchedUsers;
  };
@@ -105,15 +109,16 @@ const MarketPlace = () => {
       />
 
       {/* Animated Two-Way Switch with Transparency */}
-      <SwitchButton 
+      <SwitchButton
         isMatchingView={isMatchingView}
         setIsMatchingView={setIsMatchingView}
         resListIndex={setMatchingViewIndex}
       />
 
       <PerfectMatchedDialog
-        loadInitCallBack={loadMoreUsers}
-        setCallback={setPerefectMatch}
+        isPerfectDialogOpen={isPerfectDialogOpen}
+        setIsPerfectDialogOpen={setIsPerfectDialogOpen}
+        setCallback={setPerfectSortedData}
         isMatchingView={isMatchingView}
         setMatchingViewIndex={setMatchingViewIndex}
       />
@@ -125,7 +130,9 @@ const MarketPlace = () => {
           </div>
         ) : (
           <MatchingView
-            userCollection={filteredUsers()}
+            userCollection={
+              isPerfectDialogOpen ? perfectSortedData : filteredUsers()
+            }
             matchingViewIndex={matchingViewIndex}
             setMatchingViewIndex={setMatchingViewIndex}
           />
