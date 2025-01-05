@@ -9,14 +9,16 @@
 }
 .deals-manager-buttons {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   gap: 1rem;
   flex-wrap: nowrap; /* Ensures buttons stay in one row */
-  width: 100%;
-  overflow-x: auto; /* Horizontal scroll if needed */
+  width: 110%;
+  padding: 1vh;
+  overflow-x: scroll; /* Horizontal scroll if needed */
 }
 
 .deals-manager-buttons button {
+  position: relative;
   padding: 0.05rem 1rem;
   border: 2px solid #007bff;
   background-color: #fff;
@@ -97,7 +99,7 @@
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
-  z-index: 1000;
+  z-index: 100;
 }
 
 /* Responsive Adjustments */
@@ -116,3 +118,24 @@
     max-height: 250px; /* Adjust the height for mobile */
   }
 }
+
+/* Notification Badge */
+.matched-deals-manager .deals-manager-buttons .notification-badge {
+  position: absolute;
+  top: -7px; /* Adjusts the badge slightly above the top border */
+  right: -8px; /* Adjusts the badge slightly to the right */
+  background-color: red;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+

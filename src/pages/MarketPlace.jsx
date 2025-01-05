@@ -1,30 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import HomePageCategory from "../components/HomePageCategory";
 import Card from "./../components/card/Card";
 import { Link } from "react-router-dom";
-import categorizeUsers from "./../FirebaseFunctions/FetchFilteredData";
-import Pagination from "../components/Pagination";
+import MatchingView from "../MatchingFeature/presentation/MatchingView";
+import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatchedDialog";
+import SwitchButton from '../MatchingFeature/presentation/utilComponents/SwitchButton';
+import usePaginatedUsers from '../MatchingFeature/domain/usePaginatedUsers';
+
 
 const MarketPlace = () => {
   const { category } = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(9);
   const [filterd, setFilterd] = useState(new Set());
-  const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState({
-    "Basic Programming": [],
-    "Full-Stack Development": [],
-    "Front-End Development": [],
-    "Back-End Development": [],
-    "Mobile Development": [],
-    "Data Analysis": [],
-    "UI/UX Design": [],
-    "Graphic Design": [],
-    "Video Editing": [],
-    "Digital Marketing": [],
-  });
-  const [allUsers, setAllUsers] = useState([]);
+
+  //MatchingView states
+  const [isMatchingView, setIsMatchingView] = useState(false); 
+  const [matchingViewIndex, setMatchingViewIndex] = useState(0);
+
+  const [isPerfectDialogOpen, setIsPerfectDialogOpen] = useState(false);
+  const [perfectSortedData,setPerfectSortedData] = useState([]);
+
+
+  const { users, setUsers, loading1, hasMore, loadMoreUsers } =
+    usePaginatedUsers();
+
+  const handleScroll = useCallback(() => {
+    // Trigger loading more users only if not in the matching view
+    if (
+      !isMatchingView && // Ensure this is false
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+      hasMore
+    ) {
+      loadMoreUsers();
+    }
+  }, [isMatchingView, loadMoreUsers, hasMore]);
+
+  useEffect(() => {
+    if (!isMatchingView) {
+      // Attach the scroll event listener only when not in the matching view
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [isMatchingView, handleScroll]);
+
+  useEffect(() => {
+    if (users.length > 1 && matchingViewIndex >= users.length - 1 && hasMore) {
+      loadMoreUsers();
+      console.log(users)
+    }
+  }, [matchingViewIndex, users.length, hasMore, loadMoreUsers]);
+
 
   const Filter = (text) => {
     setFilterd((prevFilterd) => {
@@ -33,56 +58,40 @@ const MarketPlace = () => {
         newFilterd.delete(text);
       } else {
         newFilterd.add(text);
-      }
+      } 
       return newFilterd;
-    });
+    }); 
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const categorizedData = await categorizeUsers();
-        setCategories(categorizedData);
-        const uniqueUsers = Object.values(categorizedData)
-          .flat()
-          .reduce((acc, user) => {
-            if (!acc.some((existingUser) => existingUser.id === user.id)) {
-              acc.push(user);
-            }
-            return acc;
-          }, []);
-        setAllUsers(uniqueUsers);
-        setLoading(false);
+ const filteredUsers = () => {
+   if (filterd.size < 1 || isMatchingView) return users; // If no filters are applied, return all users
 
-        if (category) {
-          setFilterd(new Set([category]));
-        }
-      } catch (error) {
-        console.error("Error fetching and categorizing users:", error);
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, [category]);
+   const matchedUsers = [];
+   const seenUserIds = new Set();
 
-  const lastPostInx = currentPage * postPerPage;
-  const firstPostInx = lastPostInx - postPerPage;
+   users.forEach((user) => {
+    console.log("the user", user.typeOfService);
+  
+     if (
+       user.typeOfService != undefined &&
+       user.typeOfService.some((service) => filterd.has(service)) && // Match user services with filterd state
+       !seenUserIds.has(user.id) // Avoid duplicates by checking ID
+     ) {
+       matchedUsers.push(user);
+       seenUserIds.add(user.id);
+     }
+   }); 
 
-  const currentPosts = allUsers.slice(firstPostInx, lastPostInx);
+   return matchedUsers;
+ };
+ 
 
-  const filteredUsers = [...filterd].reduce((acc, title) => {
-    const users = categories[title] || [];
-    users.forEach((user) => {
-      if (!acc.some((existingUser) => existingUser.id === user.id)) {
-        acc.push(user);
-        console.log(title);
-        console.log(user);
-      }
-    });
-    return acc;
-  }, []);
-  console.log("Filtered Users:", filteredUsers);
+  //MatchingView
+  function setPerefectMatch(data){
+    setIsMatchingView(true)
+    setUsers(data);
+  }
+  
 
   return (
     <div className="pagePadding container mx-auto flex flex-col items-center gap-5">
@@ -90,31 +99,41 @@ const MarketPlace = () => {
         padding="pt-20"
         filterFunc={Filter}
         category={category}
+        disabled={isMatchingView}
       />
-      {loading ? (
-        <div className="flex h-48 items-center justify-center">
-          <span>Loading...</span>
-        </div>
-      ) : filterd.size === 0 ? (
-        <div className="flex flex-wrap gap-4">
-          {currentPosts.map((user) => (
-            <Link to={`/profile/${user.id}`} key={user.id}>
-              <Card
-                userId={user.id}
-                name={user.name}
-                typeOfService={user.typeOfService}
-                description={user.aboutMe}
-                priceOfService={user.priceOfService}
-                profileImage={user.imgUrl}
-                rating={user.rating}
-                backgroundImage={user.backgroundImage}
-              />
-            </Link>
-          ))}
-        </div>
+
+      {/* Animated Two-Way Switch with Transparency */}
+      <SwitchButton
+        isMatchingView={isMatchingView}
+        setIsMatchingView={setIsMatchingView}
+        resListIndex={setMatchingViewIndex}
+      />
+
+      <PerfectMatchedDialog
+        isPerfectDialogOpen={isPerfectDialogOpen}
+        setIsPerfectDialogOpen={setIsPerfectDialogOpen}
+        setCallback={setPerfectSortedData}
+        isMatchingView={isMatchingView}
+        setMatchingViewIndex={setMatchingViewIndex}
+      />
+
+      {isMatchingView ? (
+        loading1 ? (
+          <div className="mt-4 flex w-full justify-center">
+            <div className="loader h-8 w-8 animate-spin rounded-full border-t-4 border-blue-500"></div>
+          </div>
+        ) : (
+          <MatchingView
+            userCollection={
+              isPerfectDialogOpen ? perfectSortedData : filteredUsers()
+            }
+            matchingViewIndex={matchingViewIndex}
+            setMatchingViewIndex={setMatchingViewIndex}
+          />
+        )
       ) : (
         <div className="flex flex-wrap gap-4">
-          {filteredUsers.map((user) => (
+          {filteredUsers().map((user) => (
             <Link to={`/profile/${user.id}`} key={user.id}>
               <Card
                 userId={user.id}
@@ -128,15 +147,42 @@ const MarketPlace = () => {
               />
             </Link>
           ))}
-        </div>
-      )}
 
-      {filterd.size === 0 && !loading && (
-        <Pagination
-          totalPosts={allUsers.length}
-          postsPerPage={postPerPage}
-          setCurrentPage={setCurrentPage}
-        />
+          {/* Loading indicator */}
+          {loading1 && (
+            <div className="mt-4 flex w-full justify-center">
+              <div className="loader h-8 w-8 animate-spin rounded-full border-t-4 border-blue-500"></div>
+            </div>
+          )}
+
+          {/* End of pagination message */}
+          {!loading1 && hasMore === true && (
+            <div className="mt-4 w-full text-center text-gray-600">
+              Scroll to load new data...
+            </div>
+          )}
+
+          {/* End of pagination message */}
+          {!loading1 && hasMore === false && filteredUsers().length > 0 && (
+            <div className="mt-4 w-full text-center text-gray-600">
+              You've reached the end of the list.
+            </div>
+          )}
+
+          {/* No data message */}
+          {!loading1 && hasMore === false && filteredUsers().length === 0 && (
+            <div className="mt-4 w-full text-center text-gray-600">
+              No matches found. Try adjusting your filters.
+            </div>
+          )}
+
+          {/* Mini item below the last item */}
+          {!loading1 && hasMore === false && (
+            <div className="mt-2 w-full text-center text-sm text-gray-500">
+              ~ End of Results ~
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

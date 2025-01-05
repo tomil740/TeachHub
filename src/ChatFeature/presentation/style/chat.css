@@ -134,3 +134,98 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* Chat Header */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, rgba(6, 58, 124, 0.85), rgba(2, 35, 76, 0.85));
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  gap: 16px;
+  transition: color 0.3s ease;
+}
+
+.chat-header:hover {
+  background: linear-gradient(135deg, #063a7c, #02234c); /* Remove transparency on hover */
+}
+
+/* Buttons Section */
+.chat-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Make Deal Container */
+.make-deal-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* General Button Styling */
+.chat-header-btn {
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2); /* Transparent button */
+  color: rgba(255, 255, 255, 0.8); /* Light text with transparency */
+  transition: all 0.3s ease;
+}
+
+.chat-header-btn:hover {
+  background: #ffffff; /* White background on hover */
+  color: #0056b3; /* Rich blue text */
+  transform: scale(1.05);
+}
+
+.chat-header-btn:active {
+  transform: scale(0.95);
+}
+
+/* Make a Deal Button */
+.make-deal-btn {
+  background: rgba(6, 58, 124, 0.3); /* Semi-transparent rich blue */
+}
+
+.make-deal-btn:hover {
+  background: #063a7c; /* Solid rich blue */
+  color: white;
+}
+
+/* Deal Price Styling */
+.deal-price {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8); /* Match button text transparency */
+  background-color: rgba(6, 58, 124, 0.2); /* Transparent blue */
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.3s ease;
+}
+
+.make-deal-btn:hover .deal-price {
+  background-color: #ffffff; /* Solid white on hover */
+  color: #063a7c; /* Rich blue text */
+}
+
+/* Close Chat Button */
+.close-chat-btn {
+  background: rgba(179, 0, 27, 0.3); /* Semi-transparent rich red */
+  color: rgba(255, 255, 255, 0.8); /* Light transparent text */
+}
+
+.close-chat-btn:hover {
+  background: #b3001b; /* Solid rich red */
+  color: white;
+}
+
+/* Close Chat Button Active State */
+.close-chat-btn:active {
+  transform: scale(0.95);
+}
+

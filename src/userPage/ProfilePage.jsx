@@ -3,38 +3,38 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserPreview from "./components/UserPreview";
 import UserInfo from "./components/UserInfo";
 import AttributeContainer from "./components/AttributeContainer";
-import categorizeUsers from "../FirebaseFunctions/FetchFilteredData";
-import { auth, db } from "../firebase"; // Import db (Firestore)
+import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
-import ChatComponent from "../ChatFeature/presentation/ChatComponent"; // Import the ChatComponent
+import { doc, updateDoc } from "firebase/firestore";
+import ChatComponent from "../ChatFeature/presentation/ChatComponent";
 import { useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
 import calculateServicePrice from "./domain/calculateServicePrice";
 import ReviewForCard from "../components/ReviewForCard";
+import useGetUserById from "../MatchingFeature/domain/useGetUserById";
 
 function ProfilePage() {
-  //get the authinticated user
-  const [currentUser, setCurrentUser] = useState({}); // Renamed to currentUser
 
-  const [allUsers, setAllUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const LOCAL_STORAGE_KEY = "users_cache";
+
+  const [currentUser, setCurrentUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [inChat, setInChat] = useState(false);
   const [dealPrice, setDealPrice] = useState([]);
-
-  // Get authenticated user from Recoil
   const authenticatedUser = useRecoilValue(AuthenticatedUserState);
-
-  // Get user ID from URL params
-  const [inChate, setinChate] = useState(false); // Track whether the user is in chat
-
   const navigate = useNavigate();
-
   const { id } = useParams();
 
-  // Track logged-in user ID
+  // Use the updated hook
+  const { user, loading1, error1 } = useGetUserById(id);
+
+  useEffect(() => {
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, [user]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -47,65 +47,20 @@ function ProfilePage() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch all users
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const categorizedData = await categorizeUsers();
-        const users = Object.values(categorizedData).flat();
-        setAllUsers(users);
-      } catch (error) {
-        console.error("Error fetching and categorizing users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  // Fetch profile data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userRef = doc(db, "users", id);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          setCurrentUser(userSnap.data());
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching user: ", error);
-      }
-    };
-
-    if (id) {
-      fetchUserData();
-    }
-  }, [id]);
-
-  // Calculate and update dealPrice
-
   useEffect(() => {
     if (authenticatedUser[0]?.religion && currentUser?.religion) {
       const price = calculateServicePrice(
         authenticatedUser[0].religion,
         currentUser.religion,
-        currentUser.priceOfService, //needs to be updated according to the matched user field (base service price)
+        currentUser.priceOfService,
       );
       setDealPrice(price);
     }
   }, [authenticatedUser[0]?.religion, currentUser?.religion]);
 
-  // Find profile in allUsers
-  const profile = allUsers?.find((user) => String(user.id) === String(id));
-
-  // Conditional rendering for edit button
   const showEditButton =
     loggedInUserId && id && String(loggedInUserId) === String(id);
 
-  // Update user in Firestore
   const updateUserInFirebase = async (userId, updatedData) => {
     try {
       const userRef = doc(db, "users", userId);
@@ -116,15 +71,26 @@ function ProfilePage() {
     }
   };
 
-  // Toggle edit mode
   function toggleEdit() {
     if (isEditing) {
-      updateUserInFirebase(id, currentUser); // Save changes to Firestore
+      // Update user in Firebase
+      updateUserInFirebase(id, currentUser);
+
+      // Sync updated user in local storage
+      const cachedUsers = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (cachedUsers) {
+        const users = JSON.parse(cachedUsers);
+        const updatedUsers = users.map((user) =>
+          user.uid === currentUser.uid ? { ...user, ...currentUser } : user,
+        );
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUsers));
+      }
     }
+
     setIsEditing((prev) => !prev);
   }
 
-  // Handle dropdown change
+
   const handleDropdownChange = (field, value) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -199,7 +165,7 @@ function ProfilePage() {
     "Content Strategy",
   ];
 
-  if (loading) {
+  if (loading1) {
     return (
       <div className="flex items-center justify-center font-bold">
         Loading...
@@ -207,8 +173,12 @@ function ProfilePage() {
     );
   }
 
-  if (!profile) {
-    return <div>Profile not found</div>;
+  if (error1) {
+    return (
+      <div className="flex items-center justify-center font-bold text-red-500">
+        {error1}
+      </div>
+    );
   }
 
   return (
@@ -224,24 +194,26 @@ function ProfilePage() {
           </button>
         )}
       </div>
-      <article className="flex flex-col justify-between gap-4 lg:flex-row">
-        <UserPreview
-          user={currentUser}
-          isEditing={isEditing}
-          onEdit={handleDropdownChange}
-          onMes={() => setInChat(true)}
-          flex="flex-[7]"
-          canEdit={showEditButton}
-          dealPrice={dealPrice}
-        />
-        <UserInfo
-          user={currentUser}
-          isEditing={isEditing}
-          onEdit={handleDropdownChange}
-          flex="flex-[3]"
-          canEdit={showEditButton}
-        />
-      </article>
+      <div className="matched-page">
+        <article className="flex flex-col justify-between gap-4 lg:flex-row">
+          <UserPreview
+            user={currentUser}
+            isEditing={isEditing}
+            onEdit={handleDropdownChange}
+            onMes={() => setInChat(true)}
+            flex="flex-[7]"
+            canEdit={showEditButton}
+            dealPrice={dealPrice}
+          />
+          <UserInfo
+            user={currentUser}
+            isEditing={isEditing}
+            onEdit={handleDropdownChange}
+            flex="flex-[3]"
+            canEdit={showEditButton}
+          />
+        </article>
+      </div>
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Services</h1>
       <AttributeContainer
         user={currentUser}
@@ -262,8 +234,6 @@ function ProfilePage() {
       />
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Reviews</h1>
       <ReviewForCard userId={id} />
-
-      {/* Toggle ChatComponent visibility based on inChat state */}
       {inChat && (
         <ChatComponent
           user1Id={authenticatedUser[1]}
@@ -279,3 +249,8 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+/*
+its not updating the firebase ....
+write practice points and solve it!
+
+*/

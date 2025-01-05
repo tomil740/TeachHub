@@ -104,7 +104,7 @@ function UserPreview({
             <span className="ml-1 text-2xl font-semibold tracking-wider text-amber-500">
               {user.priceOfService}
             </span>
-            {dealPrice[0] !== user.priceOfService && (
+            {dealPrice[0] != user.priceOfService && (
               <div className="flex flex-col items-start">
                 <span className="text-xl font-medium text-gray-700">
                   Updated Price:

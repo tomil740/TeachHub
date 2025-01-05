@@ -68,6 +68,7 @@ const SignUp = () => {
         priceOfService: 10,
         coins: 100,
         imgUrl: "/images/default.jpeg",
+        createdAt: serverTimestamp(),
       });
       // Redirect to login page
 

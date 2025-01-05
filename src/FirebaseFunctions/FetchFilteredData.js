@@ -7,7 +7,7 @@ const categorizeUsers = async () => {
     "Full-Stack Development": [],
     "Front-End Development": [],
     "Back-End Development": [],
-    "Mobile Development": [],
+    "Mobile Development": [], 
     "Data Analysis": [],
     "UI/UX Design": [],
     "Graphic Design": [],

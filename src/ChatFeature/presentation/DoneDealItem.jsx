@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FeedbackDialog from "./FeadbackDialog"; 
 import "./style/doneDealItem.css"
+import UserHeader from "./userHeader";
 
 function DoneDealItem({ deal, userId, onFeedback }) {
   const [isFeedbackDialogOpen, setIsFeedbackDialogOpen] = useState(false);
@@ -34,9 +35,10 @@ function DoneDealItem({ deal, userId, onFeedback }) {
           }}
         >
           {isBuyer
-            ? `Purchase Transaction from ${deal.sellerName}`
-            : `Sale Transaction to ${deal.buyerName}`}
+            ? `Purchase Transaction from`
+            : `Sale Transaction to`}
         </h2>
+        <UserHeader userId={isBuyer ? deal.sellerUserId : deal.buyerUserId} />
       </div>
 
       {/* Deal Info */}

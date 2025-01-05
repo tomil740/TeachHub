@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import getUserNameById from "../data/getUserNameById"
 import {
   query,
   collection,
@@ -37,7 +36,7 @@ export const useDealsManager = (userId) => {
       querySnapshot.forEach((doc) =>
         buyerDeals.push({ id: doc.id, ...doc.data() }),
       );
-    
+
       updateDeals(buyerDeals, "buyer");
     });
 
@@ -49,13 +48,10 @@ export const useDealsManager = (userId) => {
       updateDeals(sellerDeals, "seller");
     });
 
-
     const updateDeals = async (dealsData, type) => {
       // Helper function to add buyerName and sellerName to deals
       const enrichDealWithNames = async (deal) => {
-        const buyerName = await getUserNameById(deal.buyerUserId);
-        const sellerName = await getUserNameById(deal.sellerUserId);
-        return { ...deal, buyerName, sellerName }; // Add new fields locally
+        return { ...deal} //buyerName, sellerName }; // Add new fields locally
       };
 
       // Separate pending and completed deals
@@ -96,7 +92,6 @@ export const useDealsManager = (userId) => {
       });
     };
 
-
     setLoading(false);
 
     return () => {
@@ -104,30 +99,11 @@ export const useDealsManager = (userId) => {
       unsubscribeSeller();
     };
   }, [userId]);
-//this funconalitey avilabel through the spesfic seller chat by useMatchedCaht hook
-/*
-  const createDeal = async (buyerUserId, sellerUserId, dealPrice) => {
-    try {
-      const dealRef = collection(db, "deals");
-      const newDeal = {
-        buyerUserId,
-        sellerUserId,
-        isPending: true,
-        isAllDone: false,
-        dealPrice,
-        createdAt: new Date(),
-      };
-      await addDoc(dealRef, newDeal);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-  */
 
   const acceptDeal = async (dealId) => {
     try {
       const dealRef = doc(db, "deals", dealId);
-      await updateDoc(dealRef, { isPending: false});
+      await updateDoc(dealRef, { isPending: false });
     } catch (err) {
       setError(err.message);
     }
@@ -143,7 +119,6 @@ export const useDealsManager = (userId) => {
       return false; // Failure
     }
   };
-
 
   return { deals, loading, error, acceptDeal, leaveFeedback };
 };

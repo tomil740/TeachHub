@@ -7,12 +7,15 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import updateUnreadStateById from '../data/updateUnreadStateById';
+import { useSnackbar } from "../../../globalNotification/useSnackbar";
 import initializeChat from "../data/initializeChat";
 import { makeDealRequestObj } from "../data/makeDealRequestObj";
 import { toast } from "react-toastify";
 
 //should be deleted all of the all method...(onDealRequest)
 function useMatchedChat(user1Id, user2Id, onDealRequest) {
+  const { triggerSnackbar } = useSnackbar(); // Use the snackbar trigger function
   const [chatState, setChatState] = useState([]);
 
   const [isChatInitialized, setIsChatInitialized] = useState(false); // Track initialization
@@ -73,21 +76,30 @@ function useMatchedChat(user1Id, user2Id, onDealRequest) {
     },
     [chatRef, user1Id],
   );
-  const initDealReq = useCallback(
-    async (dealPrice) => {
-      try {
-        const mes = await makeDealRequestObj(user1Id, user2Id, dealPrice);
-        if (mes.success) {
-          toast.success(mes.message);
-        } else {
-          toast.error(mes.message);
-        }
-      } catch (error) {
-        toast.error("Failed to send deal request. Please try again.");
+  const initDealReq = useCallback(async (dealPrice) => {
+    try {
+      //creating new deal object
+      const mes = await makeDealRequestObj(user1Id, user2Id, dealPrice);
+      if (!mes.success) {
+        toast.error(mes.message);
       }
-    },
-    [user1Id, user2Id],
-  );
+      if (mes.success) {
+        toast.success(mes.message);
+        updateUnreadStateById({
+          userId: user1Id,
+          keyIncrement: "your",
+          triggerSnackbar: triggerSnackbar,
+        });
+        updateUnreadStateById({
+          userId: user2Id,
+          keyIncrement: "buyer",
+          triggerSnackbar: triggerSnackbar,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to send deal request. Please try again.");
+    }
+  });
 
   return {
     chatState,
