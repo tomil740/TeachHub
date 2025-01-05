@@ -102,25 +102,6 @@ export const useDealsManager = (userId) => {
       unsubscribeSeller();
     };
   }, [userId]);
-  //this funconalitey avilabel through the spesfic seller chat by useMatchedCaht hook
-  /*
-  const createDeal = async (buyerUserId, sellerUserId, dealPrice) => {
-    try {
-      const dealRef = collection(db, "deals");
-      const newDeal = {
-        buyerUserId,
-        sellerUserId,
-        isPending: true,
-        isAllDone: false,
-        dealPrice,
-        createdAt: new Date(),
-      };
-      await addDoc(dealRef, newDeal);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-  */
 
   const acceptDeal = async (dealId) => {
     try {

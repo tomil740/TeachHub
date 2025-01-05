@@ -5,8 +5,6 @@ import Card from "./../components/card/Card";
 import { Link } from "react-router-dom";
 import MatchingView from "../MatchingFeature/presentation/MatchingView";
 import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatchedDialog";
-import { useRecoilValue } from "recoil";
-import { AuthenticatedUserState } from "../AuthenticatedUserState";
 import SwitchButton from '../MatchingFeature/presentation/utilComponents/SwitchButton';
 import usePaginatedUsers from '../MatchingFeature/domain/usePaginatedUsers';
 
@@ -17,7 +15,6 @@ import usePaginatedUsers from '../MatchingFeature/domain/usePaginatedUsers';
 const MarketPlace = () => {
   const { category } = useParams();
   const [filterd, setFilterd] = useState(new Set());
-  //const loggedUser = useRecoilValue(AuthenticatedUserState)[1];
 
   //MatchingView states
   const [isMatchingView, setIsMatchingView] = useState(true); 

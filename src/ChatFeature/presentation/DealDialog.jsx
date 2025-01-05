@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useADeal } from "../domain/useADeal";
 import "../presentation/style/dealDialog.css"
 import updateUnreadStateById from "../data/updateUnreadStateById";
+import UserHeader from "./userHeader";
 
 
 const DealDialog = ({ deal, onDealDone, closeDialog }) => {
@@ -43,7 +44,7 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
     <div className="deal-dialog">
       {/* Deal Header */}
       <div className="deal-dialog-header">
-        <h1>{`${deal.buyerName} deal request!`}</h1>
+        <UserHeader userId={deal.buyerUserId}/>
       </div>
 
       {/* Deal Details */}

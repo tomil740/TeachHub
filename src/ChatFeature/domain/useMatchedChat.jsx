@@ -10,9 +10,11 @@ import { db } from "../../firebase";
 import initializeChat from "../data/initializeChat"; 
 import { makeDealRequestObj } from "../data/makeDealRequestObj"; 
 import updateUnreadStateById from '../data/updateUnreadStateById';
+import { useSnackbar } from "../../../globalNotification/useSnackbar";
 
 //should be deleted all of the all method...(onDealRequest)
 function useMatchedChat(user1Id, user2Id,onDealRequest) {
+  const { triggerSnackbar } = useSnackbar(); // Use the snackbar trigger function
   const [chatState, setChatState] = useState([]);
 
   const [isChatInitialized, setIsChatInitialized] = useState(false); // Track initialization
@@ -20,7 +22,7 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
   const [isLoadingChat, setIsLoadingChat] = useState(true); // Loading state for chat data
 
   //with sort we make sure to have predictable chat ID
-  const chatId = [user1Id, user2Id].sort().join("-"); 
+  const chatId = [user1Id, user2Id].sort().join("-");
   const chatRef = doc(collection(db, "chats"), chatId); // Reference to the chat document
 
   useEffect(() => {
@@ -38,7 +40,6 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
           setChatState(chatData.messages || []);
           setIsLoadingChat(false); // Data loaded, set loading to false
 
-          
           //onDealRequest(chatData.dealRequest);
         }
       });
@@ -77,16 +78,20 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
   const initDealReq = useCallback(async (dealPrice) => {
     try {
       //creating new deal object
-      const mes = await makeDealRequestObj(user1Id, user2Id,dealPrice);
-      alert(`${mes.success}, ${mes.message}`);
-      if(mes.success){
+      const mes = await makeDealRequestObj(user1Id, user2Id, dealPrice);
+      if(!mes.success){
+        alert(`${mes.success}, ${mes.message}`);
+      }
+      if (mes.success) {
         updateUnreadStateById({
           userId: user1Id,
           keyIncrement: "your",
+          triggerSnackbar: triggerSnackbar,
         });
         updateUnreadStateById({
           userId: user2Id,
           keyIncrement: "buyer",
+          triggerSnackbar: triggerSnackbar,
         });
       }
     } catch (error) {

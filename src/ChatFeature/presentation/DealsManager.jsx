@@ -3,23 +3,19 @@ import DealDialog from "./DealDialog";import { useDealsManager } from "../domain
 import './style/dealsManger.css'
 import DoneDealItem from "./DoneDealItem";
 import YourRequestItem from './util/YourRequestItem';
-import Snackbar from "./util/Snackbar";
 import useUnreadDeals from "../domain/useUnreadDeals";
 
 
 function DealsManager ({ userId }){
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
+    
   };
 
   const {
     deals: { doneDeals, buyerRequests, yourRequests },
     loading,
-    error,
+    error, 
     acceptDeal,
     leaveFeedback,
   } = useDealsManager(userId, showSnackbar);

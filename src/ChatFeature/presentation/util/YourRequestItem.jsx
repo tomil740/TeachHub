@@ -1,6 +1,7 @@
 import "../style/yourRequestItem.css"; 
+import UserHeader from "../userHeader";
 
-function YourRequestItem({ deal, userId }) {
+function YourRequestItem({ deal}) {
   return (
     <div className="your-request-item">
       <div className="request-header">
@@ -14,7 +15,7 @@ function YourRequestItem({ deal, userId }) {
           <strong>Price:</strong> {deal.dealPrice} coins
         </p>
         <p>
-          <strong>Seller:</strong> {deal.sellerUserId}
+          <strong>Seller:</strong> <UserHeader userId={deal.sellerUserId} />
         </p>
       </div>
     </div>

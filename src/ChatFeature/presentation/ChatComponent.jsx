@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
 import '../presentation/style/chat.css'
+import UserHeader from "./userHeader";
 
 
 
@@ -22,8 +23,6 @@ User-Specific Chat: It fetches and displays messages in the order they were sent
 function ChatComponent({  
   user1Id,
   user2Id, 
-  user1Name,
-  user2Name,
   dealPrice,
   closeChat,
 }) {
@@ -84,11 +83,21 @@ function ChatComponent({
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <span>
-          User1 {user1Name} && User2 : {user2Name}
-        </span>
-        <button onClick={() => initDealReq(dealPrice)}>Make a deal!</button>
-        <button onClick={closeChat}>X</button>
+        <UserHeader userId={user2Id} />
+        {/* Buttons Section */}
+        <div className="chat-header-buttons">
+          <div className="make-deal-container">
+            <button
+              className="chat-header-btn make-deal-btn"
+              onClick={() => initDealReq(dealPrice)}
+            >
+              Make a Deal! <strong className="deal-price">${dealPrice}</strong>
+            </button>
+          </div>
+        </div>
+        <button className="chat-header-btn close-chat-btn" onClick={closeChat}>
+          X
+        </button>
       </div>
       <>
         <div
