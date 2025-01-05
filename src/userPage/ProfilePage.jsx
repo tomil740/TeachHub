@@ -239,7 +239,7 @@ function ProfilePage() {
           user1Id={authenticatedUser[1]}
           user2Id={id}
           user1Name={authenticatedUser[0]?.name}
-          user2Name={"User2Name..."}
+          user2Name={currentUser?.name || "User"}
           dealPrice={dealPrice[0]}
           closeChat={() => setInChat(false)}
         />

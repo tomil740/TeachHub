@@ -1,4 +1,3 @@
-
 .loading-dialog {
   display: flex;
   align-items: center;
@@ -23,7 +22,6 @@
   }
 }
 
-
 /* Chat Container - Centered on the Screen */
 .chat-container {
   position: fixed;
@@ -33,11 +31,46 @@
   width: 90%;
   max-width: 500px;
   height: 80%;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+}
+
+/* Chat Header - Close Button */
+.chat-header {
+  background-color: #222;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.chat-header button {
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+.chat-header .makeADealBtn {
+  background: rgb(7, 194, 7);
+
+  &:hover {
+    background: rgb(7, 174, 7);
+  }
+}
+.chat-header .exitDeal {
+  background: rgb(255, 0, 0);
+
+  &:hover {
+    background: rgb(216, 9, 9);
+  }
 }
 
 /* Messages Container */
@@ -61,7 +94,7 @@
 }
 
 .message.sent {
-  background-color: #2575fc;
+  background-color: #3b82f6;
   color: white;
   align-self: flex-end;
   border-radius: 15px 15px 0 15px;
@@ -81,7 +114,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 0 0 8px 8px;
+  border-radius: 4px;
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -89,16 +122,16 @@
   flex-grow: 1;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 4px;
   margin-right: 10px;
 }
 
 .chat-input button {
   padding: 10px 15px;
-  background-color: #2575fc;
+  background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 4px;
   cursor: pointer;
 }
 

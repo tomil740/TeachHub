@@ -28,7 +28,7 @@ const Navbar = () => {
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           setCoins(userDoc.data().coins || 0);
-          setAuthenticatedUser([userDoc.data(),user.uid]);
+          setAuthenticatedUser([userDoc.data(), user.uid]);
         }
       } else {
         setIsLoggedIn(false);
@@ -43,7 +43,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
-      setAuthenticatedUser([null,null]);
+      setAuthenticatedUser([null, null]);
       console.log("Logged out!");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -69,7 +69,7 @@ const Navbar = () => {
 
   return (
     <>
-      <DealsManager userId={userId} /> 
+      <DealsManager userId={userId} />
       <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
         {/* Logo */}
         <NavLink className="text-2xl font-bold text-black" to="/">
@@ -86,7 +86,9 @@ const Navbar = () => {
               color="text-black"
             />
           ))}
+        </ul>
 
+        <div className="hidden gap-6 md:flex">
           {isLoggedIn && (
             <div className="flex items-center gap-4">
               <div>
@@ -103,7 +105,7 @@ const Navbar = () => {
               </button>
               <button
                 onClick={handleLogout}
-                className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600"
+                className="rounded bg-blue-500 px-6 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600"
               >
                 Logout
               </button>
@@ -111,11 +113,11 @@ const Navbar = () => {
           )}
 
           {!isLoggedIn && (
-            <button className="rounded bg-blue-500 px-2 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600">
+            <button className="rounded bg-blue-500 px-6 py-1 font-bold text-white transition-all duration-300 hover:bg-blue-600">
               <NavLink to="/login">Login</NavLink>
             </button>
           )}
-        </ul>
+        </div>
 
         {/* Mobile Navbar */}
         <div className="flex items-center md:hidden">
@@ -134,7 +136,7 @@ const Navbar = () => {
         <ul
           className={`${
             isMobileMenuOpen ? "flex" : "hidden"
-          } pagePadding absolute left-0 top-20 z-[100] w-full flex-col gap-4 bg-white py-4 shadow-md md:hidden`}
+          } pagePadding absolute left-0 top-[150px] z-[100] w-full flex-col gap-4 bg-white py-4 shadow-md md:hidden`}
         >
           {links.map((link, index) => (
             <NavItem

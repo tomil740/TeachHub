@@ -5,7 +5,6 @@ import '../presentation/style/chat.css'
 import UserHeader from "./userHeader";
 
 
-
 /*
 Purpose: Manages a live chat between two matched users.
 arguments:
@@ -20,19 +19,15 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({  
+function ChatComponent({
   user1Id,
   user2Id, 
   dealPrice,
   closeChat,
 }) {
-
   const [dealReqState, setDealReqState] = useState(false);
-  const { chatState, sendMes,initDealReq, isLoadingChat, isLoadingSend } = useMatchedChat(
-    user1Id,
-    user2Id,
-    setDealReqState, 
-  );
+  const { chatState, sendMes, initDealReq, isLoadingChat, isLoadingSend } =
+    useMatchedChat(user1Id, user2Id, setDealReqState);
   const [message, setMessage] = useState("");
 
   //scroll state controll
@@ -84,20 +79,17 @@ function ChatComponent({
     <div className="chat-container">
       <div className="chat-header">
         <UserHeader userId={user2Id} />
-        {/* Buttons Section */}
-        <div className="chat-header-buttons">
-          <div className="make-deal-container">
-            <button
-              className="chat-header-btn make-deal-btn"
-              onClick={() => initDealReq(dealPrice)}
-            >
-              Make a Deal! <strong className="deal-price">${dealPrice}</strong>
-            </button>
-          </div>
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => initDealReq(dealPrice)}
+            className="makeADealBtn"
+          >
+            Make a deal!
+          </button>
+          <button onClick={closeChat} className="exitDeal">
+            X
+          </button>
         </div>
-        <button className="chat-header-btn close-chat-btn" onClick={closeChat}>
-          X
-        </button>
       </div>
       <>
         <div
@@ -143,7 +135,3 @@ function ChatComponent({
 }
 
 export default ChatComponent;
-
-
-
-

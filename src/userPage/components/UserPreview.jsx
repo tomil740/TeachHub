@@ -1,43 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { db } from "../../firebase";
 import Rating from "./util/Rating";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }) {
+function UserPreview({
+  isEditing,
+  onEdit,
+  user,
+  dealPrice,
+  flex,
+  canEdit,
+  onMes,
+}) {
   const navigate = useNavigate();
   const CLOUDINARY_URL =
     "https://api.cloudinary.com/v1_1/dp7crhkai/image/upload";
   const UPLOAD_PRESET = "Avivsalem";
-  function NavToLogIn() {
+
+  const NavToLogIn = () => {
     navigate(`/login/${user.uid}`);
-  }
+  };
+
   const handleImgChange = async (e) => {
-    if (isEditing) {
-      const file = e.target.files[0];
-      if (file) {
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", UPLOAD_PRESET);
+    if (!isEditing) return;
 
-          const response = await axios.post(CLOUDINARY_URL, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
 
-          const imgUrl = response.data.secure_url;
+        const response = await axios.post(CLOUDINARY_URL, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-          const userDocRef = doc(db, "users", user.uid);
-          await setDoc(userDocRef, { imgUrl: imgUrl }, { merge: true });
+        const imgUrl = response.data.secure_url;
+        const userDocRef = doc(db, "users", user.uid);
 
-          console.log("User image URL updated successfully.");
-          onEdit("imgUrl", imgUrl);
-        } catch (error) {
-          console.error("Image upload failed:", error);
-        }
+        await setDoc(userDocRef, { imgUrl }, { merge: true });
+        console.log("User image URL updated successfully.");
+        onEdit("imgUrl", imgUrl);
+      } catch (error) {
+        console.error("Image upload failed:", error);
       }
     }
   };
@@ -48,15 +57,12 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex gap-4">
-          {/* Image as clickable to open file input */}
           <img
             className="h-16 w-16 rounded-full"
-            onClick={() => document.getElementById("profileImgUpload").click()} // Trigger the file input on image click
+            onClick={() => document.getElementById("profileImgUpload").click()}
             src={user.imgUrl || "/images/default.jpeg"}
             alt={user.name}
           />
-
-          {/* Hidden file input element */}
           {isEditing && (
             <input
               className="input-file"
@@ -64,7 +70,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
               id="profileImgUpload"
               accept="image/*"
               onChange={handleImgChange}
-              style={{ display: "none" }} // Hide the input field
+              style={{ display: "none" }}
             />
           )}
 
@@ -75,7 +81,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
             </span>
           </div>
         </div>
-        <Rating rating={user.rating} />
+        <Rating user={user} />
       </div>
 
       <div>
@@ -90,6 +96,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
           <p className="text-sm md:text-base">{user.aboutMe}</p>
         )}
       </div>
+
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="flex items-center space-x-4">
@@ -108,7 +115,7 @@ function UserPreview({ isEditing, onEdit, user,dealPrice, flex, canEdit, onMes }
                 </span>
               </div>
             )}
-            {dealPrice[0] == user.priceOfService && (
+            {dealPrice[0] === user.priceOfService && (
               <span className="text-sm italic text-gray-500">
                 {dealPrice[1]}
               </span>

@@ -3,7 +3,7 @@ import { useADeal } from "../domain/useADeal";
 import "../presentation/style/dealDialog.css"
 import updateUnreadStateById from "../data/updateUnreadStateById";
 import UserHeader from "./userHeader";
-
+import { toast } from "react-toastify";
 
 const DealDialog = ({ deal, onDealDone, closeDialog }) => {
   const [dealStatus, setDealStatus] = useState(null); // null, "loading", "success", "error"
@@ -34,9 +34,10 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
         keyIncrement: "done",
         key2: "your",
       });
-
-
-      alert("Deal has been made, check out doneDeals.");
+      onDealDone();
+      toast.success("🎉 Deal has been made, check out doneDeals!");
+    } else {
+      toast.error("❌ Error: Insufficient coins or process failed.");
     }
   };
 

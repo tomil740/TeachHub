@@ -7,13 +7,14 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import initializeChat from "../data/initializeChat"; 
-import { makeDealRequestObj } from "../data/makeDealRequestObj"; 
 import updateUnreadStateById from '../data/updateUnreadStateById';
 import { useSnackbar } from "../../../globalNotification/useSnackbar";
+import initializeChat from "../data/initializeChat";
+import { makeDealRequestObj } from "../data/makeDealRequestObj";
+import { toast } from "react-toastify";
 
 //should be deleted all of the all method...(onDealRequest)
-function useMatchedChat(user1Id, user2Id,onDealRequest) {
+function useMatchedChat(user1Id, user2Id, onDealRequest) {
   const { triggerSnackbar } = useSnackbar(); // Use the snackbar trigger function
   const [chatState, setChatState] = useState([]);
 
@@ -79,10 +80,11 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
     try {
       //creating new deal object
       const mes = await makeDealRequestObj(user1Id, user2Id, dealPrice);
-      if(!mes.success){
-        alert(`${mes.success}, ${mes.message}`);
+      if (!mes.success) {
+        toast.error(mes.message);
       }
       if (mes.success) {
+        toast.success(mes.message);
         updateUnreadStateById({
           userId: user1Id,
           keyIncrement: "your",
@@ -95,7 +97,7 @@ function useMatchedChat(user1Id, user2Id,onDealRequest) {
         });
       }
     } catch (error) {
-      alert("Failed to send deal request. Please try again.");
+      toast.error("Failed to send deal request. Please try again.");
     }
   });
 

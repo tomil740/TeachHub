@@ -117,7 +117,6 @@ function DealsManager ({ userId }){
         )}
       </div>
   );
-};
+}
 
 export default DealsManager;
-
