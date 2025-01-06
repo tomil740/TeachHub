@@ -3,7 +3,7 @@ import useGetUserById from "../../MatchingFeature/domain/useGetUserById";
 
 const defaultProfileImg = "https://via.placeholder.com/40"; // Replace with your default image URL
 
-export default function UserHeader({ userId }) {
+export default function UserHead({ userId }) {
   const { user, loading1 } = useGetUserById(userId);
   const navigate = useNavigate();
 

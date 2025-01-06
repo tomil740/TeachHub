@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
-import '../presentation/style/chat.css'
-import UserHeader from "./userHeader";
-
+import "../presentation/style/chat.css";
+import UserHead from "./UserHead.jsx";
 
 /*
 Purpose: Manages a live chat between two matched users.
@@ -19,12 +18,7 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({
-  user1Id,
-  user2Id, 
-  dealPrice,
-  closeChat,
-}) {
+function ChatComponent({ user1Id, user2Id, dealPrice, closeChat }) {
   const [dealReqState, setDealReqState] = useState(false);
   const { chatState, sendMes, initDealReq, isLoadingChat, isLoadingSend } =
     useMatchedChat(user1Id, user2Id, setDealReqState);
@@ -78,7 +72,7 @@ function ChatComponent({
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <UserHeader userId={user2Id} />
+        <UserHead userId={user2Id} />
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={() => initDealReq(dealPrice)}

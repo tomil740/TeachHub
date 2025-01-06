@@ -88,13 +88,13 @@ REACT_APP_FIREBASE_APP_ID=<your-app-id>
 📂 Project Structure
 
 src/
-├── components/           # Reusable React components
-├── pages/                # Application pages (e.g., Home, Profile, Login)
-├── services/             # Firebase service configurations
-├── utils/                # Utility functions (e.g., currency management)
-├── App.js                # Main application component
-├── index.js              # Entry point
-└── styles/               # Tailwind CSS customizations
+├── components/ # Reusable React components
+├── pages/ # Application pages (e.g., Home, Profile, Login)
+├── services/ # Firebase service configurations
+├── utils/ # Utility functions (e.g., currency management)
+├── App.js # Main application component
+├── index.js # Entry point
+└── styles/ # Tailwind CSS customizations
 
 🤝 Contribution Guidelines
 
@@ -136,6 +136,6 @@ For any questions or suggestions, please reach out to our team:
 
 🐙 GitHub: Students Platform
 
-💼 LinkedIn: Aviv Salem
+💼 LinkedIn: Aviv Salem, Yazan Egbaria
 
 🎉 Thank you for supporting our vision of bridging communities through education and collaboration!

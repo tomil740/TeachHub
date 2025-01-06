@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useADeal } from "../domain/useADeal";
-import "../presentation/style/dealDialog.css"
+import "../presentation/style/dealDialog.css";
 import updateUnreadStateById from "../data/updateUnreadStateById";
-import UserHeader from "./userHeader";
+import UserHead from "./UserHead";
 import { toast } from "react-toastify";
 
 const DealDialog = ({ deal, onDealDone, closeDialog }) => {
@@ -20,7 +20,7 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
 
     if (success) {
       await onDealDone();
-            console.log("deal done",deal.sellerUserId);
+      console.log("deal done", deal.sellerUserId);
 
       //update the unread counter
       //as the current user
@@ -45,7 +45,7 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
     <div className="deal-dialog">
       {/* Deal Header */}
       <div className="deal-dialog-header">
-        <UserHeader userId={deal.buyerUserId}/>
+        <UserHead userId={deal.buyerUserId} />
       </div>
 
       {/* Deal Details */}
