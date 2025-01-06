@@ -8,7 +8,7 @@ export default function useUnreadDeals(userId) {
   const [unreadDeals, setUnreadDeals] = useState({ 
     done: 0,
     your: 0,
-    buyer: 0,
+    buyer: 0, 
   });
   const [unreadChats, setUnreadChats] = useState(0);
   const [unreadDocId, setUnreadDocId] = useState(null);

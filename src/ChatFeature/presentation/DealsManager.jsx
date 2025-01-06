@@ -37,7 +37,7 @@ function DealsManager ({ userId }){
 
     // Trigger toast if unreadChats increases
     if (unreadChats > prevUnreadChats) {
-      toast.apply("You have new unread messages!");
+      toast.success("You have new unread messages!,from a new chat");
     }
 
     // Update the ref to the current unreadChats for the next comparison

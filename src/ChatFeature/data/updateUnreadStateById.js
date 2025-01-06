@@ -7,7 +7,7 @@ async function updateUnreadStateById({
   userId,
   keyIncrement,
   key2,
-  triggerSnackbar,
+  triggerSnackbar, 
 }) {
 
   // Ensure the unread state is initialized for the user
