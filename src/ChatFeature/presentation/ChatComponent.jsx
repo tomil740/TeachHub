@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
 import '../presentation/style/chat.css'
-import UserHeader from "./userHeader";
+import UserHeader from "./UserHeader";
 
 
 /*
@@ -106,10 +106,36 @@ function ChatComponent({
             chatState.map((msg, idx) => (
               <div
                 key={idx}
-                className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
+                className={`message-container ${msg.sender === user1Id ? "sent" : "received"}`}
+                style={{
+                  display: "flex",
+                  flexDirection: msg.sender === user1Id ? "row-reverse" : "row",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
               >
-                <p>{msg.text}</p>
-                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                {/* Show Profile Image for received messages */}
+                  <UserHeader userId={msg.sender} profileOnly={true} />
+               
+
+                {/* Message Bubble */}
+                <div
+                  className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
+                  style={{
+                    maxWidth: "70%",
+                    padding: "10px",
+                    borderRadius: "15px",
+                    backgroundColor:
+                      msg.sender === user1Id ? "#dcf8c6" : "#ffffff",
+                    color: "#333",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  <p style={{ margin: 0 }}>{msg.text}</p>
+                  <small style={{ fontSize: "10px", color: "#666" }}>
+                    {new Date(msg.timestamp).toLocaleTimeString()}
+                  </small>
+                </div>
               </div>
             ))
           )}
