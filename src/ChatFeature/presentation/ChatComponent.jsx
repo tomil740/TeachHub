@@ -3,6 +3,14 @@ import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
 import '../presentation/style/chat.css'
 import UserHeader from "./UserHeader";
+import { AuthenticatedUserState } from "../../AuthenticatedUserState";
+import { useRecoilValue } from "recoil";
+import { useParams } from "react-router-dom";
+import useGetUserById from "../../MatchingFeature/domain/useGetUserById";
+import calculateServicePrice from "../../userPage/domain/calculateServicePrice";
+
+
+
 
 
 /*
@@ -19,15 +27,35 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({
-  user1Id,
-  user2Id, 
-  dealPrice,
-  closeChat,
-}) {
+function ChatComponent() {
+
+  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
+  const user1Id = authenticatedUser[1];
+  const { id } = useParams();
+  const { user, loading1, error1 } = useGetUserById(id);
+  const [dealPrice,setDealPrice] = useState(user?.priceOfService)
+
+  useEffect(() => {
+    if (authenticatedUser[0]?.religion && user?.religion) {
+      const price = calculateServicePrice(
+        authenticatedUser[0].religion,
+        user.religion,
+        user.priceOfService,
+      );
+      setDealPrice(price);
+    }
+  }, [authenticatedUser[0]?.religion, user?.religion]);
+
+
   const [dealReqState, setDealReqState] = useState(false);
-  const { chatState, sendMes, initDealReq, isLoadingChat, isLoadingSend } =
-    useMatchedChat(user1Id, user2Id, setDealReqState);
+  const {
+    chatState,
+    sendMes,
+    initDealReq,
+    isLoadingChat,
+    isLoadingSend,
+    onLeaveChat,
+  } = useMatchedChat(user1Id, id, setDealReqState); 
   const [message, setMessage] = useState("");
 
   //scroll state controll
@@ -35,6 +63,13 @@ function ChatComponent({
   const [isUserScrolling, setIsUserScrolling] = useState(false); // Track if the user is scrolling
   const messagesEndRef = useRef(null); // Reference to the end of the chat messages
   const chatMessagesRef = useRef(null); // Reference to the chat messages container
+
+  useEffect(() => {
+    return () => {
+      // Trigger `onLeaveChat` when the component unmounts
+      onLeaveChat();
+    };
+  }, [onLeaveChat]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -75,10 +110,10 @@ function ChatComponent({
     }
   }, [isUserScrolling]); // Only run when isUserScrolling changes
 
-  return (
+  return ( 
     <div className="chat-container">
       <div className="chat-header">
-        <UserHeader userId={user2Id} />
+        <UserHeader userId={id} />
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={() => initDealReq(dealPrice)}
@@ -86,9 +121,7 @@ function ChatComponent({
           >
             Make a deal!
           </button>
-          <button onClick={closeChat} className="exitDeal">
-            X
-          </button>
+        
         </div>
       </div>
       <>

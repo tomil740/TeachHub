@@ -3,13 +3,26 @@
   flex-direction: row;
   justify-content: right;
 }
-.deals-manager-bar {
-  overflow-x: auto;
+
+/* User Top Bar */
+.userTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  column-gap: 2vw;
   padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.deals-manager-bar {
+  overflow-x:hidden;
+  padding: 12px 6vw;
 }
 .deals-manager-buttons {
   display: flex;
   justify-content: flex-end;
+  max-height: 60px;
   gap: 1rem;
   flex-wrap: nowrap; /* Ensures buttons stay in one row */
   width: 110%;
@@ -104,6 +117,11 @@
 
 /* Responsive Adjustments */
 @media (max-width: 576px) {
+  .deals-manager-bar {
+    overflow-x:auto;
+    padding: 12px 6vw;
+    width: 2300px;
+  }
   .deals-manager-buttons button {
     min-width: 120px;
     font-size: 0.875rem;
@@ -137,5 +155,6 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
+
 
 

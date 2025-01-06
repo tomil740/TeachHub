@@ -192,7 +192,7 @@ function ProfilePage() {
           >
             {isEditing ? "Save Changes" : "Edit Profile"}
           </button>
-        )}
+        )} 
       </div>
       <div className="matched-page">
         <article className="flex flex-col justify-between gap-4 lg:flex-row">
@@ -200,7 +200,7 @@ function ProfilePage() {
             user={currentUser}
             isEditing={isEditing}
             onEdit={handleDropdownChange}
-            onMes={() => setInChat(true)}
+            onMes={()=>navigate(`/chat/${currentUser.uid}`)}
             flex="flex-[7]"
             canEdit={showEditButton}
             dealPrice={dealPrice}
@@ -234,16 +234,6 @@ function ProfilePage() {
       />
       <h1 className="mb-4 pt-20 text-lg font-bold md:text-xl">Reviews</h1>
       <ReviewForCard userId={id} />
-      {inChat && (
-        <ChatComponent
-          user1Id={authenticatedUser[1]}
-          user2Id={id}
-          user1Name={authenticatedUser[0]?.name}
-          user2Name={currentUser?.name || "User"}
-          dealPrice={dealPrice[0]}
-          closeChat={() => setInChat(false)}
-        />
-      )}
     </div>
   );
 }

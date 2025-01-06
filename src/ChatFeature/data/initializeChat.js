@@ -1,6 +1,11 @@
 import { db } from "../../firebase"; // Your Firebase setup
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export default async function initializeChat(user1Id, user2Id) {
   const chatId = [user1Id, user2Id].sort().join("-"); // Predictable chat ID
@@ -15,7 +20,12 @@ export default async function initializeChat(user1Id, user2Id) {
     if (!chatDocSnap.exists()) {
       // If the document does not exist, initialize it
       await setDoc(chatDocRef, {
-        dealRequest:false,
+        userIds: [user1Id, user2Id], // Array of participants
+        unreadCounts: {
+          [user1Id]: 0, // Initial read state for user1
+          [user2Id]: 0, // Initial read state for user2
+        },
+        lastInteraction: serverTimestamp(), // Timestamp for the last interaction
         messages: [], // Initialize with an empty messages array
       });
       console.log("Chat initialized successfully!");
@@ -27,4 +37,4 @@ export default async function initializeChat(user1Id, user2Id) {
   }
 
   return chatId; // Return the chat ID for use in other operations
-};
+}

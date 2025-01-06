@@ -1,31 +1,72 @@
-import "./ChatManager.css"; // Assuming you have this CSS file for styling
 import UserHeader from '../../ChatFeature/presentation/UserHeader';
+import { AuthenticatedUserState } from '../../AuthenticatedUserState';
+import { useRecoilValue} from "recoil";
+import useChatsManager from '../domain/useChatsManager';
+import { formatTimestamp } from '../domain/util/formatTimestamp';
+import "./style/chatManger.css" 
+import { Link } from 'react-router-dom';
 
-function ChatManager({ chats, loading, error }){
-  if (loading) {
-    return <div className="chat-manager-loading">Loading chats...</div>;
-  }
 
-  if (error) {
-    return (
-      <div className="chat-manager-error">Error loading chats: {error}</div>
-    );
-  }
+function ChatManager() {
+  const authenticatedId = useRecoilValue(AuthenticatedUserState)[1];
+  const {
+    data: chats,
+    loading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+  } = useChatsManager(authenticatedId);
 
-  if (!chats || chats.length === 0) {
-    return <div className="chat-manager-empty">No chats available</div>;
-  }
+  // Load more chats when the user scrolls to the bottom of the list
+  const handleScroll = (e) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.target;
+    if (scrollHeight - scrollTop === clientHeight && hasNextPage && !loading) {
+      fetchNextPage();
+    }
+  };
 
   return (
-    <div className="chat-manager">
-      {chats.map((chat) => (
-        <div className="chat-item" key={chat.id}>
-          <UserHeader imgSrc={chat.userImg} name={chat.userName} />
-          {chat.unread && <div className="chat-unread-marker">Unread</div>}
-        </div>
-      ))}
+    <div className="chat-manager" onScroll={handleScroll}>
+      <div className="chat-manager-header">
+        <h2>Chats</h2>
+      </div>
+      {loading && <div className="chat-loading">Loading chats...</div>}
+      {error && <div className="chat-error">Error: {error.message}</div>}
+      <div className="chat-list">
+        {chats?.map((chat) => {
+          const otherUserId = chat?.userIds?.find(
+            (id) => id !== authenticatedId,
+          );
+
+          return (
+            <Link to={`/chat/${otherUserId}`}>
+              <div
+                className={`chat-item ${chat.unreadCounts[authenticatedId] > 0 ? "unread" : ""}`}
+                key={chat.chatId}
+              >
+                <div className="profile-container">
+                  <UserHeader userId={otherUserId} />
+                  {chat?.unreadCounts[authenticatedId] > 0 && (
+                    <span className="unread-counter">
+                      {chat.unreadCounts[authenticatedId]}
+                    </span>
+                  )}
+                </div>
+                <div className="chat-preview">
+                  <p className="last-message">
+                    {chat.messages[chat.messages?.length - 1]?.text}
+                  </p>
+                </div>
+                <span className="timestamp">
+                  {formatTimestamp(chat.lastInteraction)}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
-};
+}
 
 export default ChatManager;

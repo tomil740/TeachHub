@@ -5,9 +5,12 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import DealsManager from "../ChatFeature/presentation/DealsManager";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
 import NavItem from "./NavItem";
+import { chatsUnreadState } from "../chatsUnreadState";
+
+
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +20,8 @@ const Navbar = () => {
   const [authenticatedUser, setAuthenticatedUser] = useRecoilState(
     AuthenticatedUserState,
   );
+  const unreadChatsCounter = useRecoilValue(chatsUnreadState);
+  console.log("theState",unreadChatsCounter)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,9 +72,40 @@ const Navbar = () => {
     { text: "Marketplace", linkTo: "/marketplace" },
   ];
 
+  const IconButton = ({ icon, onClick }) => {
+    return (
+      <div className="relative inline-block">
+        <NavLink to={"/chat/ChatManager"}>
+          <button className="rounded-full bg-blue-500 p-2 text-white shadow-md hover:bg-blue-600">
+            {icon}
+          </button>
+        </NavLink>
+
+        {unreadChatsCounter > 0 && (
+          <div
+            className="absolute right-0 top-0 flex h-5 w-5 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+            style={{ fontSize: "10px", lineHeight: "14px" }}
+          >
+            {unreadChatsCounter}
+          </div>
+        )}
+      </div>
+    );
+  };
   return (
     <>
-      <DealsManager userId={userId} />
+      <div className="userTopBar">
+        {/* DealsManager Component */}
+        <DealsManager userId={userId} />
+
+      {/* IconButton Component */}
+      <div className="ChatBut">
+        <IconButton
+          icon={<span className="material-icons">Chats</span>}
+          onClick={() => alert("Button Clicked!")}
+        />
+      </div>
+    </div>
       <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
         {/* Logo */}
         <NavLink className="text-2xl font-bold text-black" to="/">
