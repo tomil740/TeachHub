@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
@@ -21,7 +21,6 @@ const Navbar = () => {
     AuthenticatedUserState,
   );
   const unreadChatsCounter = useRecoilValue(chatsUnreadState);
-  console.log("theState",unreadChatsCounter)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,14 +71,14 @@ const Navbar = () => {
     { text: "Marketplace", linkTo: "/marketplace" },
   ];
 
-  const IconButton = ({ icon, onClick }) => {
+  const IconButton = ({ icon }) => {
     return (
       <div className="relative inline-block">
-        <NavLink to={"/chat/ChatManager"}>
+        <Link to={"chatContainer/ChatManger"}>
           <button className="rounded-full bg-blue-500 p-2 text-white shadow-md hover:bg-blue-600">
             {icon}
           </button>
-        </NavLink>
+        </Link>
 
         {unreadChatsCounter > 0 && (
           <div
@@ -102,7 +101,6 @@ const Navbar = () => {
       <div className="ChatBut">
         <IconButton
           icon={<span className="material-icons">Chats</span>}
-          onClick={() => alert("Button Clicked!")}
         />
       </div>
     </div>

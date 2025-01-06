@@ -5,7 +5,7 @@ const ChatOverlayLayout = () => {
 
   // Close the modal when the close button is clicked
   const closeModal = () => {
-    navigate(-1); // Go back to the previous screen
+    navigate("/"); // Go back to the previous screen
   };
 
   return (

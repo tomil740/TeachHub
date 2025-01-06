@@ -14,9 +14,6 @@ export default function App() {
     <RecoilRoot>
       <SnackbarProvider>
       <ThemeProvider>
-        <div className="App">
-            <ThemeToggleButton /> 
-        </div>
         <RouterProvider router={router} />
         <ToastContainer position="top-center" autoClose={2000} pauseOnHover />
       </ThemeProvider>

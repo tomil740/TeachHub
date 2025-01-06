@@ -192,7 +192,7 @@ function ProfilePage() {
           >
             {isEditing ? "Save Changes" : "Edit Profile"}
           </button>
-        )} 
+        )}
       </div>
       <div className="matched-page">
         <article className="flex flex-col justify-between gap-4 lg:flex-row">
@@ -200,7 +200,7 @@ function ProfilePage() {
             user={currentUser}
             isEditing={isEditing}
             onEdit={handleDropdownChange}
-            onMes={()=>navigate(`/chat/${currentUser.uid}`)}
+            onMes={() => navigate(`/chatContainer/chat/${currentUser.uid}`)}
             flex="flex-[7]"
             canEdit={showEditButton}
             dealPrice={dealPrice}

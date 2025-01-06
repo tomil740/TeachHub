@@ -31,15 +31,15 @@ export const router = createBrowserRouter([
       },
       // Modal layout for chat
       {
-        path: "/chat",
+        path: "chatContainer",
         element: <ChatOverlayLayout />,
         children: [
           {
-            path: "/chat/ChatManger",
+            path: "ChatManger",
             element: <ChatManager />,
           },
           {
-            path: "/chat/:id",
+            path: "chat/:id",
             element: <ChatComponent />,
           },
         ],

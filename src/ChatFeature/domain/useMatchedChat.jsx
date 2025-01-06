@@ -13,7 +13,7 @@ import updateUnreadStateById from '../data/updateUnreadStateById';
 import { useSnackbar } from "../../../globalNotification/useSnackbar";
 import initializeChat from "../data/initializeChat";
 import { makeDealRequestObj } from "../data/makeDealRequestObj";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; 
 
 //should be deleted all of the all method...(onDealRequest)
 function useMatchedChat(user1Id, user2Id, onDealRequest) {

@@ -39,10 +39,10 @@ function ChatManager() {
           );
 
           return (
-            <Link to={`/chat/${otherUserId}`}>
+            <Link to={`/chatContainer/chat/${otherUserId}`} key={chat.id}>
               <div
                 className={`chat-item ${chat.unreadCounts[authenticatedId] > 0 ? "unread" : ""}`}
-                key={chat.chatId}
+                key={chat.id}
               >
                 <div className="profile-container">
                   <UserHeader userId={otherUserId} />

@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 
 
 function DealsManager ({ userId }){
-  const showSnackbar = (message) => {};
 
   const { 
     deals: { doneDeals, buyerRequests, yourRequests },
@@ -20,7 +19,7 @@ function DealsManager ({ userId }){
     error,
     acceptDeal,
     leaveFeedback,
-  } = useDealsManager(userId, showSnackbar);
+  } = useDealsManager(userId);
 
   const [activeTab, setActiveTab] = useState(null);
   const { unreadDeals, resetUnreadDeals, unreadChats } = useUnreadDeals(userId);
