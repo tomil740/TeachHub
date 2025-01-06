@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
-import DealDialog from "./DealDialog";import { useDealsManager } from "../domain/useDealsManager";
-import './style/dealsManger.css'
+import DealDialog from "./DealDialog";
+import { useDealsManager } from "../domain/useDealsManager";
+import "./style/dealsManger.css";
 import DoneDealItem from "./DoneDealItem";
-import YourRequestItem from './util/YourRequestItem';
+import YourRequestItem from "./util/YourRequestItem";
 import useUnreadDeals from "../domain/useUnreadDeals";
+import { ThemeToggleButton } from "../../components/ThemeProvider";
 
-
-function DealsManager ({ userId }){
-
-  const showSnackbar = (message) => {
-    
-  };
+function DealsManager({ userId }) {
+  const showSnackbar = (message) => {};
 
   const {
     deals: { doneDeals, buyerRequests, yourRequests },
     loading,
-    error, 
+    error,
     acceptDeal,
     leaveFeedback,
   } = useDealsManager(userId, showSnackbar);
@@ -37,6 +35,9 @@ function DealsManager ({ userId }){
   };
 
   return (
+    <div className="flex flex-col justify-between border-b md:flex-row">
+      <ThemeToggleButton />
+
       <div className="deals-manager">
         <div className="matched-deals-manager">
           <div className="deals-manager-bar">
@@ -116,6 +117,7 @@ function DealsManager ({ userId }){
           </div>
         )}
       </div>
+    </div>
   );
 }
 
