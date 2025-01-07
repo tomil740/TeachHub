@@ -2,7 +2,7 @@ import React, { useState, useEffect,useRef } from "react";
 import DealDialog from "./DealDialog";import { useDealsManager } from "../domain/useDealsManager";
 import './style/dealsManger.css'
 import DoneDealItem from "./DoneDealItem";
-import YourRequestItem from './util/YourRequestItem';
+import YourRequestItem from "./util/YourRequestItem";
 import useUnreadDeals from "../domain/useUnreadDeals";
 import { chatsUnreadState } from "../../chatsUnreadState";
 import { useRecoilState } from "recoil";
