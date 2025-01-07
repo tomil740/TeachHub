@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase"; // Ensure correct path to Firebase config
 import { collection, getDocs } from "firebase/firestore";
 import { calculateMatchScore } from "../data/calculateMatchScore";
-
+import { useRecoilValue } from "recoil";
+import { AuthenticatedUserState } from "../../AuthenticatedUserState";
 import {
   updateDoc,
   doc,
@@ -14,6 +15,8 @@ function usePerfectMatched(loggedUser) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sortedMatches, setSortedMatches] = useState([]);
+  const authinticatedUid = useRecoilValue(AuthenticatedUserState)[1];
+  
 
   useEffect(() => {
     const processMatching = async () => {
@@ -31,7 +34,9 @@ function usePerfectMatched(loggedUser) {
         }));
 
         // Step 2: Filter the collection if too large
-        let collectionToProcess = userCollection;
+        let collectionToProcess = userCollection.filter(
+          (user) => user.uid !== authinticatedUid,
+        );
 
         if (userCollection.length > 20) {
           // Filter by matched 'typeOfService'

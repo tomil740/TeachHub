@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 export default function usePaginatedUsers() {
-  const PAGE_SIZE = 2;
+  const PAGE_SIZE = 25;
   const LOCAL_STORAGE_KEY = "users_cache";
 
   const [lastDoc, setLastDoc] = useState(null);
