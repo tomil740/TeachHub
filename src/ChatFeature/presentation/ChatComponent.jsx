@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
-import '../presentation/style/chat.css'
-import UserHeader from "./UserHeader";
 import { AuthenticatedUserState } from "../../AuthenticatedUserState";
 import { useRecoilValue } from "recoil";
 import { Link, NavLink, useParams } from "react-router-dom";
 import useGetUserById from "../../MatchingFeature/domain/useGetUserById";
 import calculateServicePrice from "../../userPage/domain/calculateServicePrice";
+import UserHeader from "./UserHead";
+import "../presentation/style/chat.css";
+
+
 
 
 

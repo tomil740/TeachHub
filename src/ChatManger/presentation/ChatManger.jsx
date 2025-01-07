@@ -1,10 +1,11 @@
-import UserHeader from '../../ChatFeature/presentation/UserHeader';
 import { AuthenticatedUserState } from '../../AuthenticatedUserState';
 import { useRecoilValue} from "recoil";
 import useChatsManager from '../domain/useChatsManager';
 import { formatTimestamp } from '../domain/util/formatTimestamp';
 import "./style/chatManger.css" 
 import { Link } from 'react-router-dom';
+import UserHeader from '../../ChatFeature/presentation/UserHead';
+
 
 
 function ChatManager() {
