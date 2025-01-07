@@ -1,8 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import useMatchedChat from "../domain/useMatchedChat";
 import LoadingDialog from "../presentation/util/LoadingDialog"; // Reusable loading dialog component
+import { AuthenticatedUserState } from "../../AuthenticatedUserState";
+import { useRecoilValue } from "recoil";
+import { Link, NavLink, useParams } from "react-router-dom";
+import useGetUserById from "../../MatchingFeature/domain/useGetUserById";
+import calculateServicePrice from "../../userPage/domain/calculateServicePrice";
+import UserHeader from "./UserHead";
 import "../presentation/style/chat.css";
-import UserHead from "./UserHead.jsx";
+
+
+
+
+
+
 
 /*
 Purpose: Manages a live chat between two matched users.
@@ -18,70 +29,124 @@ Message Sending: The component allows the current user to send messages, which a
 User-Specific Chat: It fetches and displays messages in the order they were sent, ensuring each user’s messages are aligned appropriately in the UI.
 */
 
-function ChatComponent({ user1Id, user2Id, dealPrice, closeChat }) {
+function ChatComponent() {
+  const authenticatedUser = useRecoilValue(AuthenticatedUserState);
+  const user1Id = authenticatedUser[1];
+  const { id } = useParams();
+
+  // Validation for the `id` parameter
+  if (!id || id === "ChatManager") {
+    return (
+      <div className="chat-error">
+        <h2>Invalid Chat</h2>
+        <p>
+          There seems to be an issue with the chat ID. Please go back and try
+          again.
+        </p>
+        <button onClick={() => window.history.back()} className="back-button">
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
+  const { user, loading1, error1 } = useGetUserById(id);
+  const [dealPrice, setDealPrice] = useState(user?.priceOfService);
+
+  useEffect(() => {
+    if (authenticatedUser[0]?.religion && user?.religion) {
+      const price = calculateServicePrice(
+        authenticatedUser[0].religion,
+        user.religion,
+        user.priceOfService,
+      );
+      setDealPrice(price);
+    }
+  }, [authenticatedUser[0]?.religion, user?.religion]);
+
   const [dealReqState, setDealReqState] = useState(false);
-  const { chatState, sendMes, initDealReq, isLoadingChat, isLoadingSend } =
-    useMatchedChat(user1Id, user2Id, setDealReqState);
+  const {
+    chatState,
+    sendMes,
+    initDealReq,
+    isLoadingChat,
+    isLoadingSend,
+    onLeaveChat,
+  } = useMatchedChat(user1Id, id, setDealReqState);
   const [message, setMessage] = useState("");
 
-  //scroll state controll
-  const [isAtBottom, setIsAtBottom] = useState(true); // Track if the user is at the bottom
-  const [isUserScrolling, setIsUserScrolling] = useState(false); // Track if the user is scrolling
-  const messagesEndRef = useRef(null); // Reference to the end of the chat messages
-  const chatMessagesRef = useRef(null); // Reference to the chat messages container
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const messagesEndRef = useRef(null);
+  const chatMessagesRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      onLeaveChat();
+    };
+  }, [onLeaveChat]);
 
   const handleSend = () => {
     if (message.trim()) {
       sendMes(message.trim());
-      setMessage(""); // Clear input after sending
+      setMessage("");
     }
   };
 
-  // Handle scroll events to detect if the user is at the bottom or not
   const handleScroll = () => {
     const container = chatMessagesRef.current;
     if (container) {
       const isBottom =
         container.scrollHeight - container.scrollTop === container.clientHeight;
       setIsAtBottom(isBottom);
-      setIsUserScrolling(true); // User is manually scrolling
+      setIsUserScrolling(true);
     }
   };
 
-  // Scroll to the bottom when chatState updates or message is sent, if the user is at the bottom
   useEffect(() => {
     if (isAtBottom && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chatState, isAtBottom]); // Run when chatState or isAtBottom changes
+  }, [chatState, isAtBottom]);
 
-  // Scroll to the bottom initially when the component mounts
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, []); // Only run on mount
+  }, []);
 
-  // After message send, ensure we scroll to the bottom if the user was at the bottom
   useEffect(() => {
     if (!isUserScrolling && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [isUserScrolling]); // Only run when isUserScrolling changes
+  }, [isUserScrolling]);
 
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <UserHead userId={user2Id} />
+        {/* Back Button */}
+        <NavLink to="/chatContainer/ChatManger" className="back-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="back-icon"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </NavLink>
+        <UserHeader userId={id} />
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={() => initDealReq(dealPrice)}
             className="makeADealBtn"
           >
             Make a deal!
-          </button>
-          <button onClick={closeChat} className="exitDeal">
-            X
           </button>
         </div>
       </div>
@@ -100,14 +165,35 @@ function ChatComponent({ user1Id, user2Id, dealPrice, closeChat }) {
             chatState.map((msg, idx) => (
               <div
                 key={idx}
-                className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
+                className={`message-container ${msg.sender === user1Id ? "sent" : "received"}`}
+                style={{
+                  display: "flex",
+                  flexDirection: msg.sender === user1Id ? "row-reverse" : "row",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
               >
-                <p>{msg.text}</p>
-                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                <UserHeader userId={msg.sender} profileOnly={true} />
+                <div
+                  className={`message ${msg.sender === user1Id ? "sent" : "received"}`}
+                  style={{
+                    maxWidth: "70%",
+                    padding: "10px",
+                    borderRadius: "15px",
+                    backgroundColor:
+                      msg.sender === user1Id ? "#dcf8c6" : "#ffffff",
+                    color: "#333",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  <p style={{ margin: 0 }}>{msg.text}</p>
+                  <small style={{ fontSize: "10px", color: "#666" }}>
+                    {new Date(msg.timestamp).toLocaleTimeString()}
+                  </small>
+                </div>
               </div>
             ))
           )}
-
           <div ref={messagesEndRef} />
         </div>
 
@@ -117,7 +203,7 @@ function ChatComponent({ user1Id, user2Id, dealPrice, closeChat }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
-            disabled={isLoadingSend} // Disable input while sending
+            disabled={isLoadingSend}
           />
           <button onClick={handleSend} disabled={isLoadingSend}>
             {isLoadingSend ? "Sending..." : "Send"}

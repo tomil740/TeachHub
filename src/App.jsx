@@ -13,10 +13,10 @@ export default function App() {
   return (
     <RecoilRoot>
       <SnackbarProvider>
-        <ThemeProvider>
-          <RouterProvider router={router} />
-          <ToastContainer position="top-center" autoClose={2000} pauseOnHover />
-        </ThemeProvider>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+        <ToastContainer position="top-center" autoClose={2000} pauseOnHover />
+      </ThemeProvider>
       </SnackbarProvider>
     </RecoilRoot>
   );

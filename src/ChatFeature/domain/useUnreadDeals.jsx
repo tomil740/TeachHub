@@ -5,11 +5,12 @@ import initalizeUnreadDeals from "../data/initalizeUnreadDeals";
 
 // Hook to observe and sync unreadDeals state for a user
 export default function useUnreadDeals(userId) {
-  const [unreadDeals, setUnreadDeals] = useState({
+  const [unreadDeals, setUnreadDeals] = useState({ 
     done: 0,
     your: 0,
-    buyer: 0,
+    buyer: 0, 
   });
+  const [unreadChats, setUnreadChats] = useState(0);
   const [unreadDocId, setUnreadDocId] = useState(null);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function useUnreadDeals(userId) {
       const unsubscribe = onSnapshot(unreadDocRef, (docSnap) => {
         if (docSnap.exists()) {
           setUnreadDeals(docSnap.data().unreadDeals); // Sync the unread deals state
+          setUnreadChats(docSnap.data().unreadChats); // Sync the unread deals state
         }
       });
 
@@ -53,5 +55,5 @@ export default function useUnreadDeals(userId) {
     }
   };
 
-  return { unreadDeals, resetUnreadDeals };
+  return { unreadDeals, resetUnreadDeals, unreadChats };
 }

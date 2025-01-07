@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../../firebase.js";
+import { db } from "../../firebase.js"; 
 import { doc, getDoc } from "firebase/firestore";
 
 const LOCAL_STORAGE_KEY = "users_cache";

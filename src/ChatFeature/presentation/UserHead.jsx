@@ -3,14 +3,66 @@ import useGetUserById from "../../MatchingFeature/domain/useGetUserById";
 
 const defaultProfileImg = "https://via.placeholder.com/40"; // Replace with your default image URL
 
-export default function UserHead({ userId }) {
+export default function UserHeader({ userId, profileOnly = false }) {
   const { user, loading1 } = useGetUserById(userId);
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (!userId) return;
+    if (!userId || profileOnly) return; // Prevent navigation when profileOnly is true
     navigate(`/profile/${userId}`);
   };
+
+  if (profileOnly) {
+    return (
+      <div
+        onClick={handleClick}
+        style={{
+          width: "32px", // Smaller size for profileOnly
+          height: "32px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          cursor: profileOnly ? "default" : "pointer",
+          border: "2px solid #ccc",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {loading1 ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              border: "3px solid #ccc",
+              borderTop: "3px solid #333",
+              animation: "spin 1s linear infinite",
+            }}
+          />
+        ) : (
+          <img
+            src={user?.imgUrl || defaultProfileImg}
+            alt={user?.name || "Unknown User"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        )}
+
+        {/* Add spinning animation in CSS */}
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -19,10 +71,10 @@ export default function UserHead({ userId }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "8px 12px", // Reduced padding for compact height
+        padding: "8px 12px",
         borderRadius: "12px",
-        backgroundColor: "rgba(255, 255, 255, 0.8)", // Transparent background
-        boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)", // Soft shadow
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
         cursor: "pointer",
         transition: "background-color 0.3s ease, box-shadow 0.3s ease",
         gap: "10px",
@@ -42,7 +94,7 @@ export default function UserHead({ userId }) {
       {/* Profile Image */}
       <div
         style={{
-          width: "40px", // Smaller image size
+          width: "40px",
           height: "40px",
           borderRadius: "50%",
           overflow: "hidden",
@@ -79,23 +131,13 @@ export default function UserHead({ userId }) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          fontSize: "14px", // Smaller text for compact layout
+          fontSize: "14px",
           fontWeight: "bold",
           color: loading1 ? "#888" : "#333",
         }}
       >
         {loading1 ? "Loading..." : user?.name || "Undefined User"}
       </div>
-
-      {/* Add spinning animation in CSS */}
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
     </div>
   );
 }

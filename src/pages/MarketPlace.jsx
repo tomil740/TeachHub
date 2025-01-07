@@ -134,9 +134,9 @@ const MarketPlace = () => {
       ) : (
         <div className="flex flex-wrap gap-4">
           {filteredUsers().map((user) => (
-            <Link to={`/profile/${user.id}`} key={user.id}>
+            <Link to={`/profile/${user.uid}`} key={user.uid}>
               <Card
-                userId={user.id}
+                userId={user.uid}
                 name={user.name}
                 typeOfService={user.typeOfService}
                 description={user.aboutMe}
