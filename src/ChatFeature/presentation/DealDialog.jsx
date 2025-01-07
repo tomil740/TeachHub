@@ -11,10 +11,10 @@ const DealDialog = ({ deal, onDealDone, closeDialog }) => {
 
   const handleDeal = async () => {
     setDealStatus("loading");
-    const success = await initiateDeal(
+    const success = await initiateDeal( 
       deal.sellerUserId,
-      deal.buyerUserId,
-      deal.dealPrice,
+      deal.buyerUserId, 
+      deal.dealPrice[0],
     );
     setDealStatus(success ? "success" : "error");
 
