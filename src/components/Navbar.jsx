@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AuthenticatedUserState } from "../AuthenticatedUserState";
 import NavItem from "./NavItem";
 import { chatsUnreadState } from "../chatsUnreadState";
+import { ThemeToggleButton } from './ThemeProvider';
 
 
 
@@ -103,6 +104,7 @@ const Navbar = () => {
           icon={<span className="material-icons">Chats</span>}
         />
       </div>
+      <ThemeToggleButton/>
     </div>
       <nav className="pagePadding flex h-20 w-full items-center justify-between border-b py-2 text-white">
         {/* Logo */}

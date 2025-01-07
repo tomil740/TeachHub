@@ -46,7 +46,7 @@ export function ThemeToggleButton() {
       onClick={toggleDarkMode}
       className="mx-4 my-2 rounded bg-blue-500 px-4 py-1 font-bold capitalize text-white transition-all duration-300 hover:bg-blue-600"
     >
-      {isDarkMode ? "Switch to Light Mode" : "Switch to dark mode"}
+      {isDarkMode ? "🌙" : "☀️"}
     </button>
   );
 }

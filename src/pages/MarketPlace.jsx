@@ -7,11 +7,13 @@ import MatchingView from "../MatchingFeature/presentation/MatchingView";
 import PerfectMatchedDialog from "../MatchingFeature/presentation/PerfectMatchedDialog";
 import SwitchButton from '../MatchingFeature/presentation/utilComponents/SwitchButton';
 import usePaginatedUsers from '../MatchingFeature/domain/usePaginatedUsers';
-
+import { AuthenticatedUserState } from "../AuthenticatedUserState";
+import { useRecoilValue } from "recoil";
 
 const MarketPlace = () => {
   const { category } = useParams();
   const [filterd, setFilterd] = useState(new Set());
+  const authinticatedUid = useRecoilValue(AuthenticatedUserState)[1];
 
   //MatchingView states
   const [isMatchingView, setIsMatchingView] = useState(false); 
@@ -64,23 +66,22 @@ const MarketPlace = () => {
   };
 
  const filteredUsers = () => {
-   if (filterd.size < 1 || isMatchingView) return users; // If no filters are applied, return all users
+   const theUsers = users.filter((user) => user.uid !== authinticatedUid);
+   if (filterd.size < 1 || isMatchingView) return theUsers; // If no filters are applied, return all users
 
    const matchedUsers = [];
    const seenUserIds = new Set();
 
-   users.forEach((user) => {
-    console.log("the user", user.typeOfService);
-  
+   theUsers.forEach((theUser) => {
      if (
-       user.typeOfService != undefined &&
-       user.typeOfService.some((service) => filterd.has(service)) && // Match user services with filterd state
-       !seenUserIds.has(user.id) // Avoid duplicates by checking ID
+       theUser.typeOfService !== undefined &&
+       theUser.typeOfService.some((service) => filterd.has(service)) && // Match user services with filterd state
+       !seenUserIds.has(theUser.id) // Avoid duplicates by checking ID
      ) {
-       matchedUsers.push(user);
-       seenUserIds.add(user.id);
+       matchedUsers.push(theUser);
+       seenUserIds.add(theUser.id);
      }
-   }); 
+   });
 
    return matchedUsers;
  };
