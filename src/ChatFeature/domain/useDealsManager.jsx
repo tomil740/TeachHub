@@ -98,7 +98,7 @@ export const useDealsManager = (userId) => {
       unsubscribeBuyer();
       unsubscribeSeller();
     };
-  }, [userId]);
+  }, [userId]); 
 
   const acceptDeal = async (dealId) => {
     try {

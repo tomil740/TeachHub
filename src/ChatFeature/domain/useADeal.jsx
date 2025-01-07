@@ -25,10 +25,14 @@ export function useADeal() {
       }
 
       const user1updatedCoins = Math.round(user1Coins + price);
-      const user2updatedCoins = Math.round(user2Coins - price);
+      let user2updatedCoins = Math.round(user2Coins - price);
+
+      if (isNaN(user2updatedCoins) || user2updatedCoins < 60) {
+        user2updatedCoins = 100;
+      }
 
       // Update coin balances
-      await updateDoc(user1Ref, { coins: user1updatedCoins });
+        await updateDoc(user1Ref, { coins: user1updatedCoins });
       await updateDoc(user2Ref, { coins: user2updatedCoins });
       
       return true; // Success
