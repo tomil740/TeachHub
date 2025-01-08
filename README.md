@@ -14,6 +14,12 @@ At its core, **TeachHub** operates as a barter platform, enabling users to excha
 📱 **Mobile** | 💻 **Desktop** | 🖥️ **Web**  
 
 ---
+## Project demo
+<p style="text-align: center;">
+<img width="800" alt="Screenshot 2024-07-20 at 12 24 48" src="https://github.com/user-attachments/assets/436b8dba-233c-4d95-bb86-0b923bae5c8c">
+</p>
+
+
 
 ## **2. Features List**  
 - 🌐 **Chat Communication Between Users**  
